@@ -14,6 +14,10 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public ByteEncoder() : this(Encoding.GetEncoding("shift_jis")) { }
 
+        /// <summary>
+        /// インスタンスを初期化します。
+        /// </summary>
+        /// <param name="encoding">文字エンコーディング</param>
         public ByteEncoder(Encoding encoding)
         {
             _textEncoding = encoding;

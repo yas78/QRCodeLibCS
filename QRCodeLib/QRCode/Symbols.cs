@@ -502,7 +502,7 @@ namespace Ys.QRCode
                 _structuredAppendParity ^= charBytes[i];
         }
 
-        #region IEnumerable<Symbols.Symbol> implementation
+        #region IEnumerable<Symbols.Symbol> Implementation
         public IEnumerator<Symbol> GetEnumerator()
         {
             return _items.GetEnumerator();

@@ -19,13 +19,7 @@ namespace Ys.Image
         /// </summary>
         public byte[] GetBytes()
         {
-            byte[] ret = new byte[4];
-            Buffer.BlockCopy(BitConverter.GetBytes(rgbBlue),     0, ret,  0, 1);
-            Buffer.BlockCopy(BitConverter.GetBytes(rgbGreen),    0, ret,  1, 1);
-            Buffer.BlockCopy(BitConverter.GetBytes(rgbRed),      0, ret,  2, 1);
-            Buffer.BlockCopy(BitConverter.GetBytes(rgbReserved), 0, ret,  3, 1);
-
-            return ret;
+            return new byte[] { rgbBlue,rgbGreen,rgbRed,rgbReserved };
         }
     }
 }

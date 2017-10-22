@@ -21,6 +21,7 @@ namespace Ys.Image
         public byte[] GetBytes()
         {
             byte[] ret = new byte[14];
+
             Buffer.BlockCopy(BitConverter.GetBytes(bfType),      0, ret,  0, 2);
             Buffer.BlockCopy(BitConverter.GetBytes(bfSize),      0, ret,  2, 4);
             Buffer.BlockCopy(BitConverter.GetBytes(bfReserved1), 0, ret,  6, 2);

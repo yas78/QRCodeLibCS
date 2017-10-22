@@ -559,15 +559,13 @@ namespace Ys.QRCode
             byte[] dataBlock = bs.GetBytes();
 
             BITMAPFILEHEADER bfh;
-            BITMAPINFOHEADER bih;
-            RGBQUAD[]        palette;
-
             bfh.bfType         = 0x4D42;
             bfh.bfSize         = 62 + dataBlock.Length;
             bfh.bfReserved1    = 0;
             bfh.bfReserved2    = 0;
             bfh.bfOffBits      = 62;
 
+            BITMAPINFOHEADER bih;
             bih.biSize             = 40;
             bih.biWidth            = width;
             bih.biHeight           = height;
@@ -580,13 +578,11 @@ namespace Ys.QRCode
             bih.biClrUsed          = 0;
             bih.biClrImportant     = 0;
 
-            palette = new RGBQUAD[2];
-
+            RGBQUAD[] palette = new RGBQUAD[2];
             palette[0].rgbBlue     = foreColor.B;
             palette[0].rgbGreen    = foreColor.G;
             palette[0].rgbRed      = foreColor.R;
             palette[0].rgbReserved = 0;
-
             palette[1].rgbBlue     = backColor.B;
             palette[1].rgbGreen    = backColor.G;
             palette[1].rgbRed      = backColor.R;
@@ -684,14 +680,13 @@ namespace Ys.QRCode
             }
                 
             BITMAPFILEHEADER bfh;
-            BITMAPINFOHEADER bih;
-
             bfh.bfType         = 0x4D42;
             bfh.bfSize         = 54 + dataBlock.Length;
             bfh.bfReserved1    = 0;
             bfh.bfReserved2    = 0;
             bfh.bfOffBits      = 54;
 
+            BITMAPINFOHEADER bih;
             bih.biSize             = 40;
             bih.biWidth            = width;
             bih.biHeight           = height;
@@ -705,9 +700,8 @@ namespace Ys.QRCode
             bih.biClrImportant     = 0;
                 
             byte[] ret = new byte[54 + dataBlock.Length];
-
             byte[] bytes;
-            int offset= 0;
+            int    offset= 0;
             
             bytes = bfh.GetBytes();
             Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
@@ -726,7 +720,6 @@ namespace Ys.QRCode
         /// <summary>
         /// 1bppのシンボル画像を返します。
         /// </summary>
-        /// <param name="moduleSize">モジュールサイズ(px)</param>
         public System.Drawing.Image Get1bppImage()
         {
             return Get1bppImage(5);

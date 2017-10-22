@@ -19,7 +19,7 @@ namespace Ys.Image
         /// </summary>
         public byte[] GetBytes()
         {
-            return new byte[] { rgbBlue,rgbGreen,rgbRed,rgbReserved };
+            return new byte[] { rgbBlue, rgbGreen, rgbRed, rgbReserved };
         }
     }
 }

@@ -37,11 +37,11 @@
             this.lblErrorCorrectionLevel = new System.Windows.Forms.Label();
             this.lblMaxVersion = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
-            this.lblSize = new System.Windows.Forms.Label();
-            this.nudSize = new System.Windows.Forms.NumericUpDown();
+            this.lblModuleSize = new System.Windows.Forms.Label();
+            this.nudModuleSize = new System.Windows.Forms.NumericUpDown();
             this.lblEncoding = new System.Windows.Forms.Label();
             this.cmbEncoding = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudModuleSize)).BeginInit();
             this.SuspendLayout();
             // 
             // txtData
@@ -53,9 +53,10 @@
             this.txtData.Location = new System.Drawing.Point(12, 355);
             this.txtData.Multiline = true;
             this.txtData.Name = "txtData";
-            this.txtData.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtData.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtData.Size = new System.Drawing.Size(660, 85);
             this.txtData.TabIndex = 0;
+            this.txtData.WordWrap = false;
             this.txtData.TextChanged += new System.EventHandler(this.Update_qrcodePanel);
             // 
             // qrcodePanel
@@ -68,7 +69,7 @@
             this.qrcodePanel.Location = new System.Drawing.Point(12, 12);
             this.qrcodePanel.Name = "qrcodePanel";
             this.qrcodePanel.Size = new System.Drawing.Size(660, 319);
-            this.qrcodePanel.TabIndex = 6;
+            this.qrcodePanel.TabIndex = 11;
             // 
             // lblData
             // 
@@ -78,7 +79,7 @@
             this.lblData.Location = new System.Drawing.Point(9, 339);
             this.lblData.Name = "lblData";
             this.lblData.Size = new System.Drawing.Size(39, 13);
-            this.lblData.TabIndex = 7;
+            this.lblData.TabIndex = 12;
             this.lblData.Text = "Data :";
             // 
             // chkStructuredAppend
@@ -89,7 +90,7 @@
             this.chkStructuredAppend.Location = new System.Drawing.Point(237, 480);
             this.chkStructuredAppend.Name = "chkStructuredAppend";
             this.chkStructuredAppend.Size = new System.Drawing.Size(132, 17);
-            this.chkStructuredAppend.TabIndex = 4;
+            this.chkStructuredAppend.TabIndex = 7;
             this.chkStructuredAppend.Text = "Structured Append";
             this.chkStructuredAppend.UseVisualStyleBackColor = true;
             this.chkStructuredAppend.CheckedChanged += new System.EventHandler(this.Update_qrcodePanel);
@@ -103,7 +104,7 @@
             this.cmbErrorCorrectionLevel.Location = new System.Drawing.Point(164, 449);
             this.cmbErrorCorrectionLevel.Name = "cmbErrorCorrectionLevel";
             this.cmbErrorCorrectionLevel.Size = new System.Drawing.Size(48, 21);
-            this.cmbErrorCorrectionLevel.TabIndex = 1;
+            this.cmbErrorCorrectionLevel.TabIndex = 2;
             this.cmbErrorCorrectionLevel.SelectedIndexChanged += new System.EventHandler(this.Update_qrcodePanel);
             // 
             // cmbMaxVersion
@@ -115,7 +116,7 @@
             this.cmbMaxVersion.Location = new System.Drawing.Point(164, 478);
             this.cmbMaxVersion.Name = "cmbMaxVersion";
             this.cmbMaxVersion.Size = new System.Drawing.Size(48, 21);
-            this.cmbMaxVersion.TabIndex = 2;
+            this.cmbMaxVersion.TabIndex = 6;
             this.cmbMaxVersion.SelectedIndexChanged += new System.EventHandler(this.Update_qrcodePanel);
             // 
             // lblErrorCorrectionLevel
@@ -126,7 +127,7 @@
             this.lblErrorCorrectionLevel.Location = new System.Drawing.Point(9, 453);
             this.lblErrorCorrectionLevel.Name = "lblErrorCorrectionLevel";
             this.lblErrorCorrectionLevel.Size = new System.Drawing.Size(143, 13);
-            this.lblErrorCorrectionLevel.TabIndex = 11;
+            this.lblErrorCorrectionLevel.TabIndex = 1;
             this.lblErrorCorrectionLevel.Text = "Error Correction Level :";
             // 
             // lblMaxVersion
@@ -137,7 +138,7 @@
             this.lblMaxVersion.Location = new System.Drawing.Point(9, 482);
             this.lblMaxVersion.Name = "lblMaxVersion";
             this.lblMaxVersion.Size = new System.Drawing.Size(83, 13);
-            this.lblMaxVersion.TabIndex = 12;
+            this.lblMaxVersion.TabIndex = 5;
             this.lblMaxVersion.Text = "Max Version :";
             // 
             // btnSave
@@ -147,59 +148,59 @@
             this.btnSave.Location = new System.Drawing.Point(553, 477);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(103, 23);
-            this.btnSave.TabIndex = 5;
+            this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // lblSize
+            // lblModuleSize
             // 
-            this.lblSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSize.AutoSize = true;
-            this.lblSize.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblSize.Location = new System.Drawing.Point(384, 482);
-            this.lblSize.Name = "lblSize";
-            this.lblSize.Size = new System.Drawing.Size(82, 13);
-            this.lblSize.TabIndex = 15;
-            this.lblSize.Text = "Module Size :";
+            this.lblModuleSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblModuleSize.AutoSize = true;
+            this.lblModuleSize.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblModuleSize.Location = new System.Drawing.Point(384, 482);
+            this.lblModuleSize.Name = "lblModuleSize";
+            this.lblModuleSize.Size = new System.Drawing.Size(82, 13);
+            this.lblModuleSize.TabIndex = 8;
+            this.lblModuleSize.Text = "Module Size :";
             // 
-            // nudSize
+            // nudModuleSize
             // 
-            this.nudSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.nudSize.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.nudSize.Location = new System.Drawing.Point(472, 478);
-            this.nudSize.Minimum = new decimal(new int[] {
+            this.nudModuleSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.nudModuleSize.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.nudModuleSize.Location = new System.Drawing.Point(472, 478);
+            this.nudModuleSize.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.nudSize.Name = "nudSize";
-            this.nudSize.Size = new System.Drawing.Size(46, 20);
-            this.nudSize.TabIndex = 3;
-            this.nudSize.Value = new decimal(new int[] {
+            this.nudModuleSize.Name = "nudModuleSize";
+            this.nudModuleSize.Size = new System.Drawing.Size(46, 20);
+            this.nudModuleSize.TabIndex = 9;
+            this.nudModuleSize.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.nudSize.ValueChanged += new System.EventHandler(this.Update_qrcodePanel);
+            this.nudModuleSize.ValueChanged += new System.EventHandler(this.Update_qrcodePanel);
             // 
             // lblEncoding
             // 
             this.lblEncoding.AutoSize = true;
             this.lblEncoding.Location = new System.Drawing.Point(235, 453);
             this.lblEncoding.Name = "lblEncoding";
-            this.lblEncoding.Size = new System.Drawing.Size(57, 12);
-            this.lblEncoding.TabIndex = 16;
-            this.lblEncoding.Text = "Encoding :";
+            this.lblEncoding.Size = new System.Drawing.Size(116, 12);
+            this.lblEncoding.TabIndex = 3;
+            this.lblEncoding.Text = "Byte mode Encoding :";
             // 
             // cmbEncoding
             // 
             this.cmbEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEncoding.FormattingEnabled = true;
-            this.cmbEncoding.Location = new System.Drawing.Point(298, 449);
+            this.cmbEncoding.Location = new System.Drawing.Point(357, 449);
             this.cmbEncoding.Name = "cmbEncoding";
-            this.cmbEncoding.Size = new System.Drawing.Size(358, 20);
-            this.cmbEncoding.TabIndex = 17;
+            this.cmbEncoding.Size = new System.Drawing.Size(299, 20);
+            this.cmbEncoding.TabIndex = 4;
             this.cmbEncoding.SelectedIndexChanged += new System.EventHandler(this.Update_qrcodePanel);
             // 
             // Form1
@@ -209,8 +210,8 @@
             this.ClientSize = new System.Drawing.Size(684, 511);
             this.Controls.Add(this.cmbEncoding);
             this.Controls.Add(this.lblEncoding);
-            this.Controls.Add(this.nudSize);
-            this.Controls.Add(this.lblSize);
+            this.Controls.Add(this.nudModuleSize);
+            this.Controls.Add(this.lblModuleSize);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblMaxVersion);
             this.Controls.Add(this.lblErrorCorrectionLevel);
@@ -225,7 +226,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QRCode";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.nudSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudModuleSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,8 +242,8 @@
         private System.Windows.Forms.Label lblErrorCorrectionLevel;
         private System.Windows.Forms.Label lblMaxVersion;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Label lblSize;
-        private System.Windows.Forms.NumericUpDown nudSize;
+        private System.Windows.Forms.Label lblModuleSize;
+        private System.Windows.Forms.NumericUpDown nudModuleSize;
         private System.Windows.Forms.Label lblEncoding;
         private System.Windows.Forms.ComboBox cmbEncoding;
     }

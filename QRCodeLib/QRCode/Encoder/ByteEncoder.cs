@@ -47,8 +47,6 @@ namespace Ys.QRCode.Encoder
         /// <returns>追加した文字のビット数</returns>
         public override int Append(char c)
         {
-            Debug.Assert(IsInSubset(c));
-
             byte[] charBytes = _textEncoding.GetBytes(c.ToString());
             int ret = 0;
 
@@ -68,8 +66,6 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public override int GetCodewordBitLength(char c)
         {
-            Debug.Assert(IsInSubset(c));
-
             byte[] charBytes = _textEncoding.GetBytes(c.ToString());
 
             return charBytes.Length * 8;
@@ -101,9 +97,6 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public static bool IsInExclusiveSubset(char c)
         {
-            if (NumericEncoder.IsInSubset(c))
-                return false;
-
             if (AlphanumericEncoder.IsInSubset(c))
                 return false;
 

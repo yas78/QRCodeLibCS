@@ -138,8 +138,8 @@ namespace Ys.QRCode
                     if (columns[c] > 0 && columns[c + 1] <= 0)
                         startIndexes.Add(c + 1);
                 }
-                
-                for (int i = 0; i < startIndexes.Count;++i)
+
+                for (int i = 0; i < startIndexes.Count; ++i)
                 {
                     int index = startIndexes[i];
                     var moduleRatio = new ModuleRatio();
@@ -210,8 +210,9 @@ namespace Ys.QRCode
                 }
             }
 
+            double numModules = Math.Pow(moduleMatrix.Length, 2);
             int temp;
-            temp = (int)Math.Ceiling((darkCount / Math.Pow(moduleMatrix.Length, 2) * 100));
+            temp = (int)Math.Ceiling(darkCount / numModules * 100);
             temp = Math.Abs(temp - 50);
             temp = (temp + 4) / 5;
 

@@ -34,7 +34,7 @@ namespace Ys.QRCode
         /// <param name="maxVersion">型番の上限</param>
         /// <param name="ecLevel">誤り訂正レベル</param>
         /// <param name="allowStructuredAppend">複数シンボルへの分割を許可するには true を指定します。</param>
-        /// <param name="byteModeEncoding">バイトモードの文字コード</param>
+        /// <param name="byteModeEncoding">バイトモードの文字エンコーディング</param>
         public Symbols(int maxVersion, ErrorCorrectionLevel ecLevel, bool allowStructuredAppend, Encoding byteModeEncoding)
         {
             if (maxVersion < Constants.MIN_VERSION || 

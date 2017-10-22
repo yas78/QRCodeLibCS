@@ -43,7 +43,7 @@ namespace Example
 
             foreach (Symbol symbol in symbols)
             {
-                Image image = symbol.Get24bppImage((int)nudSize.Value);
+                Image image = symbol.Get24bppImage((int)nudModuleSize.Value);
 
                 PictureBox pictureBox = new PictureBox();
                 pictureBox.Size = image.Size;
@@ -100,9 +100,9 @@ namespace Example
                     filename = baseName + "_" + (i + 1).ToString();
 
                 if (isMonochrome)
-                    symbols[i].Save1bppDIB(filename + ".bmp", (int)nudSize.Value);
+                    symbols[i].Save1bppDIB(filename + ".bmp", (int)nudModuleSize.Value);
                 else
-                    symbols[i].Save24bppDIB(filename + ".bmp", (int)nudSize.Value);
+                    symbols[i].Save24bppDIB(filename + ".bmp", (int)nudModuleSize.Value);
             }
         }
 
@@ -121,7 +121,7 @@ namespace Example
             cmbMaxVersion.Text = "40";
             cmbErrorCorrectionLevel.Text = "M";
             cmbEncoding.Text = Encoding.Default.EncodingName;
-            nudSize.Value = 5;
+            nudModuleSize.Value = 5;
             chkStructuredAppend.Checked = false;
             btnSave.Enabled = false;
         }

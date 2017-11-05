@@ -47,8 +47,10 @@ namespace Ys.QRCode.Encoder
 
             if (wd >= 0x8140 && wd <= 0x9FFC)
                 wd -= 0x8140;
+
             else if (wd >= 0xE040 && wd <= 0xEBBF)
                 wd -= 0xC140;
+
             else
                 throw new ArgumentOutOfRangeException(nameof(c));
 
@@ -96,8 +98,7 @@ namespace Ys.QRCode.Encoder
 
             int code = (charBytes[0] << 8) | charBytes[1];
             
-            if (code >= 0x8140 && code <= 0x9FFC ||
-                code >= 0xE040 && code <= 0xEBBF)
+            if (code >= 0x8140 && code <= 0x9FFC || code >= 0xE040 && code <= 0xEBBF)
             {
                 return charBytes[1] >= 0x40 &&
                        charBytes[1] <= 0xFC &&

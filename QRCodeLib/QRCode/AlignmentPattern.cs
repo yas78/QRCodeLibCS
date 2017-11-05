@@ -9,8 +9,8 @@ namespace Ys.QRCode
     internal static class AlignmentPattern
     {
         /// <summary>
-        ///    位置合わせパターンを配置します。
-        ///    </summary>
+        /// 位置合わせパターンを配置します。
+        /// </summary>
         public static void Place(int[][] moduleMatrix, int version)
         {
             Debug.Assert(version >= 2 && version <= 40);

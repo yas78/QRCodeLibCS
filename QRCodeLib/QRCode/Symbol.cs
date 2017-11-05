@@ -579,10 +579,12 @@ namespace Ys.QRCode
             bih.biClrImportant     = 0;
 
             RGBQUAD[] palette = new RGBQUAD[2];
+
             palette[0].rgbBlue     = foreColor.B;
             palette[0].rgbGreen    = foreColor.G;
             palette[0].rgbRed      = foreColor.R;
             palette[0].rgbReserved = 0;
+
             palette[1].rgbBlue     = backColor.B;
             palette[1].rgbGreen    = backColor.G;
             palette[1].rgbRed      = backColor.R;

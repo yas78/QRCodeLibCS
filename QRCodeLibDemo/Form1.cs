@@ -15,7 +15,7 @@ namespace Example
             InitializeComponent();
         }
 
-        private void Update_qrcodePanel(object sender, EventArgs e)
+        private void UpdateQRCodePanel(object sender, EventArgs e)
         {
             btnSave.Enabled = false;
             qrcodePanel.Controls.Clear();

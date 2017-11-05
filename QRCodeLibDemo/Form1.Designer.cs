@@ -57,7 +57,7 @@
             this.txtData.Size = new System.Drawing.Size(660, 85);
             this.txtData.TabIndex = 0;
             this.txtData.WordWrap = false;
-            this.txtData.TextChanged += new System.EventHandler(this.Update_qrcodePanel);
+            this.txtData.TextChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
             // qrcodePanel
             // 
@@ -93,7 +93,7 @@
             this.chkStructuredAppend.TabIndex = 7;
             this.chkStructuredAppend.Text = "Structured Append";
             this.chkStructuredAppend.UseVisualStyleBackColor = true;
-            this.chkStructuredAppend.CheckedChanged += new System.EventHandler(this.Update_qrcodePanel);
+            this.chkStructuredAppend.CheckedChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
             // cmbErrorCorrectionLevel
             // 
@@ -105,7 +105,7 @@
             this.cmbErrorCorrectionLevel.Name = "cmbErrorCorrectionLevel";
             this.cmbErrorCorrectionLevel.Size = new System.Drawing.Size(48, 21);
             this.cmbErrorCorrectionLevel.TabIndex = 2;
-            this.cmbErrorCorrectionLevel.SelectedIndexChanged += new System.EventHandler(this.Update_qrcodePanel);
+            this.cmbErrorCorrectionLevel.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
             // cmbMaxVersion
             // 
@@ -117,7 +117,7 @@
             this.cmbMaxVersion.Name = "cmbMaxVersion";
             this.cmbMaxVersion.Size = new System.Drawing.Size(48, 21);
             this.cmbMaxVersion.TabIndex = 6;
-            this.cmbMaxVersion.SelectedIndexChanged += new System.EventHandler(this.Update_qrcodePanel);
+            this.cmbMaxVersion.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
             // lblErrorCorrectionLevel
             // 
@@ -182,10 +182,11 @@
             0,
             0,
             0});
-            this.nudModuleSize.ValueChanged += new System.EventHandler(this.Update_qrcodePanel);
+            this.nudModuleSize.ValueChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
             // lblEncoding
             // 
+            this.lblEncoding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblEncoding.AutoSize = true;
             this.lblEncoding.Location = new System.Drawing.Point(235, 453);
             this.lblEncoding.Name = "lblEncoding";
@@ -195,13 +196,14 @@
             // 
             // cmbEncoding
             // 
+            this.cmbEncoding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmbEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEncoding.FormattingEnabled = true;
             this.cmbEncoding.Location = new System.Drawing.Point(357, 449);
             this.cmbEncoding.Name = "cmbEncoding";
             this.cmbEncoding.Size = new System.Drawing.Size(299, 20);
             this.cmbEncoding.TabIndex = 4;
-            this.cmbEncoding.SelectedIndexChanged += new System.EventHandler(this.Update_qrcodePanel);
+            this.cmbEncoding.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
             // Form1
             // 

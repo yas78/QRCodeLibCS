@@ -23,16 +23,15 @@ namespace Example
             if (string.IsNullOrEmpty(txtData.Text))
                 return;
 
-            Symbols symbols;
+            int version = (int)cmbMaxVersion.SelectedItem;
+            ErrorCorrectionLevel ecLevel = (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem;
+            bool allowStructuredAppend = chkStructuredAppend.Checked;
+            Encoding encoding = ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding();
 
+            Symbols symbols = new Symbols(version, ecLevel, allowStructuredAppend, encoding);
+            
             try
             {
-                symbols = new Symbols(
-                    Int32.Parse(cmbMaxVersion.Text),
-                    (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem,
-                    chkStructuredAppend.Checked,
-                    ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding());
-
                 symbols.AppendString(txtData.Text);
             }
             catch (Exception ex)
@@ -72,16 +71,15 @@ namespace Example
                 Path.GetDirectoryName(fd.FileName), Path.GetFileNameWithoutExtension(fd.FileName));
             }
 
-            Symbols symbols;
+            int version = (int)cmbMaxVersion.SelectedItem;
+            ErrorCorrectionLevel ecLevel = (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem;
+            bool allowStructuredAppend = chkStructuredAppend.Checked;
+            Encoding encoding = ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding();
 
+            Symbols symbols = new Symbols(version, ecLevel, allowStructuredAppend, encoding);
+            
             try
             {
-                symbols = new Symbols(
-                    Int32.Parse(cmbMaxVersion.Text),
-                    (ErrorCorrectionLevel)(cmbErrorCorrectionLevel.SelectedItem),
-                    chkStructuredAppend.Checked,
-                    ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding());
-
                 symbols.AppendString(txtData.Text);
             }
             catch (Exception ex)
@@ -118,8 +116,8 @@ namespace Example
             cmbEncoding.ValueMember = "Name";
             cmbEncoding.DataSource =  Encoding.GetEncodings();
             
-            cmbMaxVersion.Text = "40";
-            cmbErrorCorrectionLevel.Text = "M";
+            cmbMaxVersion.SelectedItem = 40;
+            cmbErrorCorrectionLevel.SelectedItem = ErrorCorrectionLevel.M;
             cmbEncoding.Text = Encoding.Default.EncodingName;
             nudModuleSize.Value = 5;
             chkStructuredAppend.Checked = false;

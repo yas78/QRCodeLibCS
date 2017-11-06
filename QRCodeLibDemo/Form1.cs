@@ -109,16 +109,17 @@ namespace Example
             for (int i = 1; i <= 40; ++i)
                 cmbMaxVersion.Items.Add(i);
 
+            cmbMaxVersion.SelectedIndex = cmbMaxVersion.Items.Count - 1;
+
             cmbErrorCorrectionLevel.DataSource =
                 Enum.GetValues(typeof(ErrorCorrectionLevel));
+            cmbErrorCorrectionLevel.SelectedItem = ErrorCorrectionLevel.M;
 
             cmbEncoding.DisplayMember = "DisplayName";
             cmbEncoding.ValueMember = "Name";
             cmbEncoding.DataSource =  Encoding.GetEncodings();
-            
-            cmbMaxVersion.SelectedItem = 40;
-            cmbErrorCorrectionLevel.SelectedItem = ErrorCorrectionLevel.M;
             cmbEncoding.Text = Encoding.Default.EncodingName;
+            
             nudModuleSize.Value = 5;
             chkStructuredAppend.Checked = false;
             btnSave.Enabled = false;

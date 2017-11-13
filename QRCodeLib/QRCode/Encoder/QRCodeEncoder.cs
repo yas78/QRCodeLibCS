@@ -31,6 +31,21 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 文字を追加します。
         /// </summary>
+        public abstract int Append(char c);
+
+        /// <summary>
+        /// 指定の文字をエンコードしたコード語のビット数を返します。
+        /// </summary>
+        public abstract int GetCodewordBitLength(char c);
+
+        /// <summary>
+        /// エンコードされたデータのバイト配列を返します。
+        /// </summary>
+        public abstract byte[] GetBytes();
+
+        /// <summary>
+        /// 文字を追加します。
+        /// </summary>
         /// <returns>追加した文字のビット数</returns>
         public int CharCount
         {
@@ -44,22 +59,7 @@ namespace Ys.QRCode.Encoder
         {
             get { return _bitCounter; }
         }
-
-        /// <summary>
-        /// 文字を追加します。
-        /// </summary>
-        public abstract int Append(char c);
-
-        /// <summary>
-        /// 指定の文字をエンコードしたコード語のビット数を返します。
-        /// </summary>
-        public abstract int GetCodewordBitLength(char c);
-
-        /// <summary>
-        /// エンコードされたデータのバイト配列を返します。
-        /// </summary>
-        public abstract byte[] GetBytes();
-
+        
         /// <summary>
         /// 指定した符号化モードのエンコーダーを返します。
         /// </summary>

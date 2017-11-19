@@ -123,7 +123,6 @@ namespace Example
             nudModuleSize.Value = 5;
             chkStructuredAppend.Checked = false;
             btnSave.Enabled = false;
-            this.reportViewer1.RefreshReport();
         }
     }
 }

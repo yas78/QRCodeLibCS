@@ -190,7 +190,7 @@ namespace Ys.QRCode
                     if (!_currSymbol.TrySetEncodingMode(newMode, s[i]))
                     {
                         if (!_structuredAppendAllowed || _items.Count == 16)
-                            throw new ArgumentOutOfRangeException(nameof(s), "String too long");
+                            throw new ArgumentException("String too long", nameof(s));
 
                         Add();
                         newMode = SelectInitialMode(s, i);
@@ -201,7 +201,7 @@ namespace Ys.QRCode
                 if (!_currSymbol.TryAppend(s[i]))
                 {
                     if (!_structuredAppendAllowed || _items.Count == 16)
-                        throw new ArgumentOutOfRangeException(nameof(s), "String too long");
+                        throw new ArgumentException("String too long", nameof(s));
 
                     Add();
                     newMode = SelectInitialMode(s, i);

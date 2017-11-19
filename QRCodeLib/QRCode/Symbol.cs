@@ -32,11 +32,9 @@ namespace Ys.QRCode
                 
             _dataBitCapacity = DataCodeword.GetTotalNumber(
                 parent.ErrorCorrectionLevel, parent.MinVersion) * 8;
-
             _dataBitCounter  = 0;
 
             _segments = new List<QRCodeEncoder>();
-
             _segmentCounter = new Dictionary<EncodingMode, int>(){
                 {EncodingMode.NUMERIC,        0},
                 {EncodingMode.ALPHA_NUMERIC,  0},
@@ -121,11 +119,10 @@ namespace Ys.QRCode
             QRCodeEncoder encoder = QRCodeEncoder.CreateEncoder(encMode, _parent.ByteModeEncoding);
             int bitLength = encoder.GetCodewordBitLength(c);
 
-            while (_dataBitCapacity <
-                        _dataBitCounter +
-                        ModeIndicator.LENGTH +
-                        CharCountIndicator.GetLength(_currVersion, encMode) +
-                        bitLength)
+            while (_dataBitCapacity < _dataBitCounter +
+                                      ModeIndicator.LENGTH +
+                                      CharCountIndicator.GetLength(_currVersion, encMode) +
+                                      bitLength)
             {
                 if (_currVersion >= _parent.MaxVersion)
                     return false;

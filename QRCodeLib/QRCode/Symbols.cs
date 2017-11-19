@@ -50,8 +50,8 @@ namespace Ys.QRCode
             _byteModeEncoding           = byteModeEncoding;
             
             _structuredAppendParity = 0;
-            
             _currSymbol = new Symbol(this);
+
             _items.Add(_currSymbol);
         }
         
@@ -64,8 +64,8 @@ namespace Ys.QRCode
         readonly bool                 _structuredAppendAllowed;
         readonly Encoding             _byteModeEncoding;
 
-        Symbol _currSymbol;
         int _structuredAppendParity;
+        Symbol _currSymbol;
         
         /// <summary>
         /// インデックス番号を指定してSymbolオブジェクトを取得します。

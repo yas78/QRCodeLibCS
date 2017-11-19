@@ -15,8 +15,8 @@ namespace Ys.QRCode
         /// </summary>
         public static int CalcTotal(int[][] moduleMatrix)
         {
-            int total = 0;
-            int penalty;
+            int total   = 0;
+            int penalty = 0;
             
             penalty = CalcAdjacentModulesInSameColor(moduleMatrix);
             total += penalty;

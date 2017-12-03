@@ -189,7 +189,6 @@ namespace Ys.QRCode
                     
                 Array.Copy(dataBytes, index, data, 0, data.Length);
                 index += data.Length;
-
                 ret[i] = data;
             }
                 
@@ -202,7 +201,6 @@ namespace Ys.QRCode
 
                 Array.Copy(dataBytes, index, data, 0, data.Length);
                 index += data.Length;
-
                 ret[i] = data;
             }
                 
@@ -276,12 +274,11 @@ namespace Ys.QRCode
         {
             byte[][] dataBlock  = BuildDataBlock();
             byte[][] ecBlock    = BuildErrorCorrectionBlock(dataBlock);
-                
-            int numCodewords = Codeword.GetTotalNumber(_currVersion); 
 
+            int numCodewords = Codeword.GetTotalNumber(_currVersion); 
             int numDataCodewords = DataCodeword.GetTotalNumber(
                     _parent.ErrorCorrectionLevel, _currVersion);
-                
+               
             byte[] ret = new byte[numCodewords];
 
             int index = 0;
@@ -356,7 +353,7 @@ namespace Ys.QRCode
                 
                 byte[] data = segment.GetBytes();
 
-                for (int i = 0; i <= data.Length - 2; ++i)
+                for (int i = 0; i < data.Length - 1; ++i)
                     bs.Append(data[i], 8);
 
                 int codewordBitLength = segment.BitCount % 8; 
@@ -409,31 +406,30 @@ namespace Ys.QRCode
 
             for (int i = 0; i < moduleMatrix.Length; ++i)
                 moduleMatrix[i] = new int[moduleMatrix.Length];
-
+            
             FinderPattern.Place(moduleMatrix);
             Separator.Place(moduleMatrix);
             TimingPattern.Place(moduleMatrix);
-
+            
             if (_currVersion >= 2)
                 AlignmentPattern.Place(moduleMatrix, _currVersion);
-
+            
             FormatInfo.PlaceTempBlank(moduleMatrix);
-
+            
             if (_currVersion >= 7)
                 VersionInfo.PlaceTempBlank(moduleMatrix);
-
+            
             PlaceSymbolChar(moduleMatrix);
-
             RemainderBit.Place(moduleMatrix);
-
+            
             int maskPatternReference = Masking.Apply(
                     moduleMatrix, _currVersion, _parent.ErrorCorrectionLevel);
-
+            
             FormatInfo.Place(moduleMatrix, _parent.ErrorCorrectionLevel, maskPatternReference);
-
+            
             if (_currVersion >= 7)
                 VersionInfo.Place(moduleMatrix, _currVersion);
-
+            
             return moduleMatrix;
         }
 
@@ -464,7 +460,6 @@ namespace Ys.QRCode
 
                     if (toLeft)
                         c--;
-
                     else
                     {
                         if ((r + rowDirection) < 0)
@@ -530,7 +525,7 @@ namespace Ys.QRCode
 
             int[][] moduleMatrix = QuietZone.Place(GetModuleMatrix());
 
-            int width  = moduleMatrix.Length * moduleSize;
+            int width  = moduleSize * moduleMatrix.Length;
             int height = width;
 
             int hByteLen = (width + 7) / 8;
@@ -647,7 +642,7 @@ namespace Ys.QRCode
 
             int[][] moduleMatrix = QuietZone.Place(GetModuleMatrix());
 
-            int width  = moduleMatrix.Length * moduleSize;
+            int width  = moduleSize * moduleMatrix.Length;
             int height = width;
 
             int hByteLen = width * 3;

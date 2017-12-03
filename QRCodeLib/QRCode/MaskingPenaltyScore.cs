@@ -17,7 +17,7 @@ namespace Ys.QRCode
         {
             int total   = 0;
             int penalty = 0;
-            
+
             penalty = CalcAdjacentModulesInSameColor(moduleMatrix);
             total += penalty;
 
@@ -45,7 +45,7 @@ namespace Ys.QRCode
 
             return penalty;
         }
-        
+
         /// <summary>
         /// 行の同色隣接モジュールパターンの失点を計算します。
         /// </summary>

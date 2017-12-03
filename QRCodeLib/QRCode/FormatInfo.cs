@@ -19,14 +19,14 @@ namespace Ys.QRCode
         {
             Debug.Assert(maskPatternReference >= 0 && maskPatternReference <= 7);
 
-            int formatInfo = GetFormatInfoValue(ecLevel, maskPatternReference);
+            int formatInfoValue = GetFormatInfoValue(ecLevel, maskPatternReference);
 
             int r1 = 0;
             int c1 = moduleMatrix.Length - 1;
 
             for (int i = 0; i <= 7; ++i)
             {
-                int temp = ((formatInfo & (1 << i)) > 0 ? 1 : 0) ^ formatInfoMaskArray[i];
+                int temp = ((formatInfoValue & (1 << i)) > 0 ? 1 : 0) ^ formatInfoMaskArray[i];
 
                 int v = (temp > 0) ? 3 : -3;
 
@@ -45,7 +45,7 @@ namespace Ys.QRCode
 
             for (int i = 8; i <= 14; ++i)
             {
-                int temp = ((formatInfo & (1 << i)) > 0 ? 1 : 0) ^ formatInfoMaskArray[i];
+                int temp = ((formatInfoValue & (1 << i)) > 0 ? 1 : 0) ^ formatInfoMaskArray[i];
 
                 int v = (temp > 0) ? 3 : -3;
 
@@ -84,7 +84,7 @@ namespace Ys.QRCode
             }
 
             // 固定暗モジュールを配置(マスクの適用前に配置する)
-            moduleMatrix[numModulesOneSide - 8][8] = 2; 
+            moduleMatrix[numModulesOneSide - 8][8] = 2;
         }
 
         /// <summary>

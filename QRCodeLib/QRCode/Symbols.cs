@@ -25,8 +25,13 @@ namespace Ys.QRCode
         /// <param name="maxVersion">型番の上限</param>
         /// <param name="ecLevel">誤り訂正レベル</param>
         /// <param name="allowStructuredAppend">複数シンボルへの分割を許可するには true を指定します。</param>
-        public Symbols(int maxVersion, ErrorCorrectionLevel ecLevel, bool allowStructuredAppend)
-            : this(maxVersion, ecLevel, allowStructuredAppend, Encoding.GetEncoding("shift_jis")) { }
+        public Symbols(int maxVersion, 
+                       ErrorCorrectionLevel ecLevel, 
+                       bool allowStructuredAppend)
+            : this(maxVersion, 
+                   ecLevel, 
+                   allowStructuredAppend, 
+                   Encoding.GetEncoding("shift_jis")) { }
         
         /// <summary>
         /// インスタンスを初期化します。
@@ -35,7 +40,10 @@ namespace Ys.QRCode
         /// <param name="ecLevel">誤り訂正レベル</param>
         /// <param name="allowStructuredAppend">複数シンボルへの分割を許可するには true を指定します。</param>
         /// <param name="byteModeEncoding">バイトモードの文字エンコーディング</param>
-        public Symbols(int maxVersion, ErrorCorrectionLevel ecLevel, bool allowStructuredAppend, Encoding byteModeEncoding)
+        public Symbols(int maxVersion, 
+                       ErrorCorrectionLevel ecLevel, 
+                       bool allowStructuredAppend, 
+                       Encoding byteModeEncoding)
         {
             if (maxVersion < Constants.MIN_VERSION || 
                 maxVersion > Constants.MAX_VERSION)
@@ -164,23 +172,18 @@ namespace Ys.QRCode
                     case EncodingMode.UNKNOWN:
                         newMode = SelectInitialMode(s, i);
                         break;
-
                     case EncodingMode.NUMERIC:
                         newMode = SelectModeWhileInNumericMode(s, i);
                         break;
-
                     case EncodingMode.ALPHA_NUMERIC:
                         newMode = SelectModeWhileInAlphanumericMode(s, i);
                         break;
-
                     case EncodingMode.EIGHT_BIT_BYTE:
                         newMode = SelectModeWhileInByteMode(s, i);
                         break;
-
                     case EncodingMode.KANJI:
                         newMode = SelectInitialMode(s, i);
                         break;
-
                     default:
                         throw new InvalidOperationException();
                 }
@@ -222,10 +225,8 @@ namespace Ys.QRCode
             
             if (KanjiEncoder.IsInSubset(s[startIndex]))
                 return EncodingMode.KANJI;
-            
             else if (ByteEncoder.IsInExclusiveSubset(s[startIndex]))
                 return EncodingMode.EIGHT_BIT_BYTE;
-
             else if (AlphanumericEncoder.IsInExclusiveSubset(s[startIndex]))
             {
                 int cnt = 0;
@@ -241,13 +242,10 @@ namespace Ys.QRCode
 
                 if (version >= 1 && version <= 9)
                     flg = cnt < 6;
-
                 else if (version >= 10 && version <= 26)
                     flg = cnt < 7;
-
                 else if (version >= 27 && version <= 40)
                     flg = cnt < 8;
-
                 else
                     throw new InvalidOperationException();
 
@@ -334,13 +332,10 @@ namespace Ys.QRCode
         {
             if (ByteEncoder.IsInExclusiveSubset(s[startIndex]))
                 return EncodingMode.EIGHT_BIT_BYTE;
-
             else if (KanjiEncoder.IsInSubset(s[startIndex]))
                 return EncodingMode.KANJI;
-
             else if (AlphanumericEncoder.IsInExclusiveSubset(s[startIndex]))
                 return EncodingMode.ALPHA_NUMERIC;
-
             else
                 return EncodingMode.NUMERIC;
         }
@@ -356,7 +351,6 @@ namespace Ys.QRCode
 
             if (KanjiEncoder.IsInSubset(s[startIndex]))
                 return EncodingMode.KANJI;
-
             else if (ByteEncoder.IsInExclusiveSubset(s[startIndex]))
                 return EncodingMode.EIGHT_BIT_BYTE;
 
@@ -370,7 +364,6 @@ namespace Ys.QRCode
 
                 if (NumericEncoder.IsInSubset(s[i]))
                     cnt++;
-
                 else
                 {
                     flg = true;
@@ -382,13 +375,10 @@ namespace Ys.QRCode
             {
                 if (version >= 1 && version <= 9)
                     flg = cnt >= 13;
-
                 else if (version >= 10 && version <= 26)
                     flg = cnt >= 15;
-
                 else if (version >= 27 && version <= 40)
                     flg = cnt >= 17;
-
                 else
                     throw new InvalidOperationException();
 
@@ -421,7 +411,6 @@ namespace Ys.QRCode
 
                 if (NumericEncoder.IsInSubset(s[i]))
                     cnt++;
-
                 else if (ByteEncoder.IsInExclusiveSubset(s[i]))
                 {
                     flg = true;
@@ -435,13 +424,10 @@ namespace Ys.QRCode
             {
                 if (version >= 1 && version <= 9)
                     flg = cnt >= 6;
-
                 else if (version >= 10 && version <= 26)
                     flg = cnt >= 8;
-
                 else if (version >= 27 && version <= 40)
                     flg = cnt >= 9;
-
                 else
                     throw new InvalidOperationException();
 
@@ -459,7 +445,6 @@ namespace Ys.QRCode
 
                 if (AlphanumericEncoder.IsInExclusiveSubset(s[i]))
                     cnt++;
-
                 else if (ByteEncoder.IsInExclusiveSubset(s[i]))
                 {
                     flg = true;
@@ -473,13 +458,10 @@ namespace Ys.QRCode
             {
                 if (version >= 1 && version <= 9)
                     flg = cnt >= 11;
-
                 else if (version >= 10 && version <= 26)
                     flg = cnt >= 15;
-
                 else if (version >= 27 && version <= 40)
                     flg = cnt >= 16;
-
                 else
                     throw new InvalidOperationException();
 

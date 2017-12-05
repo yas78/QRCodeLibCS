@@ -16,7 +16,8 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public KanjiEncoder() { }
 
-        private static readonly Encoding _textEncoding = Encoding.GetEncoding("shift_jis");
+        private static readonly Encoding _textEncoding = 
+            Encoding.GetEncoding("shift_jis");
 
         /// <summary>
         /// 符号化モードを取得します。
@@ -98,7 +99,8 @@ namespace Ys.QRCode.Encoder
 
             int code = (charBytes[0] << 8) | charBytes[1];
             
-            if (code >= 0x8140 && code <= 0x9FFC || code >= 0xE040 && code <= 0xEBBF)
+            if (code >= 0x8140 && code <= 0x9FFC || 
+                code >= 0xE040 && code <= 0xEBBF)
             {
                 return charBytes[1] >= 0x40 &&
                        charBytes[1] <= 0xFC &&

@@ -20,16 +20,12 @@ namespace Ys.QRCode.Format
                 {
                     case EncodingMode.NUMERIC:
                         return 10;
-
                     case EncodingMode.ALPHA_NUMERIC:
                         return 9;
-
                     case EncodingMode.EIGHT_BIT_BYTE:
                         return 8;
-
                     case EncodingMode.KANJI:
                         return 8;
-
                     default:
                         throw new ArgumentOutOfRangeException(nameof(encMode));
                 }
@@ -40,16 +36,12 @@ namespace Ys.QRCode.Format
                 {
                     case EncodingMode.NUMERIC:
                         return 12;
-
                     case EncodingMode.ALPHA_NUMERIC:
                         return 11;
-
                     case EncodingMode.EIGHT_BIT_BYTE:
                         return 16;
-
                     case EncodingMode.KANJI:
                         return 10;
-
                     default:
                         throw new ArgumentOutOfRangeException(nameof(encMode));
                 }
@@ -60,16 +52,12 @@ namespace Ys.QRCode.Format
                 {
                     case EncodingMode.NUMERIC:
                         return 14;
-
                     case EncodingMode.ALPHA_NUMERIC:
                         return 13;
-
                     case EncodingMode.EIGHT_BIT_BYTE:
                         return 16;
-
                     case EncodingMode.KANJI:
                         return 12;
-
                     default:
                         throw new ArgumentOutOfRangeException(nameof(encMode));
                 }

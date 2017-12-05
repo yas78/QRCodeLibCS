@@ -39,7 +39,8 @@ namespace Ys.QRCode.Format
         public static int GetNumberDataCodewords(
             ErrorCorrectionLevel ecLevel, int version, bool preceding)
         {
-            Debug.Assert(version >= Constants.MIN_VERSION && version <= Constants.MAX_VERSION);
+            Debug.Assert(version >= Constants.MIN_VERSION && 
+                         version <= Constants.MAX_VERSION);
 
             int numDataCodewords = DataCodeword.GetTotalNumber(ecLevel, version);
             int numRSBlocks = _totalNumbers[(int)ecLevel][version];
@@ -48,7 +49,6 @@ namespace Ys.QRCode.Format
 
             if (preceding)
                 return numPreBlockCodewords;
-
             else
             {
                 int numPreBlocks = GetTotalNumber(ecLevel, version, true);

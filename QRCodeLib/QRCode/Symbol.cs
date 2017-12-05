@@ -530,8 +530,13 @@ namespace Ys.QRCode
 
             int hByteLen = (width + 7) / 8;
 
-            int pack8bit  = (width % 8) == 0 ? 0 : 8 - (width % 8);
-            int pack32bit = (hByteLen % 4) == 0 ? 0 : (4 - (hByteLen % 4)) * 8;
+            int pack8bit = 0;
+            if (width % 8 > 0)
+                pack8bit = 8 - (width % 8);
+
+            int pack32bit = 0;
+            if (hByteLen % 4 > 0)
+                pack32bit = (4 - (hByteLen % 4)) * 8;
 
             var bs = new BitSequence();
 
@@ -646,8 +651,10 @@ namespace Ys.QRCode
             int height = width;
 
             int hByteLen = width * 3;
-                
-            int pack4byte = hByteLen % 4 == 0 ? 0 : 4 - (hByteLen % 4);
+
+            int pack4byte = 0;
+            if (hByteLen % 4 > 0)
+                pack4byte = 4 - (hByteLen % 4);
 
             byte[] dataBlock = new byte[(hByteLen + pack4byte) * (height * 3)];
 

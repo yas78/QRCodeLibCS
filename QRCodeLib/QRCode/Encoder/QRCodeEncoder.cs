@@ -65,22 +65,19 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         /// <param name="encMode">符号化モード</param>
         /// <param name="byteModeEncoding">バイトモードに適用する文字エンコーディング</param>
-        public static QRCodeEncoder CreateEncoder(EncodingMode encMode, Encoding byteModeEncoding)
+        public static QRCodeEncoder CreateEncoder(EncodingMode encMode, 
+                                                  Encoding byteModeEncoding)
         {
             switch (encMode)
             {
                 case EncodingMode.NUMERIC:
                     return new NumericEncoder();
-
                 case EncodingMode.ALPHA_NUMERIC:
                     return new AlphanumericEncoder();
-
                 case EncodingMode.EIGHT_BIT_BYTE:
                     return new ByteEncoder(byteModeEncoding);
-
                 case EncodingMode.KANJI:
                     return new KanjiEncoder();
-
                 default:
                     throw new ArgumentOutOfRangeException(nameof(encMode));
             }

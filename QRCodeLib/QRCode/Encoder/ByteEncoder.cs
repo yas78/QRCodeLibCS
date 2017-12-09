@@ -103,10 +103,7 @@ namespace Ys.QRCode.Encoder
             if (KanjiEncoder.IsInSubset(c))
                 return false;
 
-            if (IsInSubset(c))
-                return true;
-
-            return false;
+            return IsInSubset(c);
         }
     }
 }

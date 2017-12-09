@@ -151,11 +151,8 @@ namespace Ys.QRCode.Encoder
         {
             if (NumericEncoder.IsInSubset(c))
                 return false;
-
-            if (IsInSubset(c))
-                return true;
-
-            return false;
+            
+            return IsInSubset(c);
         }
     }
 }

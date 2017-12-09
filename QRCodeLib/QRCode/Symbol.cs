@@ -669,17 +669,16 @@ namespace Ys.QRCode
                         for (int j = 1; j <= moduleSize; ++j)
                         {
                             Color color = moduleMatrix[r][c] > 0 ? foreColor : backColor;
-                            dataBlock[idx + 0] = color.B;
-                            dataBlock[idx + 1] = color.G;
-                            dataBlock[idx + 2] = color.R;
-                            idx += 3;
+                            dataBlock[idx++] = color.B;
+                            dataBlock[idx++] = color.G;
+                            dataBlock[idx++] = color.R;
                         }
                     }
 
                     idx += pack4byte;
                 }
             }
-                
+
             BITMAPFILEHEADER bfh;
             bfh.bfType         = 0x4D42;
             bfh.bfSize         = 54 + dataBlock.Length;

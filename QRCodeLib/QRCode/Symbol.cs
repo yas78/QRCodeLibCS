@@ -30,8 +30,8 @@ namespace Ys.QRCode
             _currEncodingMode = EncodingMode.UNKNOWN;
             _currVersion      = parent.MinVersion;
                 
-            _dataBitCapacity = DataCodeword.GetTotalNumber(
-                parent.ErrorCorrectionLevel, parent.MinVersion) * 8;
+            _dataBitCapacity = 8 * DataCodeword.GetTotalNumber(
+                parent.ErrorCorrectionLevel, parent.MinVersion);
             _dataBitCounter  = 0;
 
             _segments = new List<QRCodeEncoder>();
@@ -104,7 +104,6 @@ namespace Ys.QRCode
             _currEncoder.Append(c);
             _dataBitCounter += bitLength;
             _parent.UpdateParity(c);
-
             return true;
         }
 
@@ -116,13 +115,15 @@ namespace Ys.QRCode
         /// <returns>シンボル容量が不足している場合は false を返します。</returns>
         internal bool TrySetEncodingMode(EncodingMode encMode, char c)
         {
-            QRCodeEncoder encoder = QRCodeEncoder.CreateEncoder(encMode, _parent.ByteModeEncoding);
+            QRCodeEncoder encoder = QRCodeEncoder.CreateEncoder(
+                    encMode, _parent.ByteModeEncoding);
             int bitLength = encoder.GetCodewordBitLength(c);
 
-            while (_dataBitCapacity < _dataBitCounter +
-                                      ModeIndicator.LENGTH +
-                                      CharCountIndicator.GetLength(_currVersion, encMode) +
-                                      bitLength)
+            while (_dataBitCapacity < 
+                        _dataBitCounter
+                        + ModeIndicator.LENGTH
+                        + CharCountIndicator.GetLength(_currVersion, encMode)
+                        + bitLength)
             {
                 if (_currVersion >= _parent.MaxVersion)
                     return false;
@@ -130,14 +131,12 @@ namespace Ys.QRCode
                 SelectVersion();
             }
 
-            _dataBitCounter += ModeIndicator.LENGTH +
-                               CharCountIndicator.GetLength(_currVersion, encMode);
-
+            _dataBitCounter += ModeIndicator.LENGTH
+                               + CharCountIndicator.GetLength(_currVersion, encMode);
             _currEncoder = encoder;
             _segments.Add(_currEncoder);
             _segmentCounter[encMode]++;
             _currEncodingMode = encMode;
-
             return true;
         }
 
@@ -150,13 +149,14 @@ namespace Ys.QRCode
             {
                 int num = _segmentCounter[encMode];
 
-                _dataBitCounter += num * CharCountIndicator.GetLength(_currVersion + 1, encMode) -
-                                   num * CharCountIndicator.GetLength(_currVersion + 0, encMode);
+                _dataBitCounter += 
+                    num * CharCountIndicator.GetLength(_currVersion + 1, encMode) 
+                    - num * CharCountIndicator.GetLength(_currVersion + 0, encMode);
             }
                 
             _currVersion++;
-            _dataBitCapacity = DataCodeword.GetTotalNumber(
-                _parent.ErrorCorrectionLevel, _currVersion) * 8;
+            _dataBitCapacity = 8 * DataCodeword.GetTotalNumber(
+                _parent.ErrorCorrectionLevel, _currVersion);
             _parent.MinVersion = _currVersion;
 
             if (_parent.StructuredAppendAllowed)
@@ -172,21 +172,18 @@ namespace Ys.QRCode
                 
             int numPreBlocks = RSBlock.GetTotalNumber(
                     _parent.ErrorCorrectionLevel, _currVersion, true);  
-
             int numFolBlocks = RSBlock.GetTotalNumber(
                     _parent.ErrorCorrectionLevel, _currVersion, false); 
 
             byte[][] ret = new byte[numPreBlocks + numFolBlocks][];
 
-            int index = 0;
-
             int numPreBlockDataCodewords = RSBlock.GetNumberDataCodewords(
                     _parent.ErrorCorrectionLevel, _currVersion, true);
-
+            int index = 0;
+            
             for (int i = 0; i < numPreBlocks; ++i)
             {
                 byte[] data = new byte[numPreBlockDataCodewords];
-                    
                 Array.Copy(dataBytes, index, data, 0, data.Length);
                 index += data.Length;
                 ret[i] = data;
@@ -198,12 +195,10 @@ namespace Ys.QRCode
             for (int i = numPreBlocks; i < numPreBlocks + numFolBlocks; ++i)
             {
                 byte[] data = new byte[numFolBlockDataCodewords];
-
                 Array.Copy(dataBytes, index, data, 0, data.Length);
                 index += data.Length;
                 ret[i] = data;
             }
-                
             return ret;
         }
 
@@ -215,10 +210,8 @@ namespace Ys.QRCode
         {
             int numECCodewords = RSBlock.GetNumberECCodewords(
                     _parent.ErrorCorrectionLevel, _currVersion);
-
             int numPreBlocks = RSBlock.GetTotalNumber(
                     _parent.ErrorCorrectionLevel, _currVersion, true);
-
             int numFolBlocks = RSBlock.GetTotalNumber(
                     _parent.ErrorCorrectionLevel, _currVersion, false);
 
@@ -231,7 +224,9 @@ namespace Ys.QRCode
 
             for (int blockIndex = 0; blockIndex < dataBlock.Length; ++blockIndex)
             {
-                int[] data = new int[dataBlock[blockIndex].Length + ret[blockIndex].Length];
+                int[] data = new int[
+                    dataBlock[blockIndex].Length + ret[blockIndex].Length
+                ];
                 int eccIndex = data.Length - 1;
 
                 for (int i = 0; i < dataBlock[blockIndex].Length; ++i)
@@ -263,7 +258,6 @@ namespace Ys.QRCode
                     eccIndex--;
                 }
             }
-
             return ret;
         }
 
@@ -295,7 +289,6 @@ namespace Ys.QRCode
                     ret[index] = dataBlock[r][c];
                     index++;
                 }
-
                 n++;
             }
                 
@@ -310,10 +303,8 @@ namespace Ys.QRCode
                     ret[index] = ecBlock[r][c];
                     index++;
                 }
-
                 n++;
             }
-
             return ret;
         }
 
@@ -337,10 +328,14 @@ namespace Ys.QRCode
 
         private void WriteStructuredAppendHeader(BitSequence bs)
         {
-            bs.Append(ModeIndicator.STRUCTURED_APPEND_VALUE, ModeIndicator.LENGTH); 
-            bs.Append(_position, SymbolSequenceIndicator.POSITION_LENGTH); 
-            bs.Append(_parent.Count - 1, SymbolSequenceIndicator.TOTAL_NUMBER_LENGTH); 
-            bs.Append(_parent.StructuredAppendParity, StructuredAppend.PARITY_DATA_LENGTH);  
+            bs.Append(ModeIndicator.STRUCTURED_APPEND_VALUE, 
+                      ModeIndicator.LENGTH); 
+            bs.Append(_position, 
+                      SymbolSequenceIndicator.POSITION_LENGTH); 
+            bs.Append(_parent.Count - 1, 
+                      SymbolSequenceIndicator.TOTAL_NUMBER_LENGTH); 
+            bs.Append(_parent.StructuredAppendParity, 
+                      StructuredAppend.PARITY_DATA_LENGTH);  
         }
         
         private void WriteSegments(BitSequence bs)
@@ -349,7 +344,9 @@ namespace Ys.QRCode
             {
                 bs.Append(segment.ModeIndicator, ModeIndicator.LENGTH); 
                 bs.Append(segment.CharCount, 
-                          CharCountIndicator.GetLength(_currVersion, segment.EncodingMode)); 
+                          CharCountIndicator.GetLength(
+                              _currVersion, segment.EncodingMode)
+                ); 
                 
                 byte[] data = segment.GetBytes();
 
@@ -361,7 +358,8 @@ namespace Ys.QRCode
                 if (codewordBitLength == 0)
                     codewordBitLength = 8;
 
-                bs.Append(data[data.Length - 1] >> (8 - codewordBitLength), codewordBitLength);
+                bs.Append(data[data.Length - 1] >> (8 - codewordBitLength), 
+                          codewordBitLength);
             }
         }
 
@@ -388,7 +386,7 @@ namespace Ys.QRCode
 
             bool flag = true;
 
-            while (bs.Length < numDataCodewords * 8)
+            while (bs.Length < 8 * numDataCodewords)
             {
                 bs.Append(flag ? 236 : 17, 8);
                 flag = !flag;
@@ -425,7 +423,9 @@ namespace Ys.QRCode
             int maskPatternReference = Masking.Apply(
                     moduleMatrix, _currVersion, _parent.ErrorCorrectionLevel);
             
-            FormatInfo.Place(moduleMatrix, _parent.ErrorCorrectionLevel, maskPatternReference);
+            FormatInfo.Place(moduleMatrix, 
+                             _parent.ErrorCorrectionLevel, 
+                             maskPatternReference);
             
             if (_currVersion >= 7)
                 VersionInfo.Place(moduleMatrix, _currVersion);
@@ -486,7 +486,6 @@ namespace Ys.QRCode
                             c++;
                         }
                     }
-
                     toLeft = !toLeft;
                 }
             }
@@ -536,7 +535,7 @@ namespace Ys.QRCode
 
             int pack32bit = 0;
             if (hByteLen % 4 > 0)
-                pack32bit = (4 - (hByteLen % 4)) * 8;
+                pack32bit = 8 * (4 - (hByteLen % 4));
 
             var bs = new BitSequence();
 
@@ -650,13 +649,13 @@ namespace Ys.QRCode
             int width  = moduleSize * moduleMatrix.Length;
             int height = width;
 
-            int hByteLen = width * 3;
+            int hByteLen = 3 * width;
 
             int pack4byte = 0;
             if (hByteLen % 4 > 0)
                 pack4byte = 4 - (hByteLen % 4);
 
-            byte[] dataBlock = new byte[(hByteLen + pack4byte) * (height * 3)];
+            byte[] dataBlock = new byte[(hByteLen + pack4byte) * (3 * height)];
 
             int idx = 0;
 
@@ -674,7 +673,6 @@ namespace Ys.QRCode
                             dataBlock[idx++] = color.R;
                         }
                     }
-
                     idx += pack4byte;
                 }
             }
@@ -752,7 +750,6 @@ namespace Ys.QRCode
 
             ImageConverter converter = new ImageConverter();
             System.Drawing.Image ret = (System.Drawing.Image)converter.ConvertFrom(dib);
-
             return ret;
         }
 
@@ -791,7 +788,6 @@ namespace Ys.QRCode
 
             ImageConverter converter = new ImageConverter();
             System.Drawing.Image ret = (System.Drawing.Image)converter.ConvertFrom(dib);
-
             return ret;
         }
 

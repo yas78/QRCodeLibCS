@@ -68,7 +68,7 @@ namespace Ys.QRCode.Encoder
         {
             byte[] charBytes = _textEncoding.GetBytes(c.ToString());
 
-            return charBytes.Length * 8;
+            return 8 * charBytes.Length;
         }
 
         /// <summary>

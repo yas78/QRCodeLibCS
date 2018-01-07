@@ -8,19 +8,6 @@ namespace Ys.QRCode.Format
     /// </summary>
     internal static class DataCodeword
     {
-        /// <summary>
-        /// データコード語数を返します。
-        /// </summary>
-        /// <param name="ecLevel">誤り訂正レベル</param>
-        /// <param name="version">型番</param>
-        public static int GetTotalNumber(
-            ErrorCorrectionLevel ecLevel, int version)
-        {
-            Debug.Assert(version >= Constants.MIN_VERSION && version <= Constants.MAX_VERSION);
-
-            return _totalNumbers[(int)ecLevel][version];
-        }
-
         // データコード語数
         private static readonly int[][] _totalNumbers = {
             /* Error Correction Level L */
@@ -56,5 +43,18 @@ namespace Ys.QRCode.Format
                  793,  845,  901,  961,  986, 1054, 1096, 1142, 1222, 1276
             }
         };
+
+        /// <summary>
+        /// データコード語数を返します。
+        /// </summary>
+        /// <param name="ecLevel">誤り訂正レベル</param>
+        /// <param name="version">型番</param>
+        public static int GetTotalNumber(
+            ErrorCorrectionLevel ecLevel, int version)
+        {
+            Debug.Assert(version >= Constants.MIN_VERSION && version <= Constants.MAX_VERSION);
+
+            return _totalNumbers[(int)ecLevel][version];
+        }
     }
 }

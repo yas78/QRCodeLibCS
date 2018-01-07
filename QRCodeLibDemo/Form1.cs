@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 using Ys.QRCode;
 
-namespace Example
+namespace Demo
 {
     public partial class Form1 : Form
     {
@@ -22,13 +22,13 @@ namespace Example
 
             if (string.IsNullOrEmpty(txtData.Text))
                 return;
-
-            int version = (int)cmbMaxVersion.SelectedItem;
+            
             ErrorCorrectionLevel ecLevel = (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem;
+            int version = (int)cmbMaxVersion.SelectedItem;
             bool allowStructuredAppend = chkStructuredAppend.Checked;
             Encoding encoding = ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding();
 
-            Symbols symbols = new Symbols(version, ecLevel, allowStructuredAppend, encoding);
+            Symbols symbols = new Symbols(ecLevel, version, allowStructuredAppend, encoding.WebName);
             
             try
             {
@@ -71,12 +71,12 @@ namespace Example
                 Path.GetDirectoryName(fd.FileName), Path.GetFileNameWithoutExtension(fd.FileName));
             }
 
-            int version = (int)cmbMaxVersion.SelectedItem;
             ErrorCorrectionLevel ecLevel = (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem;
+            int version = (int)cmbMaxVersion.SelectedItem;
             bool allowStructuredAppend = chkStructuredAppend.Checked;
             Encoding encoding = ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding();
 
-            Symbols symbols = new Symbols(version, ecLevel, allowStructuredAppend, encoding);
+            Symbols symbols = new Symbols(ecLevel, version, allowStructuredAppend, encoding.WebName);
             
             try
             {
@@ -106,14 +106,14 @@ namespace Example
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            cmbErrorCorrectionLevel.DataSource =
+                Enum.GetValues(typeof(ErrorCorrectionLevel));
+            cmbErrorCorrectionLevel.SelectedItem = ErrorCorrectionLevel.M;
+
             for (int i = 1; i <= 40; ++i)
                 cmbMaxVersion.Items.Add(i);
 
             cmbMaxVersion.SelectedIndex = cmbMaxVersion.Items.Count - 1;
-
-            cmbErrorCorrectionLevel.DataSource =
-                Enum.GetValues(typeof(ErrorCorrectionLevel));
-            cmbErrorCorrectionLevel.SelectedItem = ErrorCorrectionLevel.M;
 
             cmbEncoding.DisplayMember = "DisplayName";
             cmbEncoding.ValueMember = "Name";

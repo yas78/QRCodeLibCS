@@ -13,37 +13,29 @@ namespace Ys.QRCode
     /// </summary>
     public class Symbols : IEnumerable<Symbol>  
     {
-        /// <summary>
-        /// インスタンスを初期化します。
-        /// </summary>
-        public Symbols()
-            : this(Constants.MAX_VERSION, ErrorCorrectionLevel.M, false) { }
+        readonly List<Symbol> _items;
 
-        /// <summary>
-        /// インスタンスを初期化します。
-        /// </summary>
-        /// <param name="maxVersion">型番の上限</param>
-        /// <param name="ecLevel">誤り訂正レベル</param>
-        /// <param name="allowStructuredAppend">複数シンボルへの分割を許可するには true を指定します。</param>
-        public Symbols(int maxVersion, 
-                       ErrorCorrectionLevel ecLevel, 
-                       bool allowStructuredAppend)
-            : this(maxVersion, 
-                   ecLevel, 
-                   allowStructuredAppend, 
-                   Encoding.GetEncoding("shift_jis")) { }
+        int _minVersion;
+
+        readonly ErrorCorrectionLevel _errorCorrectionLevel;
+        readonly int                  _maxVersion;
+        readonly bool                 _structuredAppendAllowed;
+        readonly Encoding             _byteModeEncoding;
+
+        int _structuredAppendParity;
+        Symbol _currSymbol;
         
         /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
-        /// <param name="maxVersion">型番の上限</param>
         /// <param name="ecLevel">誤り訂正レベル</param>
+        /// <param name="maxVersion">型番の上限</param>
         /// <param name="allowStructuredAppend">複数シンボルへの分割を許可するには true を指定します。</param>
         /// <param name="byteModeEncoding">バイトモードの文字エンコーディング</param>
-        public Symbols(int maxVersion, 
-                       ErrorCorrectionLevel ecLevel, 
-                       bool allowStructuredAppend, 
-                       Encoding byteModeEncoding)
+        public Symbols(ErrorCorrectionLevel ecLevel = ErrorCorrectionLevel.M,
+                       int maxVersion = 40,
+                       bool allowStructuredAppend = false, 
+                       string byteModeEncoding = "shift_jis")
         {
             if (maxVersion < Constants.MIN_VERSION || 
                 maxVersion > Constants.MAX_VERSION)
@@ -51,29 +43,18 @@ namespace Ys.QRCode
 
             _items = new List<Symbol>();
 
-            _minVersion                 = 1;
-            _maxVersion                 = maxVersion;
+            _minVersion = 1;
+
             _errorCorrectionLevel       = ecLevel;
+            _maxVersion                 = maxVersion;
             _structuredAppendAllowed    = allowStructuredAppend;
-            _byteModeEncoding           = byteModeEncoding;
+            _byteModeEncoding           = Encoding.GetEncoding(byteModeEncoding);
             
             _structuredAppendParity = 0;
             _currSymbol = new Symbol(this);
 
             _items.Add(_currSymbol);
         }
-        
-        readonly List<Symbol> _items;
-
-        int _minVersion;
-
-        readonly int                  _maxVersion;
-        readonly ErrorCorrectionLevel _errorCorrectionLevel;
-        readonly bool                 _structuredAppendAllowed;
-        readonly Encoding             _byteModeEncoding;
-
-        int _structuredAppendParity;
-        Symbol _currSymbol;
         
         /// <summary>
         /// インデックス番号を指定してSymbolオブジェクトを取得します。

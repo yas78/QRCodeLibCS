@@ -36,9 +36,9 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Image\BITMAPFILEHEADER.cs" />
-    <Compile Include="Image\BITMAPINFOHEADER.cs" />
-    <Compile Include="Image\RGBQUAD.cs" />
+    <Compile Include="BitmapStructure\BITMAPFILEHEADER.cs" />
+    <Compile Include="BitmapStructure\BITMAPINFOHEADER.cs" />
+    <Compile Include="BitmapStructure\RGBQUAD.cs" />
     <Compile Include="QRCode\Constants.cs" />
     <Compile Include="QRCode\Format\ModeIndicator.cs" />
     <Compile Include="QRCode\Format\CharCountIndicator.cs" />
@@ -62,7 +62,7 @@
     <Compile Include="QRCode\Separator.cs" />
     <Compile Include="QRCode\TimingPattern.cs" />
     <Compile Include="QRCode\VersionInfo.cs" />
-    <Compile Include="Util\BitSequence.cs" />
+    <Compile Include="Misc\BitSequence.cs" />
     <Compile Include="QRCode\Encoder\ByteEncoder.cs" />
     <Compile Include="QRCode\GaloisField256.cs" />
     <Compile Include="QRCode\GeneratorPolynomials.cs" />

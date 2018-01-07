@@ -9,6 +9,11 @@ namespace Ys.Util
     /// </summary>
     internal class BitSequence
     {
+        readonly List<byte> _buffer = new List<byte>();
+
+        int _bitCounter = 0;
+        int _space      = 0;
+
         public BitSequence() { }
 
         /// <summary>
@@ -18,11 +23,6 @@ namespace Ys.Util
         {
             get { return _bitCounter; }
         }
-
-        readonly List<byte> _buffer = new List<byte>();
-
-        int _bitCounter = 0;
-        int _space      = 0;
 
         /// <summary>
         /// 指定のビット数でデータを追加します。

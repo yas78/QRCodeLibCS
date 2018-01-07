@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Ys.Image
+namespace Ys.BitmapStructure
 {
     /// <summary>
     /// BITMAPFILEHEADER構造体

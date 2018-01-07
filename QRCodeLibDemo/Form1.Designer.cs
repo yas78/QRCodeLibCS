@@ -1,4 +1,4 @@
-﻿namespace Example
+﻿namespace Demo
 {
     partial class Form1
     {
@@ -147,7 +147,7 @@
             this.btnSave.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.btnSave.Location = new System.Drawing.Point(553, 477);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(103, 23);
+            this.btnSave.Size = new System.Drawing.Size(119, 23);
             this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -201,7 +201,7 @@
             this.cmbEncoding.FormattingEnabled = true;
             this.cmbEncoding.Location = new System.Drawing.Point(357, 449);
             this.cmbEncoding.Name = "cmbEncoding";
-            this.cmbEncoding.Size = new System.Drawing.Size(299, 20);
+            this.cmbEncoding.Size = new System.Drawing.Size(315, 20);
             this.cmbEncoding.TabIndex = 4;
             this.cmbEncoding.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
@@ -226,7 +226,7 @@
             this.MinimumSize = new System.Drawing.Size(540, 500);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "QRCode";
+            this.Text = "QR Code";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudModuleSize)).EndInit();
             this.ResumeLayout(false);

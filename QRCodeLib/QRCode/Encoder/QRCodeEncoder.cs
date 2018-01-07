@@ -9,15 +9,31 @@ namespace Ys.QRCode.Encoder
     /// </summary>
     internal abstract class QRCodeEncoder
     {
+        protected List<int> _codeWords   = new List<int>();
+        protected int       _charCounter = 0;
+        protected int       _bitCounter  = 0;
+
         /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
         public QRCodeEncoder() { }
 
-        protected List<int> _codeWords   = new List<int>();
-        protected int       _charCounter = 0;
-        protected int       _bitCounter  = 0;
+        /// <summary>
+        /// 文字数を取得します。
+        /// </summary>
+        public int CharCount
+        {
+            get { return _charCounter; }
+        }
 
+        /// <summary>
+        /// データビット数を取得します。
+        /// </summary>
+        public int BitCount
+        {
+            get { return _bitCounter; }
+        }
+ 
         /// <summary>
         /// 符号化モードを取得します。
         /// </summary>
@@ -42,24 +58,7 @@ namespace Ys.QRCode.Encoder
         /// エンコードされたデータのバイト配列を返します。
         /// </summary>
         public abstract byte[] GetBytes();
-
-        /// <summary>
-        /// 文字を追加します。
-        /// </summary>
-        /// <returns>追加した文字のビット数</returns>
-        public int CharCount
-        {
-            get { return _charCounter; }
-        }
-
-        /// <summary>
-        /// データビット数を取得します。
-        /// </summary>
-        public int BitCount
-        {
-            get { return _bitCounter; }
-        }
-        
+       
         /// <summary>
         /// 指定した符号化モードのエンコーダーを返します。
         /// </summary>

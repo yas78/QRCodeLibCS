@@ -7,6 +7,17 @@ namespace Ys.QRCode
     /// </summary>
     internal static class FinderPattern
     {
+        // 位置検出パターン
+        private static int[][] _finderPattern = {
+            new [] {2,  2,  2,  2,  2,  2,  2},
+            new [] {2, -2, -2, -2, -2, -2,  2},
+            new [] {2, -2,  2,  2,  2, -2,  2},
+            new [] {2, -2,  2,  2,  2, -2,  2},
+            new [] {2, -2,  2,  2,  2, -2,  2},
+            new [] {2, -2, -2, -2, -2, -2,  2},
+            new [] {2,  2 , 2,  2,  2,  2,  2}
+        };
+
         /// <summary>
         /// 位置検出パターンを配置します。
         /// </summary>
@@ -26,16 +37,5 @@ namespace Ys.QRCode
                 }
             }
         }
-
-        // 位置検出パターン
-        private static int[][] _finderPattern = {
-            new [] {2,  2,  2,  2,  2,  2,  2},
-            new [] {2, -2, -2, -2, -2, -2,  2},
-            new [] {2, -2,  2,  2,  2, -2,  2},
-            new [] {2, -2,  2,  2,  2, -2,  2},
-            new [] {2, -2,  2,  2,  2, -2,  2},
-            new [] {2, -2, -2, -2, -2, -2,  2},
-            new [] {2,  2 , 2,  2,  2,  2,  2}
-        };
     }
 }

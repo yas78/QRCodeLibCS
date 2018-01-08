@@ -49,14 +49,14 @@ Symbols symbols = new Symbols(byteModeEncoding: "utf-8");
 ```
 
 ### 例５．分割QRコードを作成する
-Symbolsクラスのコンストラクタで設定します。型番の上限を指定しなかった場合は、型番40を上限として分割されます。
+Symbolsクラスのコンストラクタで設定します。型番の上限を指定しない場合は、型番40を上限として分割されます。
 ```csharp
 Symbols symbols = new Symbols(allowStructuredAppend: true);
 ```
 
 型番1を超える場合に分割し、各QRコードのImageオブジェクトを取得する例を示します。
 ```csharp
-Symbols symbols = new Symbols(maxVersion: 2, allowStructuredAppend: true);
+Symbols symbols = new Symbols(maxVersion: 1, allowStructuredAppend: true);
 symbols.AppendString("abcdefghijkl");
 
 foreach (var symbol in symbols)

@@ -68,7 +68,8 @@ namespace Demo
 
                 isMonochrome = fd.FilterIndex == 1;
                 baseName = Path.Combine(
-                Path.GetDirectoryName(fd.FileName), Path.GetFileNameWithoutExtension(fd.FileName));
+                    Path.GetDirectoryName(fd.FileName), 
+                    Path.GetFileNameWithoutExtension(fd.FileName));
             }
 
             ErrorCorrectionLevel ecLevel = (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem;

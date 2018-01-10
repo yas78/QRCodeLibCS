@@ -82,7 +82,8 @@ symbols[0].Save24bppDIB(@"D:\qrcode24bpp1.bmp");
 symbols[0].Save24bppDIB(@"D:\qrcode24bpp2.bmp", 10); // 10 pixel par module
 ```
 
-その他の画像形式で保存するにはImageオブジェクト使用します。
+その他の画像形式で保存するには、Imageオブジェクト使用します。
+
 ```csharp
 using System.Drawing;
 using System.Drawing.Imaging;

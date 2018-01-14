@@ -77,9 +77,9 @@ Symbols symbols = new Symbols();
 symbols.AppendString("012345abcdefg");
 
 symbols[0].Save1bppDIB(@"D:\qrcode1bpp1.bmp");
-symbols[0].Save1bppDIB(@"D:\qrcode1bpp2.bmp", 10); // 10 pixel par module
+symbols[0].Save1bppDIB(@"D:\qrcode1bpp2.bmp", 10); // 10 pixels per module
 symbols[0].Save24bppDIB(@"D:\qrcode24bpp1.bmp");
-symbols[0].Save24bppDIB(@"D:\qrcode24bpp2.bmp", 10); // 10 pixel par module
+symbols[0].Save24bppDIB(@"D:\qrcode24bpp2.bmp", 10); // 10 pixels per module
 ```
 
 その他の画像形式で保存するには、Imageオブジェクト使用します。

@@ -626,7 +626,7 @@ namespace Ys.QRCode
             if (hByteLen % 4 > 0)
                 pack4byte = 4 - (hByteLen % 4);
 
-            byte[] dataBlock = new byte[(hByteLen + pack4byte) * (3 * height)];
+            byte[] dataBlock = new byte[(hByteLen + pack4byte) * height];
 
             int idx = 0;
 

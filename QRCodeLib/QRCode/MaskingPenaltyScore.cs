@@ -201,11 +201,11 @@ namespace Ys.QRCode
         {
             int darkCount = 0;
 
-            for (int r = 0; r < moduleMatrix.Length; ++r)
+            foreach(int[] columns in moduleMatrix)
             {
-                for (int c = 0; c < moduleMatrix[r].Length; ++c)
+                foreach(int value in columns)
                 {
-                    if (moduleMatrix[r][c] > 0)
+                    if (value > 0)
                         darkCount++;
                 }
             }

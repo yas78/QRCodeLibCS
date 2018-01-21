@@ -422,7 +422,7 @@ namespace Ys.QRCode
             
             PlaceSymbolChar(moduleMatrix);
             RemainderBit.Place(moduleMatrix);
-            
+
             int maskPatternReference = Masking.Apply(
                     moduleMatrix, _currVersion, _parent.ErrorCorrectionLevel);
             

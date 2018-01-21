@@ -17,7 +17,8 @@ namespace Ys.QRCode
         public static void Place(
             int[][] moduleMatrix, ErrorCorrectionLevel ecLevel, int maskPatternReference)
         {
-            Debug.Assert(maskPatternReference >= 0 && maskPatternReference <= 7);
+            Debug.Assert(maskPatternReference >= 0 && 
+                         maskPatternReference <= 7);
 
             int formatInfoValue = GetFormatInfoValue(ecLevel, maskPatternReference);
 
@@ -92,9 +93,11 @@ namespace Ys.QRCode
         /// </summary>
         /// <param name="ecLevel">誤り訂正レベル</param>
         /// <param name="maskPatternReference">マスクパターン参照子</param>
-        public static int GetFormatInfoValue(ErrorCorrectionLevel ecLevel,int maskPatternReference)
+        public static int GetFormatInfoValue(
+            ErrorCorrectionLevel ecLevel, int maskPatternReference)
         {
-            Debug.Assert(maskPatternReference >= 0 && maskPatternReference <= 7);
+            Debug.Assert(maskPatternReference >= 0 && 
+                         maskPatternReference <= 7);
             
             int indicator;
 

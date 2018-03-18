@@ -8,44 +8,8 @@ namespace Ys.QRCode
     /// </summary>
     internal static class AlignmentPattern
     {
-        /// <summary>
-        /// 位置合わせパターンを配置します。
-        /// </summary>
-        public static void Place(int[][] moduleMatrix, int version)
-        {
-            Debug.Assert(version >= 2 && version <= 40);
-
-            int[] centerPosArray = _centerPosArrays[version];
-
-            int maxIndex = centerPosArray.Length - 1;
-
-            for (int i = 0; i <= maxIndex; ++i)
-            {
-                int r = centerPosArray[i];
-
-                for (int j = 0; j <= maxIndex; ++j)
-                {
-                    int c = centerPosArray[j];
-
-                    // 位置検出パターンと重なる場合
-                    if (i == 0        && j == 0        || 
-                        i == 0        && j == maxIndex || 
-                        i == maxIndex && j == 0)
-                    {
-                        continue;
-                    }
-                        
-                    Array.Copy(new[] { 2,  2,  2,  2,  2 }, 0, moduleMatrix[r - 2], c - 2, 5);
-                    Array.Copy(new[] { 2, -2, -2, -2,  2 }, 0, moduleMatrix[r - 1], c - 2, 5);
-                    Array.Copy(new[] { 2, -2,  2, -2,  2 }, 0, moduleMatrix[r + 0], c - 2, 5);
-                    Array.Copy(new[] { 2, -2, -2, -2,  2 }, 0, moduleMatrix[r + 1], c - 2, 5);
-                    Array.Copy(new[] { 2,  2,  2,  2,  2 }, 0, moduleMatrix[r + 2], c - 2, 5);
-                }
-            }
-        }
-
         // 位置合せパターンの中心座標
-        private static readonly int[][] _centerPosArrays = {
+        static readonly int[][] _centerPosArrays = {
             null,
             null,
             new[]{6, 18},
@@ -88,5 +52,41 @@ namespace Ys.QRCode
             new[]{6, 26, 54, 82, 110, 138, 166},
             new[]{6, 30, 58, 86, 114, 142, 170}
         };
+
+        /// <summary>
+        /// 位置合わせパターンを配置します。
+        /// </summary>
+        public static void Place(int[][] moduleMatrix, int version)
+        {
+            Debug.Assert(version >= 2 && version <= 40);
+
+            int[] centerPosArray = _centerPosArrays[version];
+
+            int maxIndex = centerPosArray.Length - 1;
+
+            for (int i = 0; i <= maxIndex; ++i)
+            {
+                int r = centerPosArray[i];
+
+                for (int j = 0; j <= maxIndex; ++j)
+                {
+                    int c = centerPosArray[j];
+
+                    // 位置検出パターンと重なる場合
+                    if (i == 0        && j == 0        || 
+                        i == 0        && j == maxIndex || 
+                        i == maxIndex && j == 0)
+                    {
+                        continue;
+                    }
+                        
+                    Array.Copy(new[] { 2,  2,  2,  2,  2 }, 0, moduleMatrix[r - 2], c - 2, 5);
+                    Array.Copy(new[] { 2, -2, -2, -2,  2 }, 0, moduleMatrix[r - 1], c - 2, 5);
+                    Array.Copy(new[] { 2, -2,  2, -2,  2 }, 0, moduleMatrix[r + 0], c - 2, 5);
+                    Array.Copy(new[] { 2, -2, -2, -2,  2 }, 0, moduleMatrix[r + 1], c - 2, 5);
+                    Array.Copy(new[] { 2,  2,  2,  2,  2 }, 0, moduleMatrix[r + 2], c - 2, 5);
+                }
+            }
+        }
     }
 }

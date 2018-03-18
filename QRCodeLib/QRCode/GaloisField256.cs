@@ -7,17 +7,7 @@ namespace Ys.QRCode
     /// </summary>
     internal static class GaloisField256
     {
-        public static int ToExp(int arg)
-        {
-            return _intToExpTable[arg];
-        }
-
-        public static int ToInt(int arg)
-        {
-            return _expToIntTable[arg];
-        }
-
-        private static readonly int[] _intToExpTable = {
+        static readonly int[] _intToExpTable = {
              -1,   0,   1,  25,   2,  50,  26, 198,   3, 223,
              51, 238,  27, 104, 199,  75,   4, 100, 224,  14,
              52, 141, 239, 129,  28, 193, 105, 248, 200,   8,
@@ -46,7 +36,7 @@ namespace Ys.QRCode
             244, 234, 168,  80,  88, 175
         };
 
-        private static readonly int[] _expToIntTable = {
+        static readonly int[] _expToIntTable = {
               1,   2,   4,   8,  16,  32,  64, 128,  29,  58,
             116, 232, 205, 135,  19,  38,  76, 152,  45,  90,
             180, 117, 234, 201, 143,   3,   6,  12,  24,  48,
@@ -74,5 +64,15 @@ namespace Ys.QRCode
              44,  88, 176, 125, 250, 233, 207, 131,  27,  54,
             108, 216, 173,  71, 142,   1
         };
+
+        public static int ToExp(int arg)
+        {
+            return _intToExpTable[arg];
+        }
+
+        public static int ToInt(int arg)
+        {
+            return _expToIntTable[arg];
+        }
     }
 }

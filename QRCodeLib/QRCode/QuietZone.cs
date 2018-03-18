@@ -7,7 +7,7 @@ namespace Ys.QRCode
     /// </summary>
     internal static class QuietZone
     {
-        private const int QUIET_ZONE_WIDTH = 4;
+        const int QUIET_ZONE_WIDTH = 4;
 
         /// <summary>
         /// クワイエットゾーンを追加します。

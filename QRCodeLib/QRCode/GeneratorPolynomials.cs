@@ -7,7 +7,7 @@ namespace Ys.QRCode
     /// </summary>
     internal class GeneratorPolynomials
     {
-        private static readonly int[][] _gp = new int[69][];
+        static readonly int[][] _gp = new int[69][];
 
         static GeneratorPolynomials()
         {

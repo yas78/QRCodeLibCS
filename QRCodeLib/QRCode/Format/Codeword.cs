@@ -9,7 +9,7 @@ namespace Ys.QRCode.Format
     internal static class Codeword
     {
         // コード語総数
-        private static readonly int[] _totalNumbers = {
+        static readonly int[] _totalNumbers = {
               -1,
               26,   44,   70,  100,  134,  172,  196,  242,  292,  346,
              404,  466,  532,  581,  655,  733,  815,  901,  991, 1085,

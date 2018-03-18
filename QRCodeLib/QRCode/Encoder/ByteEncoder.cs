@@ -23,7 +23,7 @@ namespace Ys.QRCode.Encoder
             _textEncoding = encoding;
         }
 
-        private readonly Encoding _textEncoding;
+        readonly Encoding _textEncoding;
         
         /// <summary>
         /// 符号化モードを取得します。

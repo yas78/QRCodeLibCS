@@ -8,7 +8,7 @@ namespace Ys.QRCode
     internal static class FinderPattern
     {
         // 位置検出パターン
-        private static int[][] _finderPattern = {
+        static int[][] _finderPattern = {
             new [] {2,  2,  2,  2,  2,  2,  2},
             new [] {2, -2, -2, -2, -2, -2,  2},
             new [] {2, -2,  2,  2,  2, -2,  2},

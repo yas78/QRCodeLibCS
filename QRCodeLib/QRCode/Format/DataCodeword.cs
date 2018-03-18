@@ -9,7 +9,7 @@ namespace Ys.QRCode.Format
     internal static class DataCodeword
     {
         // データコード語数
-        private static readonly int[][] _totalNumbers = {
+        static readonly int[][] _totalNumbers = {
             /* Error Correction Level L */
             new []{
                   -1,

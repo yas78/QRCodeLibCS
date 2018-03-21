@@ -227,9 +227,8 @@ namespace Ys.QRCode
 
             for (int blockIndex = 0; blockIndex < dataBlock.Length; ++blockIndex)
             {
-                int[] data = new int[
-                    dataBlock[blockIndex].Length + ret[blockIndex].Length
-                ];
+                int size = dataBlock[blockIndex].Length + ret[blockIndex].Length;
+                int[] data = new int[size];
                 int eccIndex = data.Length - 1;
 
                 for (int i = 0; i < dataBlock[blockIndex].Length; ++i)

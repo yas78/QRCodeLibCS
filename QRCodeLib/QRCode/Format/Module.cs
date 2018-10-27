@@ -17,7 +17,7 @@ namespace Ys.QRCode.Format
             Debug.Assert(version >= Constants.MIN_VERSION && 
                          version <= Constants.MAX_VERSION);
 
-            return 17 + version * 4;
+            return 17 + 4 * version;
         }
     }
 }

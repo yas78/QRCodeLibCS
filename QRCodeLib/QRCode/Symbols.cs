@@ -203,20 +203,20 @@ namespace Ys.QRCode
         {
             int version = _currSymbol.Version;
             
-            if (KanjiEncoder.IsInSubset(s[startIndex]))
+            if (KanjiEncoder.InSubset(s[startIndex]))
                 return EncodingMode.KANJI;
 
-            if (ByteEncoder.IsInExclusiveSubset(s[startIndex]))
+            if (ByteEncoder.InExclusiveSubset(s[startIndex]))
                 return EncodingMode.EIGHT_BIT_BYTE;
 
-            if (AlphanumericEncoder.IsInExclusiveSubset(s[startIndex]))
+            if (AlphanumericEncoder.InExclusiveSubset(s[startIndex]))
             {
                 int cnt = 0;
                 bool flg = false;
 
                 for (int i = startIndex; i < s.Length; ++i)
                 {
-                    if (AlphanumericEncoder.IsInExclusiveSubset(s[i]))
+                    if (AlphanumericEncoder.InExclusiveSubset(s[i]))
                         cnt++;
                     else
                         break;
@@ -235,7 +235,7 @@ namespace Ys.QRCode
                 {
                     if ((startIndex + cnt) < s.Length)
                     {
-                        if (ByteEncoder.IsInExclusiveSubset(s[startIndex + cnt]))
+                        if (ByteEncoder.InExclusiveSubset(s[startIndex + cnt]))
                             return EncodingMode.EIGHT_BIT_BYTE;
                         else
                             return EncodingMode.ALPHA_NUMERIC;
@@ -247,7 +247,7 @@ namespace Ys.QRCode
                     return EncodingMode.ALPHA_NUMERIC;
             }
 
-            if (NumericEncoder.IsInSubset(s[startIndex]))
+            if (NumericEncoder.InSubset(s[startIndex]))
             {
                 int cnt = 0;
                 bool flg1 = false;
@@ -255,7 +255,7 @@ namespace Ys.QRCode
 
                 for (int i = startIndex; i < s.Length; ++i)
                 {
-                    if (NumericEncoder.IsInSubset(s[i]))
+                    if (NumericEncoder.InSubset(s[i]))
                         cnt++;
                     else
                         break;
@@ -282,7 +282,7 @@ namespace Ys.QRCode
                 if (flg1)
                 {
                     if ((startIndex + cnt) < s.Length)
-                        flg1 = ByteEncoder.IsInExclusiveSubset(s[startIndex + cnt]);
+                        flg1 = ByteEncoder.InExclusiveSubset(s[startIndex + cnt]);
                     else
                         flg1 = false;
                 }
@@ -290,7 +290,7 @@ namespace Ys.QRCode
                 if (flg2)
                 {
                     if ((startIndex + cnt) < s.Length)
-                        flg2 = AlphanumericEncoder.IsInExclusiveSubset(s[startIndex + cnt]);
+                        flg2 = AlphanumericEncoder.InExclusiveSubset(s[startIndex + cnt]);
                     else
                         flg2 = false;
                 }
@@ -312,13 +312,13 @@ namespace Ys.QRCode
         /// <param name="startIndex">評価を開始する位置</param>
         private EncodingMode SelectModeWhileInNumericMode(string s, int startIndex)
         {
-            if (ByteEncoder.IsInExclusiveSubset(s[startIndex]))
+            if (ByteEncoder.InExclusiveSubset(s[startIndex]))
                 return EncodingMode.EIGHT_BIT_BYTE;
 
-            if (KanjiEncoder.IsInSubset(s[startIndex]))
+            if (KanjiEncoder.InSubset(s[startIndex]))
                 return EncodingMode.KANJI;
 
-            if (AlphanumericEncoder.IsInExclusiveSubset(s[startIndex]))
+            if (AlphanumericEncoder.InExclusiveSubset(s[startIndex]))
                 return EncodingMode.ALPHA_NUMERIC;
             
             return EncodingMode.NUMERIC;
@@ -333,10 +333,10 @@ namespace Ys.QRCode
         {
             int version = _currSymbol.Version;
 
-            if (KanjiEncoder.IsInSubset(s[startIndex]))
+            if (KanjiEncoder.InSubset(s[startIndex]))
                 return EncodingMode.KANJI;
 
-            if (ByteEncoder.IsInExclusiveSubset(s[startIndex]))
+            if (ByteEncoder.InExclusiveSubset(s[startIndex]))
                 return EncodingMode.EIGHT_BIT_BYTE;
 
             int cnt = 0;
@@ -344,10 +344,10 @@ namespace Ys.QRCode
 
             for (int i = startIndex; i < s.Length; ++i)
             {
-                if (!AlphanumericEncoder.IsInSubset(s[i]))
+                if (!AlphanumericEncoder.InSubset(s[i]))
                     break;
 
-                if (NumericEncoder.IsInSubset(s[i]))
+                if (NumericEncoder.InSubset(s[i]))
                     cnt++;
                 else
                 {
@@ -386,17 +386,17 @@ namespace Ys.QRCode
             int cnt = 0;
             bool flg = false;
             
-            if (KanjiEncoder.IsInSubset(s[startIndex]))
+            if (KanjiEncoder.InSubset(s[startIndex]))
                 return EncodingMode.KANJI;
 
             for (int i = startIndex; i < s.Length; ++i)
             {
-                if (!ByteEncoder.IsInSubset(s[i]))
+                if (!ByteEncoder.InSubset(s[i]))
                     break;
 
-                if (NumericEncoder.IsInSubset(s[i]))
+                if (NumericEncoder.InSubset(s[i]))
                     cnt++;
-                else if (ByteEncoder.IsInExclusiveSubset(s[i]))
+                else if (ByteEncoder.InExclusiveSubset(s[i]))
                 {
                     flg = true;
                     break;
@@ -425,12 +425,12 @@ namespace Ys.QRCode
 
             for (int i = startIndex; i < s.Length; ++i)
             {
-                if (!ByteEncoder.IsInSubset(s[i]))
+                if (!ByteEncoder.InSubset(s[i]))
                     break;
 
-                if (AlphanumericEncoder.IsInExclusiveSubset(s[i]))
+                if (AlphanumericEncoder.InExclusiveSubset(s[i]))
                     cnt++;
-                else if (ByteEncoder.IsInExclusiveSubset(s[i]))
+                else if (ByteEncoder.InExclusiveSubset(s[i]))
                 {
                     flg = true;
                     break;

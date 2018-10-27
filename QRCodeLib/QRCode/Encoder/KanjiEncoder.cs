@@ -41,7 +41,7 @@ namespace Ys.QRCode.Encoder
         /// <returns>追加した文字のビット数</returns>
         public override int Append(char c)
         {
-            Debug.Assert(IsInSubset(c));
+            Debug.Assert(InSubset(c));
 
             byte[] charBytes = _textEncoding.GetBytes(c.ToString());
             int wd = (charBytes[0] << 8) | charBytes[1];
@@ -69,7 +69,7 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public override int GetCodewordBitLength(char c)
         {
-            Debug.Assert(IsInSubset(c));
+            Debug.Assert(InSubset(c));
 
             return 13;
         }
@@ -90,7 +90,7 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 指定した文字が、このモードの文字集合に含まれる場合は true を返します。
         /// </summary>
-        public static bool IsInSubset(char c)
+        public static bool InSubset(char c)
         {
             byte[] charBytes = _textEncoding.GetBytes(c.ToString());
 
@@ -113,9 +113,9 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 指定した文字が、このモードの排他的部分文字集合に含まれる場合は true を返します。
         /// </summary>
-        public static bool IsInExclusiveSubset(char c)
+        public static bool InExclusiveSubset(char c)
         {
-            return IsInSubset(c);
+            return InSubset(c);
         }
     }
 }

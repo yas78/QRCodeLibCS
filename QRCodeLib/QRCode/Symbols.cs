@@ -137,7 +137,7 @@ namespace Ys.QRCode
         /// <summary>
         /// 文字列を追加します。
         /// </summary>
-        public void AppendString(string s)
+        public void AppendText(string s)
         {
             if (String.IsNullOrEmpty(s))
                 throw new ArgumentNullException(nameof(s));

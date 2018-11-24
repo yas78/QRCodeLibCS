@@ -32,7 +32,7 @@ namespace Demo
             
             try
             {
-                symbols.AppendString(txtData.Text);
+                symbols.AppendText(txtData.Text);
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace Demo
             
             try
             {
-                symbols.AppendString(txtData.Text);
+                symbols.AppendText(txtData.Text);
             }
             catch (Exception ex)
             {

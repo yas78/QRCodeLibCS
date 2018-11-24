@@ -17,7 +17,7 @@ namespace Ys.QRCode
         };
 
         // 形式情報のマスクパターン
-        static int[] formatInfoMaskArray =  {
+        static int[] _formatInfoMaskArray =  {
             0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1
         };
 
@@ -40,7 +40,7 @@ namespace Ys.QRCode
 
             for (int i = 0; i <= 7; ++i)
             {
-                int temp = ((formatInfoValue & (1 << i)) > 0 ? 1 : 0) ^ formatInfoMaskArray[i];
+                int temp = ((formatInfoValue & (1 << i)) > 0 ? 1 : 0) ^ _formatInfoMaskArray[i];
 
                 int v = (temp > 0) ? 3 : -3;
 
@@ -59,7 +59,7 @@ namespace Ys.QRCode
 
             for (int i = 8; i <= 14; ++i)
             {
-                int temp = ((formatInfoValue & (1 << i)) > 0 ? 1 : 0) ^ formatInfoMaskArray[i];
+                int temp = ((formatInfoValue & (1 << i)) > 0 ? 1 : 0) ^ _formatInfoMaskArray[i];
 
                 int v = (temp > 0) ? 3 : -3;
 

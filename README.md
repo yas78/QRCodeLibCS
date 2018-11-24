@@ -25,7 +25,7 @@ using System.Drawing;
 public void Example()
 {
     Symbols symbols = new Symbols();
-    symbols.AppendString("012345abcdefg");
+    symbols.AppendText("012345abcdefg");
 
     Image image = symbols[0].Get24bppImage();
 }
@@ -61,7 +61,7 @@ Symbols symbols = new Symbols(allowStructuredAppend: true);
 
 ```csharp
 Symbols symbols = new Symbols(maxVersion: 1, allowStructuredAppend: true);
-symbols.AppendString("abcdefghijklmnopqrstuvwxyz");
+symbols.AppendText("abcdefghijklmnopqrstuvwxyz");
 
 foreach (var symbol in symbols)
 {
@@ -74,7 +74,7 @@ SymbolクラスのSave1bppDIB、またはSave24bppDIBメソッドを使用しま
 
 ```csharp
 Symbols symbols = new Symbols();
-symbols.AppendString("012345abcdefg");
+symbols.AppendText("012345abcdefg");
 
 symbols[0].Save1bppDIB(@"D:\qrcode1bpp1.bmp");
 symbols[0].Save1bppDIB(@"D:\qrcode1bpp2.bmp", 10); // 10 pixels per module
@@ -90,7 +90,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 Symbols symbols = new Symbols();
-symbols.AppendString("012345");
+symbols.AppendText("012345");
 
 Image image = symbols[0].Get24bppImage();
 // PNG

@@ -168,28 +168,30 @@ namespace Ys.QRCode
                         throw new InvalidOperationException();
                 }
 
+                char c = s[i];
+
                 if (newMode != oldMode)
                 {
-                    if (!_currSymbol.TrySetEncodingMode(newMode, s[i]))
+                    if (!_currSymbol.TrySetEncodingMode(newMode, c))
                     {
                         if (!_structuredAppendAllowed || _items.Count == 16)
                             throw new ArgumentException("String too long", nameof(s));
 
                         Add();
                         newMode = SelectInitialMode(s, i);
-                        _currSymbol.TrySetEncodingMode(newMode, s[i]);
+                        _currSymbol.TrySetEncodingMode(newMode, c);
                     }
                 }
 
-                if (!_currSymbol.TryAppend(s[i]))
+                if (!_currSymbol.TryAppend(c))
                 {
                     if (!_structuredAppendAllowed || _items.Count == 16)
                         throw new ArgumentException("String too long", nameof(s));
 
                     Add();
                     newMode = SelectInitialMode(s, i);
-                    _currSymbol.TrySetEncodingMode(newMode, s[i]);
-                    _currSymbol.TryAppend(s[i]);
+                    _currSymbol.TrySetEncodingMode(newMode, c);
+                    _currSymbol.TryAppend(c);
                 }
             }
         }

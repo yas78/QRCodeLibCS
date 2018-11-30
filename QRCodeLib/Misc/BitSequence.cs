@@ -9,12 +9,14 @@ namespace Ys.Util
     /// </summary>
     internal class BitSequence
     {
-        readonly List<byte> _buffer = new List<byte>();
+        List<byte> _buffer;
+        int _bitCounter;
+        int _space;
 
-        int _bitCounter = 0;
-        int _space      = 0;
-
-        public BitSequence() { }
+        public BitSequence()
+        {
+            Clear();
+        }
 
         /// <summary>
         /// ビット数を取得します。
@@ -22,6 +24,13 @@ namespace Ys.Util
         public int Length
         {
             get { return _bitCounter; }
+        }
+
+        public void Clear()
+        {
+            _buffer = new List<byte>();
+            _bitCounter = 0;
+            _space      = 0;
         }
 
         /// <summary>

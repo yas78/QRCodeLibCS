@@ -41,6 +41,7 @@
     <Compile Include="BitmapStructure\BITMAPFILEHEADER.cs" />
     <Compile Include="BitmapStructure\BITMAPINFOHEADER.cs" />
     <Compile Include="BitmapStructure\RGBQUAD.cs" />
+    <Compile Include="Misc\DIB.cs" />
     <Compile Include="QRCode\Constants.cs" />
     <Compile Include="QRCode\Format\ModeIndicator.cs" />
     <Compile Include="QRCode\Format\CharCountIndicator.cs" />

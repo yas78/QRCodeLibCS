@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 
+using Ys.Misc;
 using Ys.QRCode.Encoder;
 using Ys.QRCode.Format;
-using Ys.BitmapStructure;
 using Ys.Util;
 
 namespace Ys.QRCode
@@ -511,89 +511,49 @@ namespace Ys.QRCode
             
             int[][] moduleMatrix = QuietZone.Place(GetModuleMatrix());
 
-            int width  = moduleSize * moduleMatrix.Length;
-            int height = width;
+            int width, height;
+            width = height = moduleSize * moduleMatrix.Length;
 
-            int hByteLen = (width + 7) / 8;
+            int rowBytesLen = (width + 7) / 8;
 
             int pack8bit = 0;
             if (width % 8 > 0)
                 pack8bit = 8 - (width % 8);
 
             int pack32bit = 0;
-            if (hByteLen % 4 > 0)
-                pack32bit = 8 * (4 - (hByteLen % 4));
+            if (rowBytesLen % 4 > 0)
+                pack32bit = 8 * (4 - (rowBytesLen % 4));
+
+            int rowSize = (width + pack8bit + pack32bit) / 8;
+            byte[] bitmapData = new byte[rowSize * height];
+            int offset = 0;
 
             var bs = new BitSequence();
 
             for (int r = moduleMatrix.Length - 1; r >= 0; --r)
             {
+                bs.Clear();
+
+                for (int c = 0; c < moduleMatrix[r].Length; ++c)
+                {
+                    int color = moduleMatrix[r][c] > 0 ? 0 : 1;
+
+                    for (int i = 1; i <= moduleSize; ++i)
+                        bs.Append(color, 1);
+                }
+                bs.Append(0, pack8bit);
+                bs.Append(0, pack32bit);
+
+                byte[] bitmapRow = bs.GetBytes();
+
                 for (int i = 1; i <= moduleSize; ++i)
                 {
-                    for (int c = 0; c < moduleMatrix[r].Length; ++c)
-                        for (int j = 1; j <= moduleSize; ++j)
-                            bs.Append(moduleMatrix[r][c] > 0 ? 0 : 1, 1);
-
-                    bs.Append(0, pack8bit);
-                    bs.Append(0, pack32bit);
+                    Buffer.BlockCopy(bitmapRow, 0, bitmapData, offset, rowSize);
+                    offset += rowSize;
                 }
             }
 
-            byte[] dataBlock = bs.GetBytes();
-
-            BITMAPFILEHEADER bfh;
-            bfh.bfType         = 0x4D42;
-            bfh.bfSize         = 62 + dataBlock.Length;
-            bfh.bfReserved1    = 0;
-            bfh.bfReserved2    = 0;
-            bfh.bfOffBits      = 62;
-
-            BITMAPINFOHEADER bih;
-            bih.biSize             = 40;
-            bih.biWidth            = width;
-            bih.biHeight           = height;
-            bih.biPlanes           = 1;
-            bih.biBitCount         = 1;
-            bih.biCompression      = 0;
-            bih.biSizeImage        = 0;
-            bih.biXPelsPerMeter    = 3780; // 96dpi
-            bih.biYPelsPerMeter    = 3780; // 96dpi
-            bih.biClrUsed          = 0;
-            bih.biClrImportant     = 0;
-            
-            RGBQUAD[] palette = new RGBQUAD[2];
-            palette[0].rgbBlue     = foreColor.B;
-            palette[0].rgbGreen    = foreColor.G;
-            palette[0].rgbRed      = foreColor.R;
-            palette[0].rgbReserved = 0;
-            palette[1].rgbBlue     = backColor.B;
-            palette[1].rgbGreen    = backColor.G;
-            palette[1].rgbRed      = backColor.R;
-            palette[1].rgbReserved = 0; 
-
-            byte[] ret = new byte[62 + dataBlock.Length];
-
-            byte[] bytes;
-            int offset= 0;
-            
-            bytes = bfh.GetBytes();
-            Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
-            offset += bytes.Length;
-
-            bytes = bih.GetBytes();
-            Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
-            offset += bytes.Length;
-
-            bytes = palette[0].GetBytes();
-            Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
-            offset += bytes.Length;
-
-            bytes = palette[1].GetBytes();
-            Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
-            offset += bytes.Length;
-
-            bytes = dataBlock;
-            Buffer.BlockCopy(bytes, 0, ret,  offset, bytes.Length);
+            byte[] ret = DIB.Build1bppDIB(bitmapData, width, height, foreColor, backColor);
 
             return ret;
         }
@@ -616,72 +576,45 @@ namespace Ys.QRCode
 
             int[][] moduleMatrix = QuietZone.Place(GetModuleMatrix());
 
-            int width  = moduleSize * moduleMatrix.Length;
-            int height = width;
+            int width, height;
+            width = height = moduleSize * moduleMatrix.Length;
 
-            int hByteLen = 3 * width;
+            int rowBytesLen = 3 * width;
 
-            int pack4byte = 0;
-            if (hByteLen % 4 > 0)
-                pack4byte = 4 - (hByteLen % 4);
+            int pack4bytes = 0;
+            if (rowBytesLen % 4 > 0)
+                pack4bytes = 4 - (rowBytesLen % 4);
 
-            byte[] dataBlock = new byte[(hByteLen + pack4byte) * height];
-
-            int idx = 0;
+            int rowSize = rowBytesLen + pack4bytes;
+            byte[] bitmapData = new byte[rowSize * height];
+            int offset = 0;
 
             for (int r = moduleMatrix.Length - 1; r >= 0; --r)
             {
+                byte[] bitmapRow = new byte[rowSize];
+                int idx = 0;
+
+                for (int c = 0; c < moduleMatrix[r].Length; ++c)
+                {
+                    Color color = moduleMatrix[r][c] > 0 ?
+                                    foreColor : backColor;
+
+                    for (int i = 1; i <= moduleSize; ++i)
+                    {
+                        bitmapRow[idx++] = color.B;
+                        bitmapRow[idx++] = color.G;
+                        bitmapRow[idx++] = color.R;
+                    }
+                }
+
                 for (int i = 1; i <= moduleSize; ++i)
                 {
-                    for (int c = 0; c < moduleMatrix[r].Length; ++c)
-                    { 
-                        for (int j = 1; j <= moduleSize; ++j)
-                        {
-                            Color color = moduleMatrix[r][c] > 0 ? 
-                                            foreColor : backColor;
-                            dataBlock[idx++] = color.B;
-                            dataBlock[idx++] = color.G;
-                            dataBlock[idx++] = color.R;
-                        }
-                    }
-                    idx += pack4byte;
+                    Buffer.BlockCopy(bitmapRow, 0, bitmapData, offset, rowSize);
+                    offset += rowSize;
                 }
             }
 
-            BITMAPFILEHEADER bfh;
-            bfh.bfType         = 0x4D42;
-            bfh.bfSize         = 54 + dataBlock.Length;
-            bfh.bfReserved1    = 0;
-            bfh.bfReserved2    = 0;
-            bfh.bfOffBits      = 54;
-
-            BITMAPINFOHEADER bih;
-            bih.biSize             = 40;
-            bih.biWidth            = width;
-            bih.biHeight           = height;
-            bih.biPlanes           = 1;
-            bih.biBitCount         = 24;
-            bih.biCompression      = 0;
-            bih.biSizeImage        = 0;
-            bih.biXPelsPerMeter    = 3780; // 96dpi
-            bih.biYPelsPerMeter    = 3780; // 96dpi
-            bih.biClrUsed          = 0;
-            bih.biClrImportant     = 0;
-                
-            byte[] ret = new byte[54 + dataBlock.Length];
-            byte[] bytes;
-            int    offset= 0;
-            
-            bytes = bfh.GetBytes();
-            Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
-            offset += bytes.Length;
-
-            bytes = bih.GetBytes();
-            Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
-            offset += bytes.Length;
-                
-            bytes = dataBlock;
-            Buffer.BlockCopy(bytes, 0, ret,  offset, bytes.Length);
+            byte[] ret = DIB.Build24bppDIB(bitmapData, width, height);
 
             return ret;
         }

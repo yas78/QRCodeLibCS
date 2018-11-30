@@ -21,6 +21,7 @@ namespace Ys.QRCode
         readonly int                  _maxVersion;
         readonly bool                 _structuredAppendAllowed;
         readonly Encoding             _byteModeEncoding;
+        readonly Encoding             _shiftJISEncoding;
 
         int _structuredAppendParity;
         Symbol _currSymbol;
@@ -49,6 +50,7 @@ namespace Ys.QRCode
             _maxVersion                 = maxVersion;
             _structuredAppendAllowed    = allowStructuredAppend;
             _byteModeEncoding           = Encoding.GetEncoding(byteModeEncoding);
+            _shiftJISEncoding           = Encoding.GetEncoding("shift_jis");
             
             _structuredAppendParity = 0;
             _currSymbol = new Symbol(this);
@@ -465,7 +467,11 @@ namespace Ys.QRCode
         /// <param name="c">パリティ計算対象の文字</param>
         internal void UpdateParity(char c)
         {
-            byte[] charBytes = _byteModeEncoding.GetBytes(c.ToString());
+            byte[] charBytes;
+            if (KanjiEncoder.InSubset(c))
+                charBytes = _shiftJISEncoding.GetBytes(c.ToString());
+            else
+                charBytes = _byteModeEncoding.GetBytes(c.ToString());
             
             foreach (byte value in charBytes)
                 _structuredAppendParity ^= value;

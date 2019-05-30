@@ -140,19 +140,19 @@ namespace Ys.QRCode
                     int i = rng[0] - 1;
 
                     // light ratio 1
-                    for (cnt = 0; i >= 0 && row[i] <= 0; ++cnt, --i) { }
+                    for (cnt = 0; i >= 0 && row[i] <= 0; ++cnt, --i);
 
                     if (cnt != ratio1)
                         continue;
 
                     // dark ratio 1
-                    for (cnt = 0; i >= 0 && row[i] > 0; ++cnt, --i) { }
+                    for (cnt = 0; i >= 0 && row[i] > 0; ++cnt, --i);
 
                     if (cnt != ratio1)
                         continue;
 
                     // light ratio 4
-                    for (cnt = 0; i >= 0 && row[i] <= 0; ++cnt, --i) { }
+                    for (cnt = 0; i >= 0 && row[i] <= 0; ++cnt, --i);
 
                     if (cnt >= ratio4)
                         impose = true;
@@ -160,19 +160,19 @@ namespace Ys.QRCode
                     i = rng[1] + 1;
 
                     // light ratio 1
-                    for (cnt = 0; i <= row.Length - 1 && row[i] <= 0; ++cnt, ++i) { }
+                    for (cnt = 0; i <= row.Length - 1 && row[i] <= 0; ++cnt, ++i);
 
                     if (cnt != ratio1)
                         continue;
 
                     // dark ratio 1
-                    for (cnt = 0; i <= row.Length - 1 && row[i] > 0; ++cnt, ++i) { }
+                    for (cnt = 0; i <= row.Length - 1 && row[i] > 0; ++cnt, ++i);
 
                     if (cnt != ratio1)
                         continue;
 
                     // light ratio 4
-                    for (cnt = 0; i <= row.Length - 1 && row[i] <= 0; ++cnt, ++i) { }
+                    for (cnt = 0; i <= row.Length - 1 && row[i] <= 0; ++cnt, ++i);
 
                     if (cnt >= ratio4)
                         impose = true;

@@ -56,9 +56,6 @@ namespace Ys.QRCode.Format
         public static int GetTotalNumber(
             ErrorCorrectionLevel ecLevel, int version)
         {
-            Debug.Assert(version >= Constants.MIN_VERSION && 
-                         version <= Constants.MAX_VERSION);
-
             return _totalNumbers[(int)ecLevel][version];
         }
     }

@@ -69,8 +69,6 @@ namespace Ys.QRCode
         /// <param name="maskPatternReference">マスクパターン参照子</param>
         private static void Mask(int[][] moduleMatrix, int maskPatternReference)
         {
-            Debug.Assert(maskPatternReference >= 0 && maskPatternReference <= 7);
-
             Func<int, int, bool> condition = GetCondition(maskPatternReference);
 
             for (int r = 0; r < moduleMatrix.Length; ++r)

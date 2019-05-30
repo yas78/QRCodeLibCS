@@ -128,9 +128,6 @@ namespace Ys.QRCode
         /// </summary>
         private Symbol Add()
         {
-            Debug.Assert(_structuredAppendAllowed);
-            Debug.Assert(_items.Count < 16);
-
             _currSymbol = new Symbol(this);
             _items.Add(_currSymbol);
             return _currSymbol;
@@ -226,11 +223,11 @@ namespace Ys.QRCode
                         break;
                 }
 
-                if (version >= 1 && version <= 9)
+                if (1 <= version && version <= 9)
                     flg = cnt < 6;
-                else if (version >= 10 && version <= 26)
+                else if (10 <= version && version <= 26)
                     flg = cnt < 7;
-                else if (version >= 27 && version <= 40)
+                else if (27 <= version && version <= 40)
                     flg = cnt < 8;
                 else
                     throw new InvalidOperationException();
@@ -265,17 +262,17 @@ namespace Ys.QRCode
                         break;
                 }
 
-                if (version >= 1 && version <= 9)
+                if (1 <= version && version <= 9)
                 {
                     flg1 = cnt < 4;
                     flg2 = cnt < 7;
                 }
-                else if (version >= 10 && version <= 26)
+                else if (10 <= version && version <= 26)
                 {
                     flg1 = cnt < 4;
                     flg2 = cnt < 8;
                 }
-                else if (version >= 27 && version <= 40)
+                else if (27 <= version && version <= 40)
                 {
                     flg1 = cnt < 5;
                     flg2 = cnt < 9;
@@ -362,11 +359,11 @@ namespace Ys.QRCode
 
             if (flg)
             {
-                if (version >= 1 && version <= 9)
+                if (1 <= version && version <= 9)
                     flg = cnt >= 13;
-                else if (version >= 10 && version <= 26)
+                else if (10 <= version && version <= 26)
                     flg = cnt >= 15;
-                else if (version >= 27 && version <= 40)
+                else if (27 <= version && version <= 40)
                     flg = cnt >= 17;
                 else
                     throw new InvalidOperationException();
@@ -411,11 +408,11 @@ namespace Ys.QRCode
 
             if (flg)
             {
-                if (version >= 1 && version <= 9)
+                if (1 <= version && version <= 9)
                     flg = cnt >= 6;
-                else if (version >= 10 && version <= 26)
+                else if (10 <= version && version <= 26)
                     flg = cnt >= 8;
-                else if (version >= 27 && version <= 40)
+                else if (27 <= version && version <= 40)
                     flg = cnt >= 9;
                 else
                     throw new InvalidOperationException();
@@ -445,11 +442,11 @@ namespace Ys.QRCode
 
             if (flg)
             {
-                if (version >= 1 && version <= 9)
+                if (1 <= version && version <= 9)
                     flg = cnt >= 11;
-                else if (version >= 10 && version <= 26)
+                else if (10 <= version && version <= 26)
                     flg = cnt >= 15;
-                else if (version >= 27 && version <= 40)
+                else if (27 <= version && version <= 40)
                     flg = cnt >= 16;
                 else
                     throw new InvalidOperationException();

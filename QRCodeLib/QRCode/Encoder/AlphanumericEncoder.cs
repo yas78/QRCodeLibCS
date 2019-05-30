@@ -37,8 +37,6 @@ namespace Ys.QRCode.Encoder
         /// <returns>追加した文字のビット数</returns>
         public override int Append(char c)
         {
-            Debug.Assert(InSubset(c));
-
             int wd = ConvertCharCode(c);
             int ret;
 
@@ -65,8 +63,6 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public override int GetCodewordBitLength(char c)
         {
-            Debug.Assert(InSubset(c));
-
             if (_charCounter % 2 == 0)
                 return 6;
             else
@@ -99,10 +95,10 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         private static int ConvertCharCode(char c)
         {
-            if (c >= 'A' && c <= 'Z')
+            if ('A' <= c && c <= 'Z')
                 return c - 55;
 
-            if (c >= '0' && c <= '9')
+            if ('0' <= c && c <= '9')
                 return c - 48;
 
             if (c == ' ')
@@ -131,8 +127,8 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public static bool InSubset(char c)
         {
-            return c >= 'A' && c <= 'Z' ||
-                   c >= '0' && c <= '9' ||
+            return 'A' <= c && c <= 'Z' ||
+                   '0' <= c && c <= '9' ||
                    c == ' '             ||
                    c == '.'             ||
                    c == '-'             ||

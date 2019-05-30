@@ -581,11 +581,11 @@ namespace Ys.QRCode
 
             int rowBytesLen = 3 * width;
 
-            int pack4bytes = 0;
+            int pack4byte = 0;
             if (rowBytesLen % 4 > 0)
-                pack4bytes = 4 - (rowBytesLen % 4);
+                pack4byte = 4 - (rowBytesLen % 4);
 
-            int rowSize = rowBytesLen + pack4bytes;
+            int rowSize = rowBytesLen + pack4byte;
             byte[] bitmapData = new byte[rowSize * height];
             int offset = 0;
 

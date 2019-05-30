@@ -15,8 +15,8 @@ namespace Ys.QRCode
         /// </summary>
         public static int CalcTotal(int[][] moduleMatrix)
         {
-            int total   = 0;
-            int penalty = 0;
+            int total = 0;
+            int penalty;
 
             penalty = CalcAdjacentModulesInSameColor(moduleMatrix);
             total += penalty;
@@ -53,14 +53,13 @@ namespace Ys.QRCode
         {
             int penalty = 0;
 
-            for (int r = 0; r < moduleMatrix.Length; ++r)
+            foreach (int[] row in moduleMatrix)
             {
-                int[] columns = moduleMatrix[r];
                 int cnt = 1;
 
-                for (int c = 0; c < columns.Length - 1; ++c)
+                for (int c = 0; c < row.Length - 1; ++c)
                 {
-                    if ((columns[c] > 0) == (columns[c + 1] > 0))
+                    if ((row[c] > 0) == (row[c + 1] > 0))
                         cnt++;
                     else
                     {
@@ -126,72 +125,87 @@ namespace Ys.QRCode
         {
             int penalty = 0;
 
-            for (int r = 0; r < moduleMatrix.Length - 4; ++r)
+            foreach (int[] row in moduleMatrix)
             {
-                int[] columns = moduleMatrix[r];
-                var startIndexes = new List<int>();
+                List<int[]> ratio3Ranges = GetRatio3Ranges(row);
 
-                startIndexes.Add(0);
-
-                for (int c = 4; c < columns.Length - 2; ++c)
+                foreach (int[] rng in ratio3Ranges)
                 {
-                    if (columns[c] > 0 && columns[c + 1] <= 0)
-                        startIndexes.Add(c + 1);
-                }
+                    int ratio3 = rng[1] + 1 - rng[0];
+                    int ratio1 = ratio3 / 3;
+                    int ratio4 = ratio1 * 4;
+                    bool impose = false;
+                    int cnt;
 
-                for (int i = 0; i < startIndexes.Count; ++i)
-                {
-                    int index = startIndexes[i];
-                    var moduleRatio = new ModuleRatio();
+                    int i = rng[0] - 1;
 
-                    while (index < columns.Length && columns[index] <= 0)
-                    {
-                        moduleRatio.PreLightRatio4++;
-                        index++;
-                    }
+                    // light ratio 1
+                    for (cnt = 0; i >= 0 && row[i] <= 0; ++cnt, --i) { }
 
-                    while (index < columns.Length && columns[index] > 0)
-                    {
-                        moduleRatio.PreDarkRatio1++;
-                        index++;
-                    }
+                    if (cnt != ratio1)
+                        continue;
 
-                    while (index < columns.Length && columns[index] <= 0)
-                    {
-                        moduleRatio.PreLightRatio1++;
-                        index++;
-                    }
+                    // dark ratio 1
+                    for (cnt = 0; i >= 0 && row[i] > 0; ++cnt, --i) { }
 
-                    while (index < columns.Length && columns[index] > 0)
-                    {
-                        moduleRatio.CenterDarkRatio3++;
-                        index++;
-                    }
+                    if (cnt != ratio1)
+                        continue;
 
-                    while (index < columns.Length && columns[index] <= 0)
-                    {
-                        moduleRatio.FolLightRatio1++;
-                        index++;
-                    }
+                    // light ratio 4
+                    for (cnt = 0; i >= 0 && row[i] <= 0; ++cnt, --i) { }
 
-                    while (index < columns.Length && columns[index] > 0)
-                    {
-                        moduleRatio.FolDarkRatio1++;
-                        index++;
-                    }
+                    if (cnt >= ratio4)
+                        impose = true;
 
-                    while (index < columns.Length && columns[index] <= 0)
-                    {
-                        moduleRatio.FolLightRatio4++;
-                        index++;
-                    }
+                    i = rng[1] + 1;
 
-                    if (moduleRatio.PenaltyImposed())
+                    // light ratio 1
+                    for (cnt = 0; i <= row.Length - 1 && row[i] <= 0; ++cnt, ++i) { }
+
+                    if (cnt != ratio1)
+                        continue;
+
+                    // dark ratio 1
+                    for (cnt = 0; i <= row.Length - 1 && row[i] > 0; ++cnt, ++i) { }
+
+                    if (cnt != ratio1)
+                        continue;
+
+                    // light ratio 4
+                    for (cnt = 0; i <= row.Length - 1 && row[i] <= 0; ++cnt, ++i) { }
+
+                    if (cnt >= ratio4)
+                        impose = true;
+
+                    if (impose)
                         penalty += 40;
                 }
             }
 
             return penalty;
+        }
+
+        private static List<int[]> GetRatio3Ranges(int[] arg)
+        {
+            var ret = new List<int[]>();
+            int s = 0;
+            int e;
+
+            for (int i = 4; i < arg.Length - 4; ++i)
+            {
+                if (arg[i] > 0 && arg[i - 1] <= 0)
+                    s = i;
+
+                if (arg[i] > 0 && arg[i + 1] <= 0)
+                {
+                    e = i;
+
+                    if ((e + 1 - s) % 3 == 0)
+                        ret.Add(new[] { s, e });
+                }
+            }
+
+            return ret;
         }
 
         /// <summary>
@@ -201,9 +215,9 @@ namespace Ys.QRCode
         {
             int darkCount = 0;
 
-            foreach(int[] columns in moduleMatrix)
+            foreach(int[] row in moduleMatrix)
             {
-                foreach(int value in columns)
+                foreach(int value in row)
                 {
                     if (value > 0)
                         darkCount++;

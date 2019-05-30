@@ -23,8 +23,6 @@ namespace Ys.QRCode
         /// </summary>
         public static void Place(int[][] moduleMatrix, int version)
         {
-            Debug.Assert(version >= 7 && version <= 40);
-
             int numModulesPerSide = moduleMatrix.Length;
 
             int versionInfoValue = _versionInfoValues[version];

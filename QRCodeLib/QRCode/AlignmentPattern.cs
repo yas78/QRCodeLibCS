@@ -58,8 +58,6 @@ namespace Ys.QRCode
         /// </summary>
         public static void Place(int[][] moduleMatrix, int version)
         {
-            Debug.Assert(version >= 2 && version <= 40);
-
             int[] centerPosArray = _centerPosArrays[version];
 
             int maxIndex = centerPosArray.Length - 1;

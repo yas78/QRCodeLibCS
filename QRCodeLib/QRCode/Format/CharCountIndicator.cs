@@ -14,7 +14,7 @@ namespace Ys.QRCode.Format
         /// <param name="encMode">符号化モード</param>
         public static int GetLength(int version, EncodingMode encMode)
         {
-            if (version >= 1 && version <= 9)
+            if (1 <= version && version <= 9)
             {
                 switch (encMode)
                 {
@@ -30,7 +30,7 @@ namespace Ys.QRCode.Format
                         throw new ArgumentOutOfRangeException(nameof(encMode));
                 }
             }
-            else if (version >= 10 && version <= 26)
+            else if (10 <= version && version <= 26)
             {
                 switch (encMode)
                 {
@@ -46,7 +46,7 @@ namespace Ys.QRCode.Format
                         throw new ArgumentOutOfRangeException(nameof(encMode));
                 }
             }
-            else if (version >= 27 && version <= 40)
+            else if (27 <= version && version <= 40)
             {
                 switch (encMode)
                 {

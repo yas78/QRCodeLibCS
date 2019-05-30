@@ -39,10 +39,7 @@ namespace Ys.Util
         /// <param name="data">追加するデータ</param>
         /// <param name="length">データのビット数</param>
         public void Append(int data, int length)
-        {
-            Debug.Assert(data >= 0);
-            Debug.Assert(length >= 0);
-            
+        {            
             int remainingLength = length;
             int remainingData   = data;
 

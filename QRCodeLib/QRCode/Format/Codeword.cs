@@ -23,9 +23,6 @@ namespace Ys.QRCode.Format
         /// <param name="version">型番</param>
         public static int GetTotalNumber(int version)
         {
-            Debug.Assert(version >= Constants.MIN_VERSION && 
-                         version <= Constants.MAX_VERSION);
-
             return _totalNumbers[version];
         }
     }

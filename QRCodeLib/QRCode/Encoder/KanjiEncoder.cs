@@ -41,15 +41,13 @@ namespace Ys.QRCode.Encoder
         /// <returns>追加した文字のビット数</returns>
         public override int Append(char c)
         {
-            Debug.Assert(InSubset(c));
-
             byte[] charBytes = _textEncoding.GetBytes(c.ToString());
             int wd = (charBytes[0] << 8) | charBytes[1];
 
-            if (wd >= 0x8140 && wd <= 0x9FFC)
+            if (0x8140 <= wd && wd <= 0x9FFC)
                 wd -= 0x8140;
 
-            else if (wd >= 0xE040 && wd <= 0xEBBF)
+            else if (0xE040 <= wd && wd <= 0xEBBF)
                 wd -= 0xC140;
 
             else
@@ -69,8 +67,6 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public override int GetCodewordBitLength(char c)
         {
-            Debug.Assert(InSubset(c));
-
             return 13;
         }
 
@@ -99,12 +95,11 @@ namespace Ys.QRCode.Encoder
 
             int code = (charBytes[0] << 8) | charBytes[1];
             
-            if (code >= 0x8140 && code <= 0x9FFC || 
-                code >= 0xE040 && code <= 0xEBBF)
+            if (0x8140 <= code && code <= 0x9FFC || 
+                0xE040 <= code && code <= 0xEBBF)
             {
-                return charBytes[1] >= 0x40 &&
-                       charBytes[1] <= 0xFC &&
-                       charBytes[1] != 0x7F;
+                return 0x40 <= charBytes[1] && charBytes[1] <= 0xFC &&
+                       0x7F != charBytes[1];
             }
             else
                 return false;

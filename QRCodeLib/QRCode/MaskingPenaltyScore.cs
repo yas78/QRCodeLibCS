@@ -127,7 +127,7 @@ namespace Ys.QRCode
 
             foreach (int[] row in moduleMatrix)
             {
-                List<int[]> ratio3Ranges = GetRatio3Ranges(row);
+                int[][] ratio3Ranges = GetRatio3Ranges(row);
 
                 foreach (int[] rng in ratio3Ranges)
                 {
@@ -185,13 +185,13 @@ namespace Ys.QRCode
             return penalty;
         }
 
-        private static List<int[]> GetRatio3Ranges(int[] arg)
+        private static int[][] GetRatio3Ranges(int[] arg)
         {
             var ret = new List<int[]>();
             int s = 0;
             int e;
 
-            for (int i = 4; i < arg.Length - 4; ++i)
+            for (int i = QuietZone.WIDTH; i < arg.Length - QuietZone.WIDTH; ++i)
             {
                 if (arg[i] > 0 && arg[i - 1] <= 0)
                     s = i;
@@ -205,7 +205,7 @@ namespace Ys.QRCode
                 }
             }
 
-            return ret;
+            return ret.ToArray();
         }
 
         /// <summary>

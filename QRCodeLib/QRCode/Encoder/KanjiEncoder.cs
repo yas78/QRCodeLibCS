@@ -77,8 +77,8 @@ namespace Ys.QRCode.Encoder
         {
             var bs = new BitSequence();
 
-            for (int i = 0; i < _codeWords.Count; ++i)
-                bs.Append(_codeWords[i], 13);
+            foreach (int wd in _codeWords)
+                bs.Append(wd, 13);
 
             return bs.GetBytes();
         }

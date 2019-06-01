@@ -213,7 +213,7 @@ namespace Ys.QRCode
             if (AlphanumericEncoder.InExclusiveSubset(s[startIndex]))
             {
                 int cnt = 0;
-                bool flg = false;
+                bool flg;
 
                 for (int i = startIndex; i < s.Length; ++i)
                 {
@@ -251,8 +251,8 @@ namespace Ys.QRCode
             if (NumericEncoder.InSubset(s[startIndex]))
             {
                 int cnt = 0;
-                bool flg1 = false;
-                bool flg2 = false;
+                bool flg1;
+                bool flg2;
 
                 for (int i = startIndex; i < s.Length; ++i)
                 {

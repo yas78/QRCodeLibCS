@@ -89,14 +89,11 @@ namespace Ys.QRCode
                 for (int c = 0; c < moduleMatrix[r].Length - 1; ++c)
                 {
                     bool temp = moduleMatrix[r][c] > 0;
-                    bool isSameColor = true;
 
-                    isSameColor &= moduleMatrix[r + 0][c + 1] > 0 == temp;
-                    isSameColor &= moduleMatrix[r + 1][c + 0] > 0 == temp;
-                    isSameColor &= moduleMatrix[r + 1][c + 1] > 0 == temp;
-
-                    if (isSameColor)
-                        penalty += 3;
+                    if ((moduleMatrix[r + 0][c + 1] > 0 == temp) &&
+                        (moduleMatrix[r + 1][c + 0] > 0 == temp) &&
+                        (moduleMatrix[r + 1][c + 1] > 0 == temp))
+                            penalty += 3;
                 }
             }
 

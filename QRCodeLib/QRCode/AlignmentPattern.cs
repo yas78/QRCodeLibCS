@@ -56,7 +56,7 @@ namespace Ys.QRCode
         /// <summary>
         /// 位置合わせパターンを配置します。
         /// </summary>
-        public static void Place(int[][] moduleMatrix, int version)
+        public static void Place(int version, int[][] moduleMatrix)
         {
             int[] centerPosArray = _centerPosArrays[version];
 

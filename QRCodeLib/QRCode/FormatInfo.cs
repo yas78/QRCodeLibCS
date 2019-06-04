@@ -28,7 +28,7 @@ namespace Ys.QRCode
         /// <param name="ecLevel">誤り訂正レベル</param>
         /// <param name="maskPatternReference">マスクパターン参照子</param>
         public static void Place(
-            int[][] moduleMatrix, ErrorCorrectionLevel ecLevel, int maskPatternReference)
+            ErrorCorrectionLevel ecLevel, int maskPatternReference, int[][] moduleMatrix)
         {
             int formatInfoValue = GetFormatInfoValue(ecLevel, maskPatternReference);
 

@@ -50,9 +50,9 @@ namespace Ys.QRCode.Encoder
             byte[] charBytes = _textEncoding.GetBytes(c.ToString());
             int ret = 0;
 
-            for (int i = 0; i < charBytes.Length; ++i)
+            foreach  (byte value in charBytes)
             {
-                _codeWords.Add(charBytes[i]);
+                _codeWords.Add(value);
                 _charCounter++;
                 _bitCounter += 8;
                 ret += 8;

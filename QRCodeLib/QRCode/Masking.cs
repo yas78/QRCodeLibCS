@@ -18,48 +18,34 @@ namespace Ys.QRCode
         /// <param name="ecLevel">誤り訂正レベル</param>
         /// <returns>適用されたマスクパターン参照子</returns>
         public static int Apply(
-            int[][] moduleMatrix, int version, ErrorCorrectionLevel ecLevel)
-        {
-            int maskPatternReference = SelectMaskPattern(moduleMatrix, version, ecLevel);
-            Mask(moduleMatrix, maskPatternReference);
-
-            return maskPatternReference;
-        }
-
-        /// <summary>
-        /// マスクパターンを決定します。
-        /// </summary>
-        /// <param name="moduleMatrix">シンボルの明暗パターン</param>
-        /// <param name="version">型番</param>
-        /// <param name="ecLevel">誤り訂正レベル</param>
-        /// <returns>マスクパターン参照子</returns>
-        private static int SelectMaskPattern(
-            int[][] moduleMatrix, int version, ErrorCorrectionLevel ecLevel)
+            int version, ErrorCorrectionLevel ecLevel, ref int[][] moduleMatrix)
         {
             int minPenalty = Int32.MaxValue;
-            int ret = 0;
+            int maskPatternReference = 0;
+            int[][] maskedMatrix = null;
 
-            for (int maskPatternReference = 0; maskPatternReference <= 7; ++maskPatternReference)
+            for (int i = 0; i <= 7; ++i)
             {
-                int[][] moduleMatrixClone = moduleMatrix.CloneDeep();
+                int[][] temp = moduleMatrix.CloneDeep();
 
-                Mask(moduleMatrixClone, maskPatternReference);
-
-                FormatInfo.Place(moduleMatrixClone, ecLevel, maskPatternReference);
+                Mask(i, temp);
+                FormatInfo.Place(ecLevel, i, temp);
 
                 if (version >= 7)
-                    VersionInfo.Place(moduleMatrixClone, version);
+                    VersionInfo.Place(version, temp);
 
-                int penalty = MaskingPenaltyScore.CalcTotal(moduleMatrixClone);
+                int penalty = MaskingPenaltyScore.CalcTotal(temp);
 
                 if (penalty < minPenalty)
                 {
                     minPenalty = penalty;
-                    ret = maskPatternReference;
+                    maskPatternReference = i;
+                    maskedMatrix = temp;
                 }
             }
 
-            return ret;
+            moduleMatrix = maskedMatrix;
+            return maskPatternReference;
         }
 
         /// <summary>
@@ -67,7 +53,7 @@ namespace Ys.QRCode
         /// </summary>
         /// <param name="moduleMatrix">シンボルの明暗パターン</param>
         /// <param name="maskPatternReference">マスクパターン参照子</param>
-        private static void Mask(int[][] moduleMatrix, int maskPatternReference)
+        private static void Mask(int maskPatternReference, int[][] moduleMatrix)
         {
             Func<int, int, bool> condition = GetCondition(maskPatternReference);
 

@@ -406,32 +406,24 @@ namespace Ys.QRCode
 
             for (int i = 0; i < moduleMatrix.Length; ++i)
                 moduleMatrix[i] = new int[moduleMatrix.Length];
-            
+
             FinderPattern.Place(moduleMatrix);
             Separator.Place(moduleMatrix);
             TimingPattern.Place(moduleMatrix);
-            
+
             if (_currVersion >= 2)
-                AlignmentPattern.Place(moduleMatrix, _currVersion);
-            
+                AlignmentPattern.Place(_currVersion, moduleMatrix);
+
             FormatInfo.PlaceTempBlank(moduleMatrix);
-            
+
             if (_currVersion >= 7)
                 VersionInfo.PlaceTempBlank(moduleMatrix);
-            
+
             PlaceSymbolChar(moduleMatrix);
             RemainderBit.Place(moduleMatrix);
 
-            int maskPatternReference = Masking.Apply(
-                    moduleMatrix, _currVersion, _parent.ErrorCorrectionLevel);
-            
-            FormatInfo.Place(moduleMatrix, 
-                             _parent.ErrorCorrectionLevel, 
-                             maskPatternReference);
-            
-            if (_currVersion >= 7)
-                VersionInfo.Place(moduleMatrix, _currVersion);
-            
+            Masking.Apply(_currVersion, _parent.ErrorCorrectionLevel, ref moduleMatrix);
+
             return moduleMatrix;
         }
 
@@ -448,7 +440,7 @@ namespace Ys.QRCode
             bool toLeft = true;
             int rowDirection = -1;
 
-            for (int i = 0; i < data.Length; ++i)
+            foreach(byte value in data)
             {
                 int bitPos = 7;
 
@@ -456,7 +448,7 @@ namespace Ys.QRCode
                 {
                     if (moduleMatrix[r][c] == 0)
                     {
-                        moduleMatrix[r][c] = (data[i] & (1 << bitPos)) > 0 ? 1 : -1;
+                        moduleMatrix[r][c] = (value & (1 << bitPos)) > 0 ? 1 : -1;
                         bitPos--;
                     }
 

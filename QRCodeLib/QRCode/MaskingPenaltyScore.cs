@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Ys.TypeExtension;
+using Ys.Misc;
 
 namespace Ys.QRCode
 {
@@ -41,7 +41,7 @@ namespace Ys.QRCode
             int penalty = 0;
 
             penalty += CalcAdjacentModulesInRowInSameColor(moduleMatrix);
-            penalty += CalcAdjacentModulesInRowInSameColor(moduleMatrix.Rotate90());
+            penalty += CalcAdjacentModulesInRowInSameColor(ArrayUtil.Rotate90(moduleMatrix));
 
             return penalty;
         }
@@ -110,7 +110,7 @@ namespace Ys.QRCode
             int penalty = 0;
 
             penalty += CalcModuleRatioInRow(moduleMatrixTemp);
-            penalty += CalcModuleRatioInRow(moduleMatrixTemp.Rotate90());
+            penalty += CalcModuleRatioInRow(ArrayUtil.Rotate90(moduleMatrixTemp));
 
             return penalty;
         }

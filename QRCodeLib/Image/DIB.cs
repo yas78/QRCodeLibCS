@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-using Ys.BitmapStructure;
-
-namespace Ys.Misc
+namespace Ys.Image
 {
     internal static class DIB
     {

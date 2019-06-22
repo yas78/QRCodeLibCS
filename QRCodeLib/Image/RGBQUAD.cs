@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Ys.BitmapStructure
+namespace Ys.Image
 {
     /// <summary>
     /// RGBQUAD構造体

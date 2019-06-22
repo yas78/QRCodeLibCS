@@ -11,8 +11,7 @@ namespace Ys.QRCode.Encoder
     /// </summary>
     internal class KanjiEncoder : QRCodeEncoder
     {
-        static readonly Encoding _textEncoding = 
-            Encoding.GetEncoding("shift_jis");
+        static readonly Encoding _textEncoding = Encoding.GetEncoding("shift_jis");
 
         /// <summary>
         /// インスタンスを初期化します。

@@ -111,7 +111,7 @@ namespace Demo
                 Enum.GetValues(typeof(ErrorCorrectionLevel));
             cmbErrorCorrectionLevel.SelectedItem = ErrorCorrectionLevel.M;
 
-            for (int i = 1; i <= 40; ++i)
+            for (int i = Constants.MIN_VERSION; i <= Constants.MAX_VERSION; ++i)
                 cmbMaxVersion.Items.Add(i);
 
             cmbMaxVersion.SelectedIndex = cmbMaxVersion.Items.Count - 1;

@@ -34,17 +34,16 @@ namespace Ys.QRCode
         /// <param name="allowStructuredAppend">複数シンボルへの分割を許可するには true を指定します。</param>
         /// <param name="byteModeEncoding">バイトモードの文字エンコーディング</param>
         public Symbols(ErrorCorrectionLevel ecLevel = ErrorCorrectionLevel.M,
-                       int maxVersion = 40,
+                       int maxVersion = Constants.MAX_VERSION,
                        bool allowStructuredAppend = false, 
                        string byteModeEncoding = "shift_jis")
         {
-            if (maxVersion < Constants.MIN_VERSION || 
-                maxVersion > Constants.MAX_VERSION)
+            if (!(Constants.MIN_VERSION <= maxVersion && maxVersion <= Constants.MAX_VERSION))
                 throw new ArgumentOutOfRangeException(nameof(maxVersion));
 
             _items = new List<Symbol>();
 
-            _minVersion = 1;
+            _minVersion = Constants.MIN_VERSION;
 
             _errorCorrectionLevel       = ecLevel;
             _maxVersion                 = maxVersion;

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 
-using Ys.Misc;
 using Ys.QRCode.Encoder;
 using Ys.QRCode.Format;
+using Ys.Image;
 using Ys.Util;
 
 namespace Ys.QRCode
@@ -520,15 +520,13 @@ namespace Ys.QRCode
             byte[] bitmapData = new byte[rowSize * height];
             int offset = 0;
 
-            var bs = new BitSequence();
-
             for (int r = moduleMatrix.Length - 1; r >= 0; --r)
             {
-                bs.Clear();
-
-                for (int c = 0; c < moduleMatrix[r].Length; ++c)
+                var bs = new BitSequence();
+                
+                foreach (int value in moduleMatrix[r])
                 {
-                    int color = moduleMatrix[r][c] > 0 ? 0 : 1;
+                    int color = value > 0 ? 0 : 1;
 
                     for (int i = 1; i <= moduleSize; ++i)
                         bs.Append(color, 1);
@@ -540,7 +538,7 @@ namespace Ys.QRCode
 
                 for (int i = 1; i <= moduleSize; ++i)
                 {
-                    Buffer.BlockCopy(bitmapRow, 0, bitmapData, offset, rowSize);
+                    Array.Copy(bitmapRow, 0, bitmapData, offset, rowSize);
                     offset += rowSize;
                 }
             }
@@ -584,24 +582,23 @@ namespace Ys.QRCode
             for (int r = moduleMatrix.Length - 1; r >= 0; --r)
             {
                 byte[] bitmapRow = new byte[rowSize];
-                int idx = 0;
+                int index = 0;
 
-                for (int c = 0; c < moduleMatrix[r].Length; ++c)
+                foreach(int value in moduleMatrix[r])
                 {
-                    Color color = moduleMatrix[r][c] > 0 ?
-                                    foreColor : backColor;
+                    Color color = value > 0 ? foreColor : backColor;
 
                     for (int i = 1; i <= moduleSize; ++i)
                     {
-                        bitmapRow[idx++] = color.B;
-                        bitmapRow[idx++] = color.G;
-                        bitmapRow[idx++] = color.R;
+                        bitmapRow[index++] = color.B;
+                        bitmapRow[index++] = color.G;
+                        bitmapRow[index++] = color.R;
                     }
                 }
 
                 for (int i = 1; i <= moduleSize; ++i)
                 {
-                    Buffer.BlockCopy(bitmapRow, 0, bitmapData, offset, rowSize);
+                    Array.Copy(bitmapRow, 0, bitmapData, offset, rowSize);
                     offset += rowSize;
                 }
             }
@@ -617,7 +614,7 @@ namespace Ys.QRCode
         /// <param name="moduleSize">モジュールサイズ(px)</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public Image Get1bppImage(int moduleSize = 5, 
+        public System.Drawing.Image Get1bppImage(int moduleSize = 5, 
                                   string foreRgb = BLACK, 
                                   string backRgb = WHITE)
         {
@@ -627,7 +624,7 @@ namespace Ys.QRCode
             byte[] dib = Get1bppDIB(moduleSize, foreRgb, backRgb);
 
             ImageConverter converter = new ImageConverter();
-            Image ret = (Image)converter.ConvertFrom(dib);
+            System.Drawing.Image ret = (System.Drawing.Image)converter.ConvertFrom(dib);
             return ret;
         }
         
@@ -637,7 +634,7 @@ namespace Ys.QRCode
         /// <param name="moduleSize">モジュールサイズ(px)</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public Image Get24bppImage(int moduleSize = 5, 
+        public System.Drawing.Image Get24bppImage(int moduleSize = 5, 
                                    string foreRgb = BLACK, 
                                    string backRgb = WHITE)
         {
@@ -647,7 +644,7 @@ namespace Ys.QRCode
             byte[] dib = Get24bppDIB(moduleSize, foreRgb, backRgb);
 
             ImageConverter converter = new ImageConverter();
-            Image ret = (Image)converter.ConvertFrom(dib);
+            System.Drawing.Image ret = (System.Drawing.Image)converter.ConvertFrom(dib);
             return ret;
         }
         

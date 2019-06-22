@@ -42,10 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitmapStructure\BITMAPFILEHEADER.cs" />
-    <Compile Include="BitmapStructure\BITMAPINFOHEADER.cs" />
-    <Compile Include="BitmapStructure\RGBQUAD.cs" />
-    <Compile Include="Misc\DIB.cs" />
+    <Compile Include="Image\BITMAPFILEHEADER.cs" />
+    <Compile Include="Image\BITMAPINFOHEADER.cs" />
+    <Compile Include="Image\RGBQUAD.cs" />
+    <Compile Include="Misc\ArrayUtil.cs" />
+    <Compile Include="Image\DIB.cs" />
     <Compile Include="QRCode\Constants.cs" />
     <Compile Include="QRCode\Format\ModeIndicator.cs" />
     <Compile Include="QRCode\Format\CharCountIndicator.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="QRCode\QuietZone.cs" />
     <Compile Include="QRCode\Masking.cs" />
     <Compile Include="QRCode\AlignmentPattern.cs" />
-    <Compile Include="TypeExtension\Int32Extensions.cs" />
     <Compile Include="QRCode\FinderPattern.cs" />
     <Compile Include="QRCode\FormatInfo.cs" />
     <Compile Include="QRCode\MaskingPenaltyScore.cs" />

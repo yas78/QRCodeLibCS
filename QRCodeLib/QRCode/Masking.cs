@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Ys.TypeExtension;
+using Ys.Misc;
 
 namespace Ys.QRCode
 {
@@ -13,9 +13,9 @@ namespace Ys.QRCode
         /// <summary>
         /// マスクを適用します。
         /// </summary>
-        /// <param name="moduleMatrix">シンボルの明暗パターン</param>
         /// <param name="version">型番</param>
         /// <param name="ecLevel">誤り訂正レベル</param>
+        /// <param name="moduleMatrix">シンボルの明暗パターン</param>
         /// <returns>適用されたマスクパターン参照子</returns>
         public static int Apply(
             int version, ErrorCorrectionLevel ecLevel, ref int[][] moduleMatrix)
@@ -26,7 +26,7 @@ namespace Ys.QRCode
 
             for (int i = 0; i <= 7; ++i)
             {
-                int[][] temp = moduleMatrix.CloneDeep();
+                int[][] temp = ArrayUtil.DeepCopy(moduleMatrix);
 
                 Mask(i, temp);
                 FormatInfo.Place(ecLevel, i, temp);
@@ -51,8 +51,8 @@ namespace Ys.QRCode
         /// <summary>
         /// マスクパターンを適用したシンボルデータを返します。
         /// </summary>
-        /// <param name="moduleMatrix">シンボルの明暗パターン</param>
         /// <param name="maskPatternReference">マスクパターン参照子</param>
+        /// <param name="moduleMatrix">シンボルの明暗パターン</param>
         private static void Mask(int maskPatternReference, int[][] moduleMatrix)
         {
             Func<int, int, bool> condition = GetCondition(maskPatternReference);

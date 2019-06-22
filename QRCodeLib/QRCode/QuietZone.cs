@@ -14,10 +14,11 @@ namespace Ys.QRCode
         /// </summary>
         public static int[][] Place(int[][] moduleMatrix)
         {
-            int[][] ret = new int[moduleMatrix.Length + WIDTH * 2][];
+            int size = moduleMatrix.Length + WIDTH * 2;
+            int[][] ret = new int[size][];
 
-            for (int i = 0; i < ret.Length; ++i)
-                ret[i] = new int[ret.Length];
+            for (int i = 0; i < size; ++i)
+                ret[i] = new int[size];
 
             for (int i = 0; i < moduleMatrix.Length; ++i)
                 moduleMatrix[i].CopyTo(ret[i + WIDTH], WIDTH);

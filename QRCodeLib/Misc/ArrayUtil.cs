@@ -1,13 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Ys.TypeExtension
+namespace Ys.Misc
 {
-    /// <summary>
-    /// Int32型の拡張メソッド
-    /// </summary>
-    internal static class Int32Extensions
+    internal static class ArrayUtil
     {
-        public static int[][] CloneDeep(this int[][] arg)
+        public static int[][] DeepCopy(int[][] arg)
         {
             int[][] ret = new int[arg.Length][];
 
@@ -20,7 +18,7 @@ namespace Ys.TypeExtension
             return ret;
         }
 
-        public static int[][] Rotate90(this int[][] arg)
+        public static int[][] Rotate90(int[][] arg)
         {
             int[][] ret = new int[arg[0].Length][];
 

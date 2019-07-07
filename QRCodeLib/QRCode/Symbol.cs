@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 
+using Ys.Image;
+using Ys.Misc;
 using Ys.QRCode.Encoder;
 using Ys.QRCode.Format;
-using Ys.Image;
-using Ys.Util;
 
 namespace Ys.QRCode
 {
@@ -18,6 +17,8 @@ namespace Ys.QRCode
     {
         const string WHITE = "#FFFFFF";
         const string BLACK = "#000000";
+
+        const int DEFAULT_MODULE_SIZE = 4;
 
         readonly Symbols _parent;
 
@@ -140,6 +141,7 @@ namespace Ys.QRCode
             _segments.Add(_currEncoder);
             _segmentCounter[encMode]++;
             _currEncodingMode = encMode;
+
             return true;
         }
 
@@ -491,7 +493,7 @@ namespace Ys.QRCode
         /// <param name="moduleSize">モジュールサイズ(px)</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public byte[] Get1bppDIB(int moduleSize = 5, 
+        public byte[] Get1bppDIB(int moduleSize = DEFAULT_MODULE_SIZE, 
                                  string foreRgb = BLACK, 
                                  string backRgb = WHITE)
         {
@@ -554,7 +556,7 @@ namespace Ys.QRCode
         /// <param name="moduleSize">モジュールサイズ(px)</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public byte[] Get24bppDIB(int moduleSize = 5, 
+        public byte[] Get24bppDIB(int moduleSize = DEFAULT_MODULE_SIZE, 
                                   string foreRgb = BLACK, 
                                   string backRgb = WHITE)
         {
@@ -614,7 +616,7 @@ namespace Ys.QRCode
         /// <param name="moduleSize">モジュールサイズ(px)</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public System.Drawing.Image Get1bppImage(int moduleSize = 5, 
+        public System.Drawing.Image Get1bppImage(int moduleSize = DEFAULT_MODULE_SIZE, 
                                   string foreRgb = BLACK, 
                                   string backRgb = WHITE)
         {
@@ -634,7 +636,7 @@ namespace Ys.QRCode
         /// <param name="moduleSize">モジュールサイズ(px)</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public System.Drawing.Image Get24bppImage(int moduleSize = 5, 
+        public System.Drawing.Image Get24bppImage(int moduleSize = DEFAULT_MODULE_SIZE, 
                                    string foreRgb = BLACK, 
                                    string backRgb = WHITE)
         {
@@ -656,7 +658,7 @@ namespace Ys.QRCode
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
         public void Save1bppDIB(string fileName, 
-                                int moduleSize = 5, 
+                                int moduleSize = DEFAULT_MODULE_SIZE, 
                                 string foreRgb = BLACK, 
                                 string backRgb = WHITE)
         {
@@ -675,7 +677,7 @@ namespace Ys.QRCode
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
         public void Save24bppDIB(string fileName, 
-                                 int moduleSize = 5, 
+                                 int moduleSize = DEFAULT_MODULE_SIZE, 
                                  string foreRgb = BLACK, 
                                  string backRgb = WHITE)
         {

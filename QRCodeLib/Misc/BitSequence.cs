@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Ys.Util
+namespace Ys.Misc
 {
     /// <summary>
     /// ビット列の生成機能を提供します。

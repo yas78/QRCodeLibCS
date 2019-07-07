@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 
-using Ys.Util;
+using Ys.Misc;
 
 namespace Ys.QRCode.Encoder
 {
@@ -31,7 +31,7 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public override int ModeIndicator
         {
-            get { return Ys.QRCode.Format.ModeIndicator.KANJI_VALUE; }
+            get { return Format.ModeIndicator.KANJI_VALUE; }
         }
         
         /// <summary>

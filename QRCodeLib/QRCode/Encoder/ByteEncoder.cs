@@ -38,7 +38,7 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public override int ModeIndicator
         {
-            get { return Ys.QRCode.Format.ModeIndicator.BYTE_VALUE; }
+            get { return Format.ModeIndicator.BYTE_VALUE; }
         }
         
         /// <summary>

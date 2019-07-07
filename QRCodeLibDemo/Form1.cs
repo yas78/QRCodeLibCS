@@ -42,7 +42,7 @@ namespace Demo
 
             foreach (Symbol symbol in symbols)
             {
-                Image image = symbol.Get24bppImage((int)nudModuleSize.Value);
+                Image image = symbol.Get1bppImage((int)nudModuleSize.Value);
 
                 PictureBox pictureBox = new PictureBox();
                 pictureBox.Size = image.Size;
@@ -121,7 +121,7 @@ namespace Demo
             cmbEncoding.DataSource =  Encoding.GetEncodings();
             cmbEncoding.Text = Encoding.Default.EncodingName;
             
-            nudModuleSize.Value = 5;
+            nudModuleSize.Value = 4;
             chkStructuredAppend.Checked = false;
             btnSave.Enabled = false;
         }

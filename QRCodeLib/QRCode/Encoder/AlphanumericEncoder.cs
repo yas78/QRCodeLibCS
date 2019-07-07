@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-using Ys.Util;
+using Ys.Misc;
 
 namespace Ys.QRCode.Encoder
 {
@@ -28,7 +28,7 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public override int ModeIndicator
         {
-            get { return Ys.QRCode.Format.ModeIndicator.ALPAHNUMERIC_VALUE; }
+            get { return Format.ModeIndicator.ALPAHNUMERIC_VALUE; }
         }
         
         /// <summary>

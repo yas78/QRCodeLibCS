@@ -546,7 +546,6 @@ namespace Ys.QRCode
             }
 
             byte[] ret = DIB.Build1bppDIB(bitmapData, width, height, foreColor, backColor);
-
             return ret;
         }
         
@@ -606,7 +605,40 @@ namespace Ys.QRCode
             }
 
             byte[] ret = DIB.Build24bppDIB(bitmapData, width, height);
+            return ret;
+        }
 
+        /// <summary>
+        /// Base64エンコードされたビットマップデータを返します。
+        /// </summary>
+        /// <param name="moduleSize">モジュールサイズ(px)</param>
+        /// <param name="colorDepth"></param>
+        /// <param name="foreRgb">前景色</param>
+        /// <param name="backRgb">背景色</param>
+        /// <returns></returns>
+        public string GetBase64DIB(int moduleSize = DEFAULT_MODULE_SIZE, 
+                                   int colorDepth = 24,
+                                   string foreRgb = BLACK, 
+                                   string backRgb = WHITE)
+        {
+            if (moduleSize < 1)
+                throw new ArgumentOutOfRangeException(nameof(moduleSize));
+
+            byte[] dib;
+
+            switch (colorDepth)
+            {
+                case 1:
+                    dib = Get1bppDIB(moduleSize, foreRgb, backRgb);
+                    break;
+                case 24:
+                    dib = Get24bppDIB(moduleSize, foreRgb, backRgb);
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+
+            string ret = Convert.ToBase64String(dib);
             return ret;
         }
 
@@ -617,8 +649,8 @@ namespace Ys.QRCode
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
         public System.Drawing.Image Get1bppImage(int moduleSize = DEFAULT_MODULE_SIZE, 
-                                  string foreRgb = BLACK, 
-                                  string backRgb = WHITE)
+                                                 string foreRgb = BLACK, 
+                                                 string backRgb = WHITE)
         {
             if (moduleSize < 1 )
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
@@ -637,8 +669,8 @@ namespace Ys.QRCode
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
         public System.Drawing.Image Get24bppImage(int moduleSize = DEFAULT_MODULE_SIZE, 
-                                   string foreRgb = BLACK, 
-                                   string backRgb = WHITE)
+                                                  string foreRgb = BLACK, 
+                                                  string backRgb = WHITE)
         {
             if (moduleSize < 1 )
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));

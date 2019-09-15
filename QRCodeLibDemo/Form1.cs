@@ -42,12 +42,12 @@ namespace Demo
 
             foreach (Symbol symbol in symbols)
             {
-                Image image = symbol.Get1bppImage((int)nudModuleSize.Value);
-
-                PictureBox pictureBox = new PictureBox();
-                pictureBox.Size = image.Size;
-                pictureBox.Image = image;
-
+                Image image = symbol.GetImage((int)nudModuleSize.Value);
+                PictureBox pictureBox = new PictureBox()
+                {
+                    Size = image.Size,
+                    Image = image
+                };
                 qrcodePanel.Controls.Add(pictureBox);
             }
 
@@ -98,10 +98,7 @@ namespace Demo
                 else
                     filename = baseName + "_" + (i + 1).ToString();
 
-                if (isMonochrome)
-                    symbols[i].Save1bppDIB(filename + ".bmp", (int)nudModuleSize.Value);
-                else
-                    symbols[i].Save24bppDIB(filename + ".bmp", (int)nudModuleSize.Value);
+                symbols[i].SaveBitmap(filename + ".bmp", (int)nudModuleSize.Value, isMonochrome);
             }
         }
 

@@ -491,15 +491,31 @@ namespace Ys.QRCode
         /// 1bppビットマップファイルのバイトデータを返します。
         /// </summary>
         /// <param name="moduleSize">モジュールサイズ(px)</param>
+        /// <param name="monochrome">1bpp colorはTrue、24bpp colorはFalseを設定します。</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public byte[] Get1bppDIB(int moduleSize = DEFAULT_MODULE_SIZE, 
-                                 string foreRgb = BLACK, 
-                                 string backRgb = WHITE)
+        public byte[] GetBitmap(int moduleSize = DEFAULT_MODULE_SIZE, 
+                                bool monochrome = false,
+                                string foreRgb = BLACK, 
+                                string backRgb = WHITE)
         {
             if (moduleSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
+            if (monochrome)
+                return GetBitmap1bpp(moduleSize, foreRgb, backRgb);
+            else
+                return GetBitmap24bpp(moduleSize, foreRgb, backRgb);
+        }
+
+        /// <summary>
+        /// 1bppビットマップファイルのバイトデータを返します。
+        /// </summary>
+        /// <param name="moduleSize">モジュールサイズ(px)</param>
+        /// <param name="foreRgb">前景色</param>
+        /// <param name="backRgb">背景色</param>
+        private byte[] GetBitmap1bpp(int moduleSize, string foreRgb, string backRgb)
+        {
             Color foreColor = ColorTranslator.FromHtml(foreRgb);
             Color backColor = ColorTranslator.FromHtml(backRgb);
             
@@ -545,8 +561,7 @@ namespace Ys.QRCode
                 }
             }
 
-            byte[] ret = DIB.Build1bppDIB(bitmapData, width, height, foreColor, backColor);
-            return ret;
+            return DIB.Build1bppDIB(bitmapData, width, height, foreColor, backColor);
         }
         
         /// <summary>
@@ -555,13 +570,8 @@ namespace Ys.QRCode
         /// <param name="moduleSize">モジュールサイズ(px)</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public byte[] Get24bppDIB(int moduleSize = DEFAULT_MODULE_SIZE, 
-                                  string foreRgb = BLACK, 
-                                  string backRgb = WHITE)
+        private byte[] GetBitmap24bpp(int moduleSize, string foreRgb, string backRgb)
         {
-            if (moduleSize < 1)
-                throw new ArgumentOutOfRangeException(nameof(moduleSize));
-            
             Color foreColor = ColorTranslator.FromHtml(foreRgb);
             Color backColor = ColorTranslator.FromHtml(backRgb);
 
@@ -604,119 +614,84 @@ namespace Ys.QRCode
                 }
             }
 
-            byte[] ret = DIB.Build24bppDIB(bitmapData, width, height);
-            return ret;
+            return DIB.Build24bppDIB(bitmapData, width, height);
         }
 
         /// <summary>
         /// Base64エンコードされたビットマップデータを返します。
         /// </summary>
         /// <param name="moduleSize">モジュールサイズ(px)</param>
-        /// <param name="colorDepth"></param>
+        /// <param name="monochrome"></param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        /// <returns></returns>
-        public string GetBase64DIB(int moduleSize = DEFAULT_MODULE_SIZE, 
-                                   int colorDepth = 24,
-                                   string foreRgb = BLACK, 
-                                   string backRgb = WHITE)
+        public string GetBitmapBase64(int moduleSize = DEFAULT_MODULE_SIZE, 
+                                      bool monochrome = false,
+                                      string foreRgb = BLACK, 
+                                      string backRgb = WHITE)
         {
             if (moduleSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
             byte[] dib;
 
-            switch (colorDepth)
-            {
-                case 1:
-                    dib = Get1bppDIB(moduleSize, foreRgb, backRgb);
-                    break;
-                case 24:
-                    dib = Get24bppDIB(moduleSize, foreRgb, backRgb);
-                    break;
-                default:
-                    throw new InvalidOperationException();
-            }
-
-            string ret = Convert.ToBase64String(dib);
-            return ret;
+            if (monochrome)
+                dib = GetBitmap1bpp(moduleSize, foreRgb, backRgb);
+            else
+                dib = GetBitmap24bpp(moduleSize, foreRgb, backRgb);
+                
+            return Convert.ToBase64String(dib);
         }
 
         /// <summary>
-        /// 1bppのシンボル画像を返します。
+        /// シンボルのImageオブジェクトを返します。
         /// </summary>
         /// <param name="moduleSize">モジュールサイズ(px)</param>
+        /// <param name="monochrome">1bpp colorはTrue、24bpp colorはFalseを設定します。</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public System.Drawing.Image Get1bppImage(int moduleSize = DEFAULT_MODULE_SIZE, 
-                                                 string foreRgb = BLACK, 
-                                                 string backRgb = WHITE)
+        public System.Drawing.Image GetImage(int moduleSize = DEFAULT_MODULE_SIZE, 
+                                             bool monochrome = false,
+                                             string foreRgb = BLACK, 
+                                             string backRgb = WHITE)
         {
             if (moduleSize < 1 )
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
-            byte[] dib = Get1bppDIB(moduleSize, foreRgb, backRgb);
+            byte[] dib;
+
+            if (monochrome)
+                dib = GetBitmap1bpp(moduleSize, foreRgb, backRgb);
+            else
+                dib = GetBitmap24bpp(moduleSize, foreRgb, backRgb);
 
             ImageConverter converter = new ImageConverter();
-            System.Drawing.Image ret = (System.Drawing.Image)converter.ConvertFrom(dib);
-            return ret;
+            return (System.Drawing.Image)converter.ConvertFrom(dib);
         }
         
         /// <summary>
-        /// 24bppのシンボル画像を返します。
-        /// </summary>
-        /// <param name="moduleSize">モジュールサイズ(px)</param>
-        /// <param name="foreRgb">前景色</param>
-        /// <param name="backRgb">背景色</param>
-        public System.Drawing.Image Get24bppImage(int moduleSize = DEFAULT_MODULE_SIZE, 
-                                                  string foreRgb = BLACK, 
-                                                  string backRgb = WHITE)
-        {
-            if (moduleSize < 1 )
-                throw new ArgumentOutOfRangeException(nameof(moduleSize));
-
-            byte[] dib = Get24bppDIB(moduleSize, foreRgb, backRgb);
-
-            ImageConverter converter = new ImageConverter();
-            System.Drawing.Image ret = (System.Drawing.Image)converter.ConvertFrom(dib);
-            return ret;
-        }
-        
-        /// <summary>
-        /// 1bppシンボル画像をファイルに保存します。
+        /// シンボル画像をファイルに保存します。
         /// </summary>
         /// <param name="fileName">ファイル名</param>
         /// <param name="moduleSize">モジュールサイズ(px)</param>
+        /// <param name="monochrome">1bpp colorはTrue、24bpp colorはFalseを設定します。</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
-        public void Save1bppDIB(string fileName, 
+        public void SaveBitmap(string fileName, 
                                 int moduleSize = DEFAULT_MODULE_SIZE, 
+                                bool monochrome = false,
                                 string foreRgb = BLACK, 
                                 string backRgb = WHITE)
         {
             if (moduleSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
-            byte[] dib = Get1bppDIB(moduleSize, foreRgb, backRgb);
-            File.WriteAllBytes(fileName, dib);
-        }
-        
-        /// <summary>
-        /// 24bppシンボル画像をファイルに保存します。
-        /// </summary>
-        /// <param name="fileName">ファイル名</param>
-        /// <param name="moduleSize">モジュールサイズ(px)</param>
-        /// <param name="foreRgb">前景色</param>
-        /// <param name="backRgb">背景色</param>
-        public void Save24bppDIB(string fileName, 
-                                 int moduleSize = DEFAULT_MODULE_SIZE, 
-                                 string foreRgb = BLACK, 
-                                 string backRgb = WHITE)
-        {
-            if (moduleSize < 1)
-                throw new ArgumentOutOfRangeException(nameof(moduleSize));
+            byte[] dib;
 
-            byte[] dib = Get24bppDIB(moduleSize, foreRgb, backRgb);
+            if (monochrome)
+                dib = GetBitmap1bpp(moduleSize, foreRgb, backRgb);
+            else
+                dib = GetBitmap24bpp(moduleSize, foreRgb, backRgb);
+            
             File.WriteAllBytes(fileName, dib);
         }
     }

@@ -27,7 +27,7 @@ public void Example()
     Symbols symbols = new Symbols();
     symbols.AppendText("012345abcdefg");
 
-    Image image = symbols[0].Get24bppImage();
+    Image image = symbols[0].GetImage();
 }
 ```
 
@@ -65,7 +65,7 @@ symbols.AppendText("abcdefghijklmnopqrstuvwxyz");
 
 foreach (var symbol in symbols)
 {
-    Image image = symbol.Get24bppImage();
+    Image image = symbol.GetImage();
 }
 ```
 
@@ -76,10 +76,7 @@ SymbolクラスのSave1bppDIB、またはSave24bppDIBメソッドを使用しま
 Symbols symbols = new Symbols();
 symbols.AppendText("012345abcdefg");
 
-symbols[0].Save1bppDIB(@"D:\qrcode1bpp1.bmp");
-symbols[0].Save1bppDIB(@"D:\qrcode1bpp2.bmp", 10); // 10 pixels per module
-symbols[0].Save24bppDIB(@"D:\qrcode24bpp1.bmp");
-symbols[0].Save24bppDIB(@"D:\qrcode24bpp2.bmp", 10); // 10 pixels per module
+symbols[0].SaveBitmap(@"D:\qrcode1bpp1.bmp");
 ```
 
 ### 例７．様々な画像形式で保存する
@@ -92,7 +89,7 @@ using System.Drawing.Imaging;
 Symbols symbols = new Symbols();
 symbols.AppendText("012345");
 
-Image image = symbols[0].Get24bppImage();
+Image image = symbols[0].GetImage();
 // PNG
 image.Save(@"D:\qrcode.png", ImageFormat.Png);
 // GIF
@@ -102,11 +99,12 @@ image.Save(@"D:\qrcode.jpg", ImageFormat.Jpeg);
 ```
 
 ### 例８．base64エンコードされた画像データを取得する
-SymbolオブジェクトのGetBase64DIBメソッドを使用します。
+SymbolオブジェクトのGetBitmapBase64メソッドを使用します。
 
 ```csharp
 Symbols symbols = new Symbols();
 symbols.AppendText("012345abcdefg");
 
-string base64 = symbols[0].GetBase64DIB();
+string data = symbols[0].GetBitmapBase64();
+string imgTag = @"<img src=""data:image/bmp;base64," + data + @""" />";
 ```

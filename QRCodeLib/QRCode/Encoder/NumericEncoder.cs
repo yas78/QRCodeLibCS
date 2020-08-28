@@ -18,18 +18,12 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 符号化モードを取得します。
         /// </summary>
-        public override EncodingMode EncodingMode
-        {
-            get { return EncodingMode.NUMERIC; }
-        }
+        public override EncodingMode EncodingMode => EncodingMode.NUMERIC;
 
         /// <summary>
         /// モード指示子を取得します。
         /// </summary>
-        public override int ModeIndicator
-        {
-            get { return Format.ModeIndicator.NUMERIC_VALUE; }
-        }
+        public override int ModeIndicator => Format.ModeIndicator.NUMERIC_VALUE;
         
         /// <summary>
         /// 文字を追加します。

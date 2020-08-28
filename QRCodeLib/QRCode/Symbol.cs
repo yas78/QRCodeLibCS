@@ -67,26 +67,17 @@ namespace Ys.QRCode
         /// <summary>
         /// 親オブジェクトを取得します。
         /// </summary>
-        public Symbols Parent
-        {
-            get { return _parent; }
-        }
+        public Symbols Parent => _parent;
 
         /// <summary>
         /// 型番を取得します。
         /// </summary>
-        public int Version
-        {
-            get { return _currVersion; }
-        }
+        public int Version => _currVersion;
 
         /// <summary>
         /// 現在の符号化モードを取得します。
         /// </summary>
-        internal EncodingMode CurrentEncodingMode
-        {
-            get { return _currEncodingMode; }
-        }
+        internal EncodingMode CurrentEncodingMode => _currEncodingMode;
             
         /// <summary>
         /// シンボルに文字を追加します。
@@ -369,11 +360,8 @@ namespace Ys.QRCode
 
         private void WriteTerminator(BitSequence bs)
         {
-            int terminatorLength = _dataBitCapacity - _dataBitCounter;
-
-            if (terminatorLength > ModeIndicator.LENGTH)
-                terminatorLength = ModeIndicator.LENGTH;
-
+            int terminatorLength = Math.Min(
+                    ModeIndicator.LENGTH, _dataBitCapacity - _dataBitCounter);
             bs.Append(ModeIndicator.TERMINATOR_VALUE, terminatorLength);
         }
 
@@ -488,10 +476,10 @@ namespace Ys.QRCode
         }
         
         /// <summary>
-        /// 1bppビットマップファイルのバイトデータを返します。
+        /// ビットマップファイルのバイトデータを返します。
         /// </summary>
         /// <param name="moduleSize">モジュールサイズ(px)</param>
-        /// <param name="monochrome">1bpp colorはTrue、24bpp colorはFalseを設定します。</param>
+        /// <param name="monochrome">1bitカラーはtrue、24bitカラーはfalseを設定します。</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
         public byte[] GetBitmap(int moduleSize = DEFAULT_MODULE_SIZE, 
@@ -621,7 +609,7 @@ namespace Ys.QRCode
         /// Base64エンコードされたビットマップデータを返します。
         /// </summary>
         /// <param name="moduleSize">モジュールサイズ(px)</param>
-        /// <param name="monochrome"></param>
+        /// <param name="monochrome">1bitカラーはtrue、24bitカラーはfalseを設定します。</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
         public string GetBitmapBase64(int moduleSize = DEFAULT_MODULE_SIZE, 
@@ -646,7 +634,7 @@ namespace Ys.QRCode
         /// シンボルのImageオブジェクトを返します。
         /// </summary>
         /// <param name="moduleSize">モジュールサイズ(px)</param>
-        /// <param name="monochrome">1bpp colorはTrue、24bpp colorはFalseを設定します。</param>
+        /// <param name="monochrome">1bitカラーはtrue、24bitカラーはfalseを設定します。</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
         public System.Drawing.Image GetImage(int moduleSize = DEFAULT_MODULE_SIZE, 
@@ -669,18 +657,18 @@ namespace Ys.QRCode
         }
         
         /// <summary>
-        /// シンボル画像をファイルに保存します。
+        /// シンボルをBMP形式でファイルに保存します。
         /// </summary>
         /// <param name="fileName">ファイル名</param>
         /// <param name="moduleSize">モジュールサイズ(px)</param>
-        /// <param name="monochrome">1bpp colorはTrue、24bpp colorはFalseを設定します。</param>
+        /// <param name="monochrome">1bitカラーはtrue、24bitカラーはfalseを設定します。</param>
         /// <param name="foreRgb">前景色</param>
         /// <param name="backRgb">背景色</param>
         public void SaveBitmap(string fileName, 
-                                int moduleSize = DEFAULT_MODULE_SIZE, 
-                                bool monochrome = false,
-                                string foreRgb = BLACK, 
-                                string backRgb = WHITE)
+                               int moduleSize = DEFAULT_MODULE_SIZE, 
+                               bool monochrome = false,
+                               string foreRgb = BLACK, 
+                               string backRgb = WHITE)
         {
             if (moduleSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));

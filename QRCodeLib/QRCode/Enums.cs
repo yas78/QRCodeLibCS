@@ -5,7 +5,7 @@ namespace Ys.QRCode
     /// <summary>
     /// 符号化モード
     /// </summary>
-    public enum EncodingMode
+    internal enum EncodingMode
     {
         UNKNOWN,
         NUMERIC,        

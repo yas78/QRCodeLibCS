@@ -21,10 +21,7 @@ namespace Ys.Misc
         /// <summary>
         /// ビット数を取得します。
         /// </summary>
-        public int Length
-        {
-            get { return _bitCounter; }
-        }
+        public int Length => _bitCounter;
 
         public void Clear()
         {

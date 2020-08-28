@@ -186,7 +186,6 @@ namespace Ys.QRCode
         {
             var ret = new List<int[]>();
             int s = 0;
-            int e;
 
             for (int i = QuietZone.WIDTH; i < arg.Length - QuietZone.WIDTH; ++i)
             {
@@ -195,10 +194,8 @@ namespace Ys.QRCode
 
                 if (arg[i] > 0 && arg[i + 1] <= 0)
                 {
-                    e = i;
-
-                    if ((e + 1 - s) % 3 == 0)
-                        ret.Add(new[] { s, e });
+                    if ((i + 1 - s) % 3 == 0)
+                        ret.Add(new[] { s, i });
                 }
             }
 

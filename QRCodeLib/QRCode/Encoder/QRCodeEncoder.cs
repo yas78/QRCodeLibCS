@@ -21,18 +21,12 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 文字数を取得します。
         /// </summary>
-        public int CharCount
-        {
-            get { return _charCounter; }
-        }
+        public int CharCount => _charCounter;
 
         /// <summary>
         /// データビット数を取得します。
         /// </summary>
-        public int BitCount
-        {
-            get { return _bitCounter; }
-        }
+        public int BitCount => _bitCounter;
  
         /// <summary>
         /// 符号化モードを取得します。

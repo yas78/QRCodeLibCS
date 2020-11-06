@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 
 using Ys.Image;
 using Ys.Misc;
@@ -489,8 +488,17 @@ namespace Ys.QRCode
                                 string foreRgb = BLACK, 
                                 string backRgb = WHITE)
         {
+            if (_dataBitCounter == 0)
+                throw new InvalidOperationException();
+
             if (moduleSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(foreRgb));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(backRgb));
 
             if (monochrome)
                 return GetBitmap1bpp(moduleSize, foreRgb, backRgb);
@@ -619,8 +627,17 @@ namespace Ys.QRCode
                                       string foreRgb = BLACK, 
                                       string backRgb = WHITE)
         {
+            if (_dataBitCounter == 0)
+                throw new InvalidOperationException();
+
             if (moduleSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(foreRgb));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(backRgb));
 
             byte[] dib;
 
@@ -644,8 +661,17 @@ namespace Ys.QRCode
                                              string foreRgb = BLACK, 
                                              string backRgb = WHITE)
         {
+            if (_dataBitCounter == 0)
+                throw new InvalidOperationException();
+
             if (moduleSize < 1 )
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(foreRgb));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(backRgb));
 
             byte[] dib;
 
@@ -672,8 +698,20 @@ namespace Ys.QRCode
                                string foreRgb = BLACK, 
                                string backRgb = WHITE)
         {
+            if (_dataBitCounter == 0)
+                throw new InvalidOperationException();
+
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
             if (moduleSize < 1)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(foreRgb));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(backRgb));
 
             byte[] dib;
 
@@ -695,8 +733,17 @@ namespace Ys.QRCode
                             int moduleSize = DEFAULT_MODULE_SIZE,
                             string foreRgb = BLACK)
         {
+            if (_dataBitCounter == 0)
+                throw new InvalidOperationException();
+
+            if (string.IsNullOrEmpty(fileName))
+                throw new ArgumentNullException(nameof(fileName));
+
             if (moduleSize < 2)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
+
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(foreRgb));
 
             string newLine = Environment.NewLine;
 
@@ -713,11 +760,14 @@ namespace Ys.QRCode
         public string GetSvg(int moduleSize = DEFAULT_MODULE_SIZE,
                              string foreRgb = BLACK)
         {
+            if (_dataBitCounter == 0)
+                throw new InvalidOperationException();
+
             if (moduleSize < 2)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
-            if (!(Regex.IsMatch(foreRgb, @"^#[0-9A-Fa-f]{6}$")))
-                throw new ArgumentOutOfRangeException(nameof(foreRgb));
+            if (ColorCode.IsWebColor(foreRgb) == false)
+                throw new FormatException(nameof(foreRgb));
 
             int[][] moduleMatrix = QuietZone.Place(GetModuleMatrix());
 
@@ -792,8 +842,7 @@ namespace Ys.QRCode
 
                     image[y][x] = int.MaxValue;
                     start = new Point(x, y);
-                    path = new List<Point>();
-                    path.Add(start);
+                    path = new List<Point> { start };
 
                     dr = Direction.UP;
                     Point p = new Point(start.X, start.Y - 1);

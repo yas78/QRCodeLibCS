@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Image\BITMAPFILEHEADER.cs" />
     <Compile Include="Image\BITMAPINFOHEADER.cs" />
+    <Compile Include="Image\ColorCode.cs" />
     <Compile Include="Image\RGBQUAD.cs" />
     <Compile Include="Misc\ArrayUtil.cs" />
     <Compile Include="Image\DIB.cs" />

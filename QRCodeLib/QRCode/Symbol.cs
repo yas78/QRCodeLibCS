@@ -494,7 +494,7 @@ namespace Ys.QRCode
             if (ColorCode.IsWebColor(foreRgb) == false)
                 throw new FormatException(nameof(foreRgb));
 
-            if (ColorCode.IsWebColor(foreRgb) == false)
+            if (ColorCode.IsWebColor(backRgb) == false)
                 throw new FormatException(nameof(backRgb));
 
             if (monochrome)
@@ -633,7 +633,7 @@ namespace Ys.QRCode
             if (ColorCode.IsWebColor(foreRgb) == false)
                 throw new FormatException(nameof(foreRgb));
 
-            if (ColorCode.IsWebColor(foreRgb) == false)
+            if (ColorCode.IsWebColor(backRgb) == false)
                 throw new FormatException(nameof(backRgb));
 
             byte[] dib;
@@ -667,7 +667,7 @@ namespace Ys.QRCode
             if (ColorCode.IsWebColor(foreRgb) == false)
                 throw new FormatException(nameof(foreRgb));
 
-            if (ColorCode.IsWebColor(foreRgb) == false)
+            if (ColorCode.IsWebColor(backRgb) == false)
                 throw new FormatException(nameof(backRgb));
 
             byte[] dib;
@@ -707,7 +707,7 @@ namespace Ys.QRCode
             if (ColorCode.IsWebColor(foreRgb) == false)
                 throw new FormatException(nameof(foreRgb));
 
-            if (ColorCode.IsWebColor(foreRgb) == false)
+            if (ColorCode.IsWebColor(backRgb) == false)
                 throw new FormatException(nameof(backRgb));
 
             byte[] dib;

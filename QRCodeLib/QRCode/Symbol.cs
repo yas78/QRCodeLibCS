@@ -16,9 +16,6 @@ namespace Ys.QRCode
     /// </summary>
     public class Symbol
     {
-        const string WHITE = "#FFFFFF";
-        const string BLACK = "#000000";
-
         const int DEFAULT_MODULE_SIZE = 4;
 
         readonly Symbols _parent;
@@ -485,8 +482,8 @@ namespace Ys.QRCode
         /// <param name="backRgb">背景色</param>
         public byte[] GetBitmap(int moduleSize = DEFAULT_MODULE_SIZE, 
                                 bool monochrome = false,
-                                string foreRgb = BLACK, 
-                                string backRgb = WHITE)
+                                string foreRgb = ColorCode.BLACK, 
+                                string backRgb = ColorCode.WHITE)
         {
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
@@ -624,8 +621,8 @@ namespace Ys.QRCode
         /// <param name="backRgb">背景色</param>
         public string GetBitmapBase64(int moduleSize = DEFAULT_MODULE_SIZE, 
                                       bool monochrome = false,
-                                      string foreRgb = BLACK, 
-                                      string backRgb = WHITE)
+                                      string foreRgb = ColorCode.BLACK, 
+                                      string backRgb = ColorCode.WHITE)
         {
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
@@ -658,8 +655,8 @@ namespace Ys.QRCode
         /// <param name="backRgb">背景色</param>
         public System.Drawing.Image GetImage(int moduleSize = DEFAULT_MODULE_SIZE, 
                                              bool monochrome = false,
-                                             string foreRgb = BLACK, 
-                                             string backRgb = WHITE)
+                                             string foreRgb = ColorCode.BLACK, 
+                                             string backRgb = ColorCode.WHITE)
         {
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
@@ -695,8 +692,8 @@ namespace Ys.QRCode
         public void SaveBitmap(string fileName, 
                                int moduleSize = DEFAULT_MODULE_SIZE, 
                                bool monochrome = false,
-                               string foreRgb = BLACK, 
-                               string backRgb = WHITE)
+                               string foreRgb = ColorCode.BLACK, 
+                               string backRgb = ColorCode.WHITE)
         {
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
@@ -731,7 +728,7 @@ namespace Ys.QRCode
         /// <param name="foreRgb">前景色</param>
         public void SaveSvg(string fileName,
                             int moduleSize = DEFAULT_MODULE_SIZE,
-                            string foreRgb = BLACK)
+                            string foreRgb = ColorCode.BLACK)
         {
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
@@ -758,7 +755,7 @@ namespace Ys.QRCode
         }
 
         public string GetSvg(int moduleSize = DEFAULT_MODULE_SIZE,
-                             string foreRgb = BLACK)
+                             string foreRgb = ColorCode.BLACK)
         {
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();

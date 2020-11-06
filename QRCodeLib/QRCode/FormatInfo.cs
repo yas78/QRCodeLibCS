@@ -9,7 +9,7 @@ namespace Ys.QRCode
     internal static class FormatInfo
     {
         // 形式情報
-        static int[] _formatInfoValues = {
+        static readonly int[] _formatInfoValues = {
             0x0000, 0x0537, 0x0A6E, 0x0F59, 0x11EB, 0x14DC, 0x1B85, 0x1EB2, 0x23D6, 0x26E1,
             0x29B8, 0x2C8F, 0x323D, 0x370A, 0x3853, 0x3D64, 0x429B, 0x47AC, 0x48F5, 0x4DC2,
             0x5370, 0x5647, 0x591E, 0x5C29, 0x614D, 0x647A, 0x6B23, 0x6E14, 0x70A6, 0x7591,
@@ -17,7 +17,7 @@ namespace Ys.QRCode
         };
 
         // 形式情報のマスクパターン
-        static int[] _formatInfoMaskArray =  {
+        static readonly int[] _formatInfoMaskArray =  {
             0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1
         };
 

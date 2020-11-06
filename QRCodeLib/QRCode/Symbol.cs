@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 
 using Ys.Image;
 using Ys.Misc;
@@ -655,7 +657,7 @@ namespace Ys.QRCode
             ImageConverter converter = new ImageConverter();
             return (System.Drawing.Image)converter.ConvertFrom(dib);
         }
-        
+
         /// <summary>
         /// シンボルをBMP形式でファイルに保存します。
         /// </summary>
@@ -681,6 +683,228 @@ namespace Ys.QRCode
                 dib = GetBitmap24bpp(moduleSize, foreRgb, backRgb);
             
             File.WriteAllBytes(fileName, dib);
+        }
+
+        /// <summary>
+        /// シンボルをSVG形式でファイルに保存します。
+        /// </summary>
+        /// <param name="fileName">ファイル名</param>
+        /// <param name="moduleSize">モジュールサイズ(px)</param>
+        /// <param name="foreRgb">前景色</param>
+        public void SaveSvg(string fileName,
+                            int moduleSize = DEFAULT_MODULE_SIZE,
+                            string foreRgb = BLACK)
+        {
+            if (moduleSize < 2)
+                throw new ArgumentOutOfRangeException(nameof(moduleSize));
+
+            string newLine = Environment.NewLine;
+
+            string svg = GetSvg(moduleSize, foreRgb);
+            string svgFile =
+                $"<?xml version='1.0' encoding='UTF-8' standalone='no'?>{newLine}" +
+                $"<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 20010904//EN'{newLine}" +
+                $"    'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>{newLine}" +
+                svg + newLine;
+
+            File.WriteAllText(fileName, svgFile);
+        }
+
+        public string GetSvg(int moduleSize = DEFAULT_MODULE_SIZE,
+                             string foreRgb = BLACK)
+        {
+            if (moduleSize < 2)
+                throw new ArgumentOutOfRangeException(nameof(moduleSize));
+
+            if (!(Regex.IsMatch(foreRgb, @"^#[0-9A-Fa-f]{6}$")))
+                throw new ArgumentOutOfRangeException(nameof(foreRgb));
+
+            int[][] moduleMatrix = QuietZone.Place(GetModuleMatrix());
+
+            int width, height;
+            width = height = moduleSize * moduleMatrix.Length;
+
+            int[][] image = new int[height][];
+            for (int i = 0; i < image.Length; ++i)
+                image[i] = new int[width];
+
+            int r = 0;
+            foreach (var row in moduleMatrix)
+            {
+                for (int i = 0; i < moduleSize; ++i)
+                {
+                    int c = 0;
+                    foreach (var value in row)
+                    {
+                        for (int j = 0; j < moduleSize; ++j)
+                        {
+                            image[r][c] = value;
+                            c++;
+                        }
+                    }
+                    r++;
+                }
+            }
+
+            Point[][] paths = FindContours(image);
+            var buf = new StringBuilder();
+            string indent = new string(' ', 11);
+
+            foreach (var path in paths)
+            {
+                buf.Append($"{indent}M ");
+
+                foreach (var p in path)
+                    buf.Append($"{p.X},{p.Y} ");
+
+                buf.AppendLine("Z");
+            }
+
+            string newLine = Environment.NewLine;
+            string data = buf.ToString().Trim();
+            string svg =
+                $"<svg xmlns='http://www.w3.org/2000/svg'{newLine}" +
+                $"    width='{width}' height='{height}' viewBox='0 0 {width} {height}'>{newLine}" +
+                $"    <path fill='{foreRgb}' stroke='{foreRgb}' stroke-width='1'{newLine}" +
+                $"        d='{data}'{newLine}" +
+                $"    />{newLine}" +
+                $"</svg>";
+
+            return svg;
+        }
+
+        private Point[][] FindContours(int[][] image)
+        {
+            var paths = new List<Point[]>();
+            List<Point> path;
+            Point start;
+            Direction dr;
+
+            for (int y = 0; y < image.Length - 1; ++y)
+            {
+                for (int x = 0; x < image[y].Length - 1; ++x)
+                {
+                    if (image[y][x] == int.MaxValue)
+                        continue;
+
+                    if (!(image[y][x] > 0 && image[y][x + 1] <= 0))
+                        continue;
+
+                    image[y][x] = int.MaxValue;
+                    start = new Point(x, y);
+                    path = new List<Point>();
+                    path.Add(start);
+
+                    dr = Direction.UP;
+                    Point p = new Point(start.X, start.Y - 1);
+
+                    do
+                    {
+                        switch (dr)
+                        {
+                            case Direction.UP:
+                                if (image[p.Y][p.X] > 0)
+                                {
+                                    image[p.Y][p.X] = int.MaxValue;
+
+                                    if (image[p.Y][p.X + 1] <= 0)
+                                        p = new Point(p.X, p.Y - 1);
+                                    else
+                                    {
+                                        path.Add(p);
+                                        dr = Direction.RIGHT;
+                                        p = new Point(p.X + 1, p.Y);
+                                    }
+                                }
+                                else
+                                {
+                                    p = new Point(p.X, p.Y + 1);
+                                    path.Add(p);
+                                    dr = Direction.LEFT;
+                                    p = new Point(p.X - 1, p.Y);
+                                }
+                                break;
+
+                            case Direction.DOWN:
+                                if (image[p.Y][p.X] > 0)
+                                {
+                                    image[p.Y][p.X] = int.MaxValue;
+
+                                    if (image[p.Y][p.X - 1] <= 0)
+                                        p = new Point(p.X, p.Y + 1);
+                                    else
+                                    {
+                                        path.Add(p);
+                                        dr = Direction.LEFT;
+                                        p = new Point(p.X - 1, p.Y);
+                                    }
+                                }
+                                else
+                                {
+                                    p = new Point(p.X, p.Y - 1);
+                                    path.Add(p);
+                                    dr = Direction.RIGHT;
+                                    p = new Point(p.X + 1, p.Y);
+                                }
+                                break;
+
+                            case Direction.LEFT:
+                                if (image[p.Y][p.X] > 0)
+                                {
+                                    image[p.Y][p.X] = int.MaxValue;
+
+                                    if (image[p.Y - 1][p.X] <= 0)
+                                        p = new Point(p.X - 1, p.Y);
+                                    else
+                                    {
+                                        path.Add(p);
+                                        dr = Direction.UP;
+                                        p = new Point(p.X, p.Y - 1);
+                                    }
+                                }
+                                else
+                                {
+                                    p = new Point(p.X + 1, p.Y);
+                                    path.Add(p);
+                                    dr = Direction.DOWN;
+                                    p = new Point(p.X, p.Y + 1);
+                                }
+                                break;
+
+                            case Direction.RIGHT:
+                                if (image[p.Y][p.X] > 0)
+                                {
+                                    image[p.Y][p.X] = int.MaxValue;
+
+                                    if (image[p.Y + 1][p.X] <= 0)
+                                        p = new Point(p.X + 1, p.Y);
+                                    else
+                                    {
+                                        path.Add(p);
+                                        dr = Direction.DOWN;
+                                        p = new Point(p.X, p.Y + 1);
+                                    }
+                                }
+                                else
+                                {
+                                    p = new Point(p.X - 1, p.Y);
+                                    path.Add(p);
+                                    dr = Direction.UP;
+                                    p = new Point(p.X, p.Y - 1);
+                                }
+                                break;
+
+                            default:
+                                throw new InvalidOperationException();
+                        }
+
+                    } while (p != start);
+
+                    paths.Add(path.ToArray());
+                }
+            }
+
+            return paths.ToArray();
         }
     }
 }

@@ -6,6 +6,7 @@ JIS X 0510に基づくモデル２コードシンボルを生成します。
 - 数字・英数字・8ビットバイト・漢字モードに対応しています
 - 分割QRコードを作成可能です
 - 1bppまたは24bpp BMPファイル(DIB)へ保存可能です
+- SVG形式で保存可能です
 - 1bppまたは24bpp Imageオブジェクトとして取得可能です
 - 画像の配色(前景色・背景色)を指定可能です
 - 8ビットバイトモードでの文字コードを指定可能です
@@ -79,7 +80,17 @@ symbols.AppendText("012345abcdefg");
 symbols[0].SaveBitmap(@"D:\qrcode1bpp1.bmp");
 ```
 
-### 例７．様々な画像形式で保存する
+### 例７．SVGファイルへ保存する
+SymbolクラスのSaveSvgメソッドを使用します。
+
+```csharp
+Symbols symbols = new Symbols();
+symbols.AppendText("012345abcdefg");
+
+symbols[0].SaveSvg(@"D:\qrcode.svg");
+```
+
+### 例８．様々な画像形式で保存する
 ImageオブジェクトのSaveメソッドを使用します。
 
 ```csharp
@@ -98,7 +109,7 @@ image.Save(@"D:\qrcode.gif", ImageFormat.Gif);
 image.Save(@"D:\qrcode.jpg", ImageFormat.Jpeg);
 ```
 
-### 例８．base64エンコードされた画像データを取得する
+### 例９．base64エンコードされた画像データを取得する
 SymbolオブジェクトのGetBitmapBase64メソッドを使用します。
 
 ```csharp
@@ -107,4 +118,14 @@ symbols.AppendText("012345abcdefg");
 
 string data = symbols[0].GetBitmapBase64();
 string imgTag = @"<img src=""data:image/bmp;base64," + data + @""" />";
+```
+
+### 例１０．SVGデータを取得する
+SymbolオブジェクトのGetSvgメソッドを使用します。
+
+```csharp
+Symbols symbols = new Symbols();
+symbols.AppendText("012345abcdefg");
+
+string svg = symbols[0].GetSvg();
 ```

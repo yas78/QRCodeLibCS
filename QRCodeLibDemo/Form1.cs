@@ -27,6 +27,7 @@ namespace Demo
             int version = (int)cmbMaxVersion.SelectedItem;
             bool allowStructuredAppend = chkStructuredAppend.Checked;
             Encoding encoding = ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding();
+            int moduleSize = (int)nudModuleSize.Value;
 
             Symbols symbols = new Symbols(ecLevel, version, allowStructuredAppend, encoding.WebName);
             
@@ -42,7 +43,7 @@ namespace Demo
 
             foreach (Symbol symbol in symbols)
             {
-                Image image = symbol.GetImage((int)nudModuleSize.Value);
+                Image image = symbol.GetImage(moduleSize);
                 PictureBox pictureBox = new PictureBox()
                 {
                     Size = image.Size,
@@ -58,10 +59,17 @@ namespace Demo
         {
             string baseName;
             bool isMonochrome;
+            string ext;
 
-            using (SaveFileDialog fd = new SaveFileDialog())
+            string[] filters = {
+                "Monochrome Bitmap(*.bmp)|*.bmp",
+                "24-bit Bitmap(*.bmp)|*.bmp",
+                "SVG(*.svg)|*.svg"
+            };
+
+            using (var fd = new SaveFileDialog())
             {
-                fd.Filter = "Monochrome Bitmap(*.bmp)|*.bmp|24-bit Bitmap(*.bmp)|*.bmp";
+                fd.Filter = String.Join("|", filters);
 
                 if (fd.ShowDialog() != DialogResult.OK)
                     return;
@@ -70,12 +78,26 @@ namespace Demo
                 baseName = Path.Combine(
                     Path.GetDirectoryName(fd.FileName), 
                     Path.GetFileNameWithoutExtension(fd.FileName));
+
+                switch (fd.FilterIndex)
+                {
+                    case 1:
+                    case 2:
+                        ext = FileExtension.BITMAP;
+                        break;
+                    case 3:
+                        ext = FileExtension.SVG;
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
             }
 
             ErrorCorrectionLevel ecLevel = (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem;
             int version = (int)cmbMaxVersion.SelectedItem;
             bool allowStructuredAppend = chkStructuredAppend.Checked;
             Encoding encoding = ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding();
+            int moduleSize = (int)nudModuleSize.Value;
 
             Symbols symbols = new Symbols(ecLevel, version, allowStructuredAppend, encoding.WebName);
             
@@ -94,11 +116,21 @@ namespace Demo
                 string filename;
 
                 if (symbols.Count == 1)
-                    filename = baseName;
+                    filename = baseName + ext;
                 else
-                    filename = baseName + "_" + (i + 1).ToString();
+                    filename = baseName + "_" + (i + 1).ToString() + ext;
 
-                symbols[i].SaveBitmap(filename + ".bmp", (int)nudModuleSize.Value, isMonochrome);
+                switch (ext)
+                {
+                    case FileExtension.BITMAP:
+                        symbols[i].SaveBitmap(filename, moduleSize, isMonochrome);
+                        break;
+                    case FileExtension.SVG:
+                        symbols[i].SaveSvg(filename, moduleSize);
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
             }
         }
 
@@ -122,5 +154,11 @@ namespace Demo
             chkStructuredAppend.Checked = false;
             btnSave.Enabled = false;
         }
+    }
+
+    internal static class FileExtension
+    {
+        public const string BITMAP = ".bmp";
+        public const string SVG = ".svg";
     }
 }

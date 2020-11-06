@@ -170,7 +170,7 @@
             this.nudModuleSize.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.nudModuleSize.Location = new System.Drawing.Point(472, 478);
             this.nudModuleSize.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});
@@ -178,7 +178,7 @@
             this.nudModuleSize.Size = new System.Drawing.Size(46, 20);
             this.nudModuleSize.TabIndex = 9;
             this.nudModuleSize.Value = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});

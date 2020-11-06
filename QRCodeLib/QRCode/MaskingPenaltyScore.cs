@@ -187,15 +187,18 @@ namespace Ys.QRCode
             var ret = new List<int[]>();
             int s = 0;
 
-            for (int i = QuietZone.WIDTH; i < arg.Length - QuietZone.WIDTH; ++i)
+            for (int i = 1; i < arg.Length - 1; ++i)
             {
-                if (arg[i] > 0 && arg[i - 1] <= 0)
-                    s = i;
+                if (arg[i] > 0)
+                { 
+                    if (arg[i - 1] <= 0)
+                        s = i;
 
-                if (arg[i] > 0 && arg[i + 1] <= 0)
-                {
-                    if ((i + 1 - s) % 3 == 0)
-                        ret.Add(new[] { s, i });
+                    if (arg[i + 1] <= 0)
+                    {
+                        if ((i + 1 - s) % 3 == 0)
+                            ret.Add(new[] { s, i });
+                    }
                 }
             }
 

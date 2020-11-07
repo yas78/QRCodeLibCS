@@ -823,10 +823,7 @@ namespace Ys.QRCode
         private Point[][] FindContours(int[][] image)
         {
             var paths = new List<Point[]>();
-            List<Point> path;
-            Point start;
-            Direction dr;
-
+            
             for (int y = 0; y < image.Length - 1; ++y)
             {
                 for (int x = 0; x < image[y].Length - 1; ++x)
@@ -838,10 +835,10 @@ namespace Ys.QRCode
                         continue;
 
                     image[y][x] = int.MaxValue;
-                    start = new Point(x, y);
-                    path = new List<Point> { start };
+                    var start = new Point(x, y);
+                    var path = new List<Point> { start };
 
-                    dr = Direction.UP;
+                    Direction dr = Direction.UP;
                     Point p = new Point(start.X, start.Y - 1);
 
                     do

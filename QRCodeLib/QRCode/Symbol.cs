@@ -735,7 +735,7 @@ namespace Ys.QRCode
 
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
-
+            
             if (moduleSize < 2)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
@@ -772,23 +772,25 @@ namespace Ys.QRCode
             width = height = moduleSize * moduleMatrix.Length;
 
             int[][] image = new int[height][];
-            for (int i = 0; i < image.Length; ++i)
-                image[i] = new int[width];
 
             int r = 0;
             foreach (var row in moduleMatrix)
             {
+                int[] imageRow = new int[width];
+                int c = 0;
+
+                foreach (var value in row)
+                {
+                    for (int j = 0; j < moduleSize; ++j)
+                    {
+                        imageRow[c] = value;
+                        c++;
+                    }
+                }
+
                 for (int i = 0; i < moduleSize; ++i)
                 {
-                    int c = 0;
-                    foreach (var value in row)
-                    {
-                        for (int j = 0; j < moduleSize; ++j)
-                        {
-                            image[r][c] = value;
-                            c++;
-                        }
-                    }
+                    image[r] = imageRow;
                     r++;
                 }
             }

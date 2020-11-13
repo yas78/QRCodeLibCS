@@ -8,6 +8,14 @@ namespace Ys.Image
 {
     internal class GraphicPath
     {
+        private enum Direction
+        {
+            UP = 0,
+            DOWN,
+            LEFT,
+            RIGHT,
+        }
+
         public static Point[][] FindContours(int[][] image)
         {
             var paths = new List<Point[]>();

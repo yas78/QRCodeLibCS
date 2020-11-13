@@ -24,12 +24,4 @@ namespace Ys.QRCode
         Q,
         H,
     }
-
-    internal enum Direction
-    {
-        UP = 0,
-        DOWN,
-        LEFT,
-        RIGHT,
-    }
 }

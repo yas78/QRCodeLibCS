@@ -16,7 +16,8 @@ namespace Ys.QRCode
     /// </summary>
     public class Symbol
     {
-        const int DEFAULT_MODULE_SIZE = 4;
+        const int DEFAULT_MODULE_SIZE = 5;
+        const int MIN_MODULE_SIZE = 2;
 
         readonly Symbols _parent;
 
@@ -488,7 +489,7 @@ namespace Ys.QRCode
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
 
-            if (moduleSize < 1)
+            if (moduleSize < MIN_MODULE_SIZE)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
             if (ColorCode.IsWebColor(foreRgb) == false)
@@ -627,7 +628,7 @@ namespace Ys.QRCode
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
 
-            if (moduleSize < 1)
+            if (moduleSize < MIN_MODULE_SIZE)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
             if (ColorCode.IsWebColor(foreRgb) == false)
@@ -661,7 +662,7 @@ namespace Ys.QRCode
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
 
-            if (moduleSize < 1 )
+            if (moduleSize < MIN_MODULE_SIZE)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
             if (ColorCode.IsWebColor(foreRgb) == false)
@@ -701,7 +702,7 @@ namespace Ys.QRCode
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
 
-            if (moduleSize < 1)
+            if (moduleSize < MIN_MODULE_SIZE)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
             if (ColorCode.IsWebColor(foreRgb) == false)
@@ -736,7 +737,7 @@ namespace Ys.QRCode
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
             
-            if (moduleSize < 2)
+            if (moduleSize < MIN_MODULE_SIZE)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
             if (ColorCode.IsWebColor(foreRgb) == false)
@@ -760,7 +761,7 @@ namespace Ys.QRCode
             if (_dataBitCounter == 0)
                 throw new InvalidOperationException();
 
-            if (moduleSize < 2)
+            if (moduleSize < MIN_MODULE_SIZE)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
             if (ColorCode.IsWebColor(foreRgb) == false)

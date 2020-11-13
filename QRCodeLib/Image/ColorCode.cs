@@ -10,7 +10,7 @@ namespace Ys.Image
         
         public static bool IsWebColor(string arg)
         {   
-            bool ret = Regex.IsMatch(arg, @"^#[0-9A-Fa-f]{6}$");
+            bool ret = Regex.IsMatch(arg, "^#[0-9A-Fa-f]{6}$");
             return ret;
         }
     }

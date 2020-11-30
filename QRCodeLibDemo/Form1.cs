@@ -10,6 +10,8 @@ namespace Demo
 {
     public partial class Form1 : Form
     {
+        const int DEFAULT_MODULE_SIZE = 5;
+
         public Form1()
         {
             InitializeComponent();
@@ -140,7 +142,7 @@ namespace Demo
                 Enum.GetValues(typeof(ErrorCorrectionLevel));
             cmbErrorCorrectionLevel.SelectedItem = ErrorCorrectionLevel.M;
 
-            for (int i = 1; i <= 40; ++i)
+            for (int i = Constants.MIN_VERSION; i <= Constants.MAX_VERSION; ++i)
                 cmbMaxVersion.Items.Add(i);
 
             cmbMaxVersion.SelectedIndex = cmbMaxVersion.Items.Count - 1;
@@ -150,7 +152,7 @@ namespace Demo
             cmbEncoding.DataSource =  Encoding.GetEncodings();
             cmbEncoding.Text = Encoding.Default.EncodingName;
             
-            nudModuleSize.Value = 4;
+            nudModuleSize.Value = DEFAULT_MODULE_SIZE;
             chkStructuredAppend.Checked = false;
             btnSave.Enabled = false;
         }

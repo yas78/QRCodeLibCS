@@ -32,23 +32,19 @@ namespace Ys.QRCode.Encoder
         public override int Append(char c)
         {
             int wd = ConvertCharCode(c);
-            int ret;
 
             if (_charCounter % 2 == 0)
-            {
                 _codeWords.Add(wd);
-                ret = 6;
-            }
             else
             {
                 _codeWords[_codeWords.Count - 1] *= 45;
                 _codeWords[_codeWords.Count - 1] += wd;
-                ret = 5;
             }
 
-            _charCounter++;
+            int ret = GetCodewordBitLength(c);
             _bitCounter += ret;
-
+            _charCounter++;
+            
             return ret;
         }
 
@@ -91,25 +87,18 @@ namespace Ys.QRCode.Encoder
         {
             if ('A' <= c && c <= 'Z')
                 return c - 55;
-
             if ('0' <= c && c <= '9')
                 return c - 48;
-
             if (c == ' ')
                 return 36;
-
             if (c == '$' || c == '%')
                 return c + 1;
-
             if (c == '*' || c == '+')
                 return c - 3;
-
             if (c == '-' || c == '.')
                 return c - 4;
-
             if (c == '/')
                 return 43;
-
             if (c == ':')
                 return 44;
 

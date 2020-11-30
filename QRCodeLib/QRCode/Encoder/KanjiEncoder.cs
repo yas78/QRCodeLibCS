@@ -38,20 +38,19 @@ namespace Ys.QRCode.Encoder
 
             if (0x8140 <= wd && wd <= 0x9FFC)
                 wd -= 0x8140;
-
             else if (0xE040 <= wd && wd <= 0xEBBF)
                 wd -= 0xC140;
-
             else
                 throw new ArgumentOutOfRangeException(nameof(c));
 
             wd = ((wd >> 8) * 0xC0) + (wd & 0xFF);
-
             _codeWords.Add(wd);
-            _charCounter++;
-            _bitCounter += 13;
 
-            return 13;
+            int ret = GetCodewordBitLength(c);
+            _bitCounter += ret;
+            _charCounter++;
+            
+            return ret;
         }
 
         /// <summary>
@@ -93,8 +92,8 @@ namespace Ys.QRCode.Encoder
                 return 0x40 <= charBytes[1] && charBytes[1] <= 0xFC &&
                        0x7F != charBytes[1];
             }
-            else
-                return false;
+
+            return false;
         }
 
         /// <summary>
@@ -102,6 +101,9 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public static bool InExclusiveSubset(char c)
         {
+            if (AlphanumericEncoder.InSubset(c))
+                return false;
+
             return InSubset(c);
         }
     }

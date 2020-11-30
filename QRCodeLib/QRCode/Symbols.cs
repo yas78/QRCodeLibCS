@@ -22,7 +22,7 @@ namespace Ys.QRCode
         readonly Encoding _byteModeEncoding;
         readonly Encoding _shiftJISEncoding;
 
-        int _structuredAppendParity;
+        int _parity;
         Symbol _currSymbol;
         
         /// <summary>
@@ -50,7 +50,7 @@ namespace Ys.QRCode
             _byteModeEncoding           = Encoding.GetEncoding(byteModeEncoding);
             _shiftJISEncoding           = Encoding.GetEncoding("shift_jis");
             
-            _structuredAppendParity = 0;
+            _parity = 0;
             _currSymbol = new Symbol(this);
 
             _items.Add(_currSymbol);
@@ -93,7 +93,7 @@ namespace Ys.QRCode
         /// <summary>
         /// 構造的連接のパリティを取得します。
         /// </summary>
-        internal int StructuredAppendParity => _structuredAppendParity;
+        internal int Parity => _parity;
         
         /// <summary>
         /// バイトモードの文字エンコーディングを取得します。
@@ -290,11 +290,11 @@ namespace Ys.QRCode
         /// <param name="start">評価を開始する位置</param>
         private EncodingMode SelectModeWhileInNumericMode(string s, int start)
         {
-            if (ByteEncoder.InExclusiveSubset(s[start]))
-                return EncodingMode.EIGHT_BIT_BYTE;
-
             if (KanjiEncoder.InSubset(s[start]))
                 return EncodingMode.KANJI;
+
+            if (ByteEncoder.InExclusiveSubset(s[start]))
+                return EncodingMode.EIGHT_BIT_BYTE;
 
             if (AlphanumericEncoder.InExclusiveSubset(s[start]))
                 return EncodingMode.ALPHA_NUMERIC;
@@ -448,7 +448,7 @@ namespace Ys.QRCode
                 charBytes = _byteModeEncoding.GetBytes(c.ToString());
             
             foreach (byte value in charBytes)
-                _structuredAppendParity ^= value;
+                _parity ^= value;
         }
 
         #region IEnumerable<Symbols.Symbol> Implementation

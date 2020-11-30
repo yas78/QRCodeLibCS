@@ -24,8 +24,8 @@ namespace Ys.Image
                 biBitCount         = 1,
                 biCompression      = 0,
                 biSizeImage        = 0,
-                biXPelsPerMeter    = 3780, // 96dpi
-                biYPelsPerMeter    = 3780, // 96dpi
+                biXPelsPerMeter    = 0,
+                biYPelsPerMeter    = 0,
                 biClrUsed          = 0,
                 biClrImportant     = 0
             };
@@ -90,8 +90,8 @@ namespace Ys.Image
                 biBitCount         = 24,
                 biCompression      = 0,
                 biSizeImage        = 0,
-                biXPelsPerMeter    = 3780, // 96dpi
-                biYPelsPerMeter    = 3780, // 96dpi
+                biXPelsPerMeter    = 0,
+                biYPelsPerMeter    = 0,
                 biClrUsed          = 0,
                 biClrImportant     = 0
             };

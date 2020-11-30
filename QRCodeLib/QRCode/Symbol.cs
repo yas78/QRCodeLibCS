@@ -328,7 +328,7 @@ namespace Ys.QRCode
                       SymbolSequenceIndicator.POSITION_LENGTH); 
             bs.Append(_parent.Count - 1, 
                       SymbolSequenceIndicator.TOTAL_NUMBER_LENGTH); 
-            bs.Append(_parent.StructuredAppendParity, 
+            bs.Append(_parent.Parity, 
                       StructuredAppend.PARITY_DATA_LENGTH);  
         }
         

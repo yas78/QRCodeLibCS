@@ -31,22 +31,18 @@ namespace Ys.QRCode.Encoder
         public override int Append(char c)
         {
             int wd = Int32.Parse(c.ToString());
-            int ret;
 
             if (_charCounter % 3 == 0)
-            {
                 _codeWords.Add(wd);
-                ret = 4;
-            }
             else
             {
                 _codeWords[_codeWords.Count - 1] *= 10;
                 _codeWords[_codeWords.Count - 1] += wd;
-                ret = 3;
             }
 
-            _charCounter++;
+            int ret = GetCodewordBitLength(c);
             _bitCounter += ret;
+            _charCounter++;
 
             return ret;
         }

@@ -41,15 +41,13 @@ namespace Ys.QRCode.Encoder
         public override int Append(char c)
         {
             byte[] charBytes = _textEncoding.GetBytes(c.ToString());
-            int ret = 0;
 
             foreach  (byte value in charBytes)
-            {
                 _codeWords.Add(value);
-                _charCounter++;
-                _bitCounter += 8;
-                ret += 8;
-            }
+
+            int ret = 8 * charBytes.Length;
+            _bitCounter += ret;
+            _charCounter += charBytes.Length;
 
             return ret;
         }

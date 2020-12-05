@@ -8,7 +8,7 @@ namespace Ys.QRCode
     internal static class FinderPattern
     {
         // 位置検出パターン
-        static int[][] _finderPattern = {
+        static readonly int[][] _finderPattern = {
             new [] {2,  2,  2,  2,  2,  2,  2},
             new [] {2, -2, -2, -2, -2, -2,  2},
             new [] {2, -2,  2,  2,  2, -2,  2},
@@ -31,9 +31,9 @@ namespace Ys.QRCode
                 {
                     int v = _finderPattern[i][j];
 
-                    moduleMatrix[i         ][j         ] = v;
-                    moduleMatrix[i         ][j + offset] = v;
-                    moduleMatrix[i + offset][j         ] = v;
+                    moduleMatrix[i][j] = v;
+                    moduleMatrix[i][j + offset] = v;
+                    moduleMatrix[i + offset][j] = v;
                 }
             }
         }

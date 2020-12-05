@@ -59,7 +59,6 @@ Symbols symbols = new Symbols(allowStructuredAppend: true);
 ```
 
 型番1を超える場合に分割し、各QRコードのImageオブジェクトを取得する例を示します。
-
 ```csharp
 Symbols symbols = new Symbols(maxVersion: 1, allowStructuredAppend: true);
 symbols.AppendText("abcdefghijklmnopqrstuvwxyz");
@@ -77,7 +76,17 @@ SymbolクラスのSave1bppDIB、またはSave24bppDIBメソッドを使用しま
 Symbols symbols = new Symbols();
 symbols.AppendText("012345abcdefg");
 
-symbols[0].SaveBitmap(@"D:\qrcode1bpp1.bmp");
+// 24bpp DIB
+symbols[0].SaveBitmap("qrcode.bmp");
+
+// 1bpp DIB
+symbols[0].SaveBitmap("qrcode.bmp", monochrome: true);
+
+// 10 pixels per module
+symbols[0].SaveBitmap("qrcode.bmp", moduleSize: 10);
+
+// Specify foreground and background colors.
+symbols[0].SaveBitmap("qrcode.bmp", foreRgb: "#0000FF", backRgb: "#FFFF00");
 ```
 
 ### 例７．SVGファイルへ保存する
@@ -87,7 +96,7 @@ SymbolクラスのSaveSvgメソッドを使用します。
 Symbols symbols = new Symbols();
 symbols.AppendText("012345abcdefg");
 
-symbols[0].SaveSvg(@"D:\qrcode.svg");
+symbols[0].SaveSvg("qrcode.svg");
 ```
 
 ### 例８．様々な画像形式で保存する
@@ -102,11 +111,11 @@ symbols.AppendText("012345");
 
 Image image = symbols[0].GetImage();
 // PNG
-image.Save(@"D:\qrcode.png", ImageFormat.Png);
+image.Save("qrcode.png", ImageFormat.Png);
 // GIF
-image.Save(@"D:\qrcode.gif", ImageFormat.Gif);
+image.Save("qrcode.gif", ImageFormat.Gif);
 // JPEG
-image.Save(@"D:\qrcode.jpg", ImageFormat.Jpeg);
+image.Save("qrcode.jpg", ImageFormat.Jpeg);
 ```
 
 ### 例９．base64エンコードされた画像データを取得する

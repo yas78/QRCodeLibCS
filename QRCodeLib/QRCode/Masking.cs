@@ -60,7 +60,7 @@ namespace Ys.QRCode
             {
                 for (int c = 0; c < moduleMatrix[r].Length; ++c)
                 {
-                    if (Math.Abs(moduleMatrix[r][c]) == 1)
+                    if (Math.Abs(moduleMatrix[r][c]) == Values.WORD)
                     {
                         if(condition(r, c))
                             moduleMatrix[r][c] *= -1;

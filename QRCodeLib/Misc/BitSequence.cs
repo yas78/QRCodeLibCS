@@ -68,7 +68,7 @@ namespace Ys.Misc
                 }
             }
         }
-        
+
         /// <summary>
         /// データのバイト配列を返します。
         /// </summary>

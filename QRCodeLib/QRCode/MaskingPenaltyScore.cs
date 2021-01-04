@@ -59,7 +59,7 @@ namespace Ys.QRCode
 
                 for (int c = 0; c < row.Length - 1; ++c)
                 {
-                    if ((row[c] > 0) == (row[c + 1] > 0))
+                    if (Values.IsDark(row[c]) == Values.IsDark(row[c + 1]))
                         cnt++;
                     else
                     {
@@ -88,11 +88,11 @@ namespace Ys.QRCode
             {
                 for (int c = 0; c < moduleMatrix[r].Length - 1; ++c)
                 {
-                    bool temp = moduleMatrix[r][c] > 0;
+                    bool temp = Values.IsDark(moduleMatrix[r][c]);
 
-                    if ((moduleMatrix[r + 0][c + 1] > 0 == temp) &&
-                        (moduleMatrix[r + 1][c + 0] > 0 == temp) &&
-                        (moduleMatrix[r + 1][c + 1] > 0 == temp))
+                    if ((Values.IsDark(moduleMatrix[r + 0][c + 1]) == temp) &&
+                        (Values.IsDark(moduleMatrix[r + 1][c + 0]) == temp) &&
+                        (Values.IsDark(moduleMatrix[r + 1][c + 1]) == temp))
                             penalty += 3;
                 }
             }
@@ -114,7 +114,7 @@ namespace Ys.QRCode
 
             return penalty;
         }
-        
+
         /// <summary>
         /// 行の1 : 1 : 3 : 1 : 1 比率パターンの失点を計算します。
         /// </summary>
@@ -137,19 +137,19 @@ namespace Ys.QRCode
                     int i = rng[0] - 1;
 
                     // light ratio 1
-                    for (cnt = 0; i >= 0 && row[i] <= 0; ++cnt, --i);
+                    for (cnt = 0; i >= 0 && !Values.IsDark(row[i]); ++cnt, --i);
 
                     if (cnt != ratio1)
                         continue;
 
                     // dark ratio 1
-                    for (cnt = 0; i >= 0 && row[i] > 0; ++cnt, --i);
+                    for (cnt = 0; i >= 0 && Values.IsDark(row[i]); ++cnt, --i);
 
                     if (cnt != ratio1)
                         continue;
 
                     // light ratio 4
-                    for (cnt = 0; i >= 0 && row[i] <= 0; ++cnt, --i);
+                    for (cnt = 0; i >= 0 && !Values.IsDark(row[i]); ++cnt, --i);
 
                     if (cnt >= ratio4)
                         impose = true;
@@ -157,19 +157,19 @@ namespace Ys.QRCode
                     i = rng[1] + 1;
 
                     // light ratio 1
-                    for (cnt = 0; i <= row.Length - 1 && row[i] <= 0; ++cnt, ++i);
+                    for (cnt = 0; i <= row.Length - 1 && !Values.IsDark(row[i]); ++cnt, ++i);
 
                     if (cnt != ratio1)
                         continue;
 
                     // dark ratio 1
-                    for (cnt = 0; i <= row.Length - 1 && row[i] > 0; ++cnt, ++i);
+                    for (cnt = 0; i <= row.Length - 1 && Values.IsDark(row[i]); ++cnt, ++i);
 
                     if (cnt != ratio1)
                         continue;
 
                     // light ratio 4
-                    for (cnt = 0; i <= row.Length - 1 && row[i] <= 0; ++cnt, ++i);
+                    for (cnt = 0; i <= row.Length - 1 && !Values.IsDark(row[i]); ++cnt, ++i);
 
                     if (cnt >= ratio4)
                         impose = true;
@@ -189,12 +189,12 @@ namespace Ys.QRCode
 
             for (int i = 1; i < arg.Length - 1; ++i)
             {
-                if (arg[i] > 0)
+                if (Values.IsDark(arg[i]))
                 { 
-                    if (arg[i - 1] <= 0)
+                    if (!Values.IsDark(arg[i - 1]))
                         s = i;
 
-                    if (arg[i + 1] <= 0)
+                    if (!Values.IsDark(arg[i + 1]))
                     {
                         if ((i + 1 - s) % 3 == 0)
                             ret.Add(new[] { s, i });
@@ -216,18 +216,19 @@ namespace Ys.QRCode
             {
                 foreach(int value in row)
                 {
-                    if (value > 0)
+                    if (Values.IsDark(value))
                         darkCount++;
                 }
             }
 
             double numModules = Math.Pow(moduleMatrix.Length, 2);
-            int temp;
-            temp = (int)Math.Ceiling(darkCount / numModules * 100);
-            temp = Math.Abs(temp - 50);
-            temp = (temp + 4) / 5;
+            double k;
+            k = darkCount / numModules * 100;
+            k = Math.Abs(k - 50);
+            k = Math.Floor(k / 5);
+            int penalty = (int)k * 10;
 
-            return temp * 10;
+            return penalty;
         }
     }
 }

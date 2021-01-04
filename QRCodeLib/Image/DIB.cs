@@ -29,7 +29,7 @@ namespace Ys.Image
                 biClrUsed          = 0,
                 biClrImportant     = 0
             };
-            
+
             var palette = new RGBQUAD[]{
                 new RGBQUAD(){
                     rgbBlue     = foreColor.B,
@@ -49,7 +49,7 @@ namespace Ys.Image
 
             byte[] bytes;
             int offset= 0;
-            
+
             bytes = bfh.GetBytes();
             Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
             offset += bytes.Length;
@@ -95,11 +95,11 @@ namespace Ys.Image
                 biClrUsed          = 0,
                 biClrImportant     = 0
             };
-                
+
             byte[] ret = new byte[54 + bitmapData.Length];
             byte[] bytes;
             int    offset= 0;
-            
+
             bytes = bfh.GetBytes();
             Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
             offset += bytes.Length;
@@ -107,7 +107,7 @@ namespace Ys.Image
             bytes = bih.GetBytes();
             Buffer.BlockCopy(bytes, 0, ret, offset, bytes.Length);
             offset += bytes.Length;
-                
+
             bytes = bitmapData;
             Buffer.BlockCopy(bytes, 0, ret,  offset, bytes.Length);
 

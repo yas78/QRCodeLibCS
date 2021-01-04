@@ -7,6 +7,8 @@ namespace Ys.QRCode
     /// </summary>
     internal static class AlignmentPattern
     {
+        const int VAL = Values.ALIGNMENT;
+
         // 位置合せパターンの中心座標
         static readonly int[][] _centerPosArrays = {
             null,
@@ -76,12 +78,12 @@ namespace Ys.QRCode
                     {
                         continue;
                     }
-                        
-                    Array.Copy(new[] { 2,  2,  2,  2,  2 }, 0, moduleMatrix[r - 2], c - 2, 5);
-                    Array.Copy(new[] { 2, -2, -2, -2,  2 }, 0, moduleMatrix[r - 1], c - 2, 5);
-                    Array.Copy(new[] { 2, -2,  2, -2,  2 }, 0, moduleMatrix[r + 0], c - 2, 5);
-                    Array.Copy(new[] { 2, -2, -2, -2,  2 }, 0, moduleMatrix[r + 1], c - 2, 5);
-                    Array.Copy(new[] { 2,  2,  2,  2,  2 }, 0, moduleMatrix[r + 2], c - 2, 5);
+
+                    Array.Copy(new[] { VAL,  VAL,  VAL,  VAL,  VAL }, 0, moduleMatrix[r - 2], c - 2, 5);
+                    Array.Copy(new[] { VAL, -VAL, -VAL, -VAL,  VAL }, 0, moduleMatrix[r - 1], c - 2, 5);
+                    Array.Copy(new[] { VAL, -VAL,  VAL, -VAL,  VAL }, 0, moduleMatrix[r + 0], c - 2, 5);
+                    Array.Copy(new[] { VAL, -VAL, -VAL, -VAL,  VAL }, 0, moduleMatrix[r + 1], c - 2, 5);
+                    Array.Copy(new[] { VAL,  VAL,  VAL,  VAL,  VAL }, 0, moduleMatrix[r + 2], c - 2, 5);
                 }
             }
         }

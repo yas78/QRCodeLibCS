@@ -14,7 +14,7 @@ namespace Ys.Image
         public short   bfReserved1;
         public short   bfReserved2;
         public int     bfOffBits; 
-        
+
         /// <summary>
         /// この構造体のバイト配列を返します。
         /// </summary>

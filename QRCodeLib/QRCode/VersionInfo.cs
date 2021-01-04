@@ -7,6 +7,8 @@ namespace Ys.QRCode
     /// </summary>
     internal static class VersionInfo
     {
+        const int VAL = Values.VERSION;
+
         // 型番情報
         static readonly int[] _versionInfoValues = {
             -1, -1, -1, -1, -1, -1, -1,
@@ -23,7 +25,6 @@ namespace Ys.QRCode
         public static void Place(int version, int[][] moduleMatrix)
         {
             int numModulesPerSide = moduleMatrix.Length;
-
             int versionInfoValue = _versionInfoValues[version];
 
             int p1 = 0;
@@ -31,7 +32,7 @@ namespace Ys.QRCode
 
             for (int i = 0; i < 18; ++i)
             {
-                int v = (versionInfoValue & (1 << i)) > 0 ? 3 : -3;
+                int v = (versionInfoValue & (1 << i)) > 0 ? VAL : -VAL;
 
                 moduleMatrix[p1][p2] = v;
                 moduleMatrix[p2][p1] = v;
@@ -57,8 +58,8 @@ namespace Ys.QRCode
             {
                 for (int j = numModulesPerSide - 11; j <= numModulesPerSide - 9; ++j)
                 {
-                    moduleMatrix[i][j] = -3;
-                    moduleMatrix[j][i] = -3;
+                    moduleMatrix[i][j] = -VAL;
+                    moduleMatrix[j][i] = -VAL;
                 }
             }
         }

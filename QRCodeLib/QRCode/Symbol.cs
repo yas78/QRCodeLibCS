@@ -22,7 +22,7 @@ namespace Ys.QRCode
         readonly Symbols _parent;
 
         readonly int _position;
-            
+
         QRCodeEncoder _currEncoder;
         EncodingMode  _currEncodingMode;
         int           _currVersion;
@@ -46,7 +46,7 @@ namespace Ys.QRCode
             _currEncoder      = null;
             _currEncodingMode = EncodingMode.UNKNOWN;
             _currVersion      = parent.MinVersion;
-                
+
             _dataBitCapacity = 8 * DataCodeword.GetTotalNumber(
                 parent.ErrorCorrectionLevel, parent.MinVersion);
             _dataBitCounter  = 0;
@@ -62,7 +62,7 @@ namespace Ys.QRCode
             if (parent.StructuredAppendAllowed)
                 _dataBitCapacity -= StructuredAppend.HEADER_LENGTH; 
         }
-            
+
         /// <summary>
         /// 親オブジェクトを取得します。
         /// </summary>
@@ -77,7 +77,7 @@ namespace Ys.QRCode
         /// 現在の符号化モードを取得します。
         /// </summary>
         internal EncodingMode CurrentEncodingMode => _currEncodingMode;
-            
+
         /// <summary>
         /// シンボルに文字を追加します。
         /// </summary>
@@ -148,7 +148,7 @@ namespace Ys.QRCode
                     num * CharCountIndicator.GetLength(_currVersion + 1, encMode) 
                     - num * CharCountIndicator.GetLength(_currVersion + 0, encMode);
             }
-                
+
             _currVersion++;
             _dataBitCapacity = 8 * DataCodeword.GetTotalNumber(
                 _parent.ErrorCorrectionLevel, _currVersion);
@@ -164,7 +164,7 @@ namespace Ys.QRCode
         private Byte[][] BuildDataBlock()
         {
             byte[] dataBytes = GetMessageBytes();
-                
+
             int numPreBlocks = RSBlock.GetTotalNumber(
                     _parent.ErrorCorrectionLevel, _currVersion, true);  
             int numFolBlocks = RSBlock.GetTotalNumber(
@@ -175,7 +175,7 @@ namespace Ys.QRCode
             int numPreBlockDataCodewords = RSBlock.GetNumberDataCodewords(
                     _parent.ErrorCorrectionLevel, _currVersion, true);
             int index = 0;
-            
+
             for (int i = 0; i < numPreBlocks; ++i)
             {
                 byte[] data = new byte[numPreBlockDataCodewords];
@@ -183,7 +183,7 @@ namespace Ys.QRCode
                 index += data.Length;
                 ret[i] = data;
             }
-                
+
             int numFolBlockDataCodewords = RSBlock.GetNumberDataCodewords(
                     _parent.ErrorCorrectionLevel, _currVersion, false);
 
@@ -243,7 +243,7 @@ namespace Ys.QRCode
                         }
                     }
                 }
-                    
+
                 eccIndex = numECCodewords - 1;
 
                 for (int i = 0; i < ret[blockIndex].Length; ++i)
@@ -266,7 +266,7 @@ namespace Ys.QRCode
             int numCodewords = Codeword.GetTotalNumber(_currVersion); 
             int numDataCodewords = DataCodeword.GetTotalNumber(
                     _parent.ErrorCorrectionLevel, _currVersion);
-               
+
             byte[] ret = new byte[numCodewords];
 
             int index = 0;
@@ -285,7 +285,7 @@ namespace Ys.QRCode
                 }
                 n++;
             }
-                
+
             n = 0;
             while(index < numCodewords)
             {
@@ -331,7 +331,7 @@ namespace Ys.QRCode
             bs.Append(_parent.Parity, 
                       StructuredAppend.PARITY_DATA_LENGTH);  
         }
-        
+
         private void WriteSegments(BitSequence bs)
         {
             foreach (QRCodeEncoder segment in _segments)
@@ -341,7 +341,7 @@ namespace Ys.QRCode
                           CharCountIndicator.GetLength(
                               _currVersion, segment.EncodingMode)
                 ); 
-                
+
                 byte[] data = segment.GetBytes();
 
                 for (int i = 0; i < data.Length - 1; ++i)
@@ -421,23 +421,25 @@ namespace Ys.QRCode
         /// </summary>
         private void PlaceSymbolChar(int[][] moduleMatrix)
         {
+            const int VAL = Values.WORD;
+
             byte[]  data = GetEncodingRegionBytes();
-                
+
             int r = moduleMatrix.Length - 1;
             int c = moduleMatrix[0].Length - 1;
 
             bool toLeft = true;
             int rowDirection = -1;
 
-            foreach(byte value in data)
+            foreach(byte v in data)
             {
                 int bitPos = 7;
 
                 while (bitPos >= 0)
                 {
-                    if (moduleMatrix[r][c] == 0)
+                    if (moduleMatrix[r][c] == Values.BLANK)
                     {
-                        moduleMatrix[r][c] = (value & (1 << bitPos)) > 0 ? 1 : -1;
+                        moduleMatrix[r][c] = (v & (1 << bitPos)) > 0 ? VAL : -VAL;
                         bitPos--;
                     }
 
@@ -473,7 +475,7 @@ namespace Ys.QRCode
                 }
             }
         }
-        
+
         /// <summary>
         /// ビットマップファイルのバイトデータを返します。
         /// </summary>
@@ -514,7 +516,7 @@ namespace Ys.QRCode
         {
             Color foreColor = ColorTranslator.FromHtml(foreRgb);
             Color backColor = ColorTranslator.FromHtml(backRgb);
-            
+
             int[][] moduleMatrix = QuietZone.Place(GetModuleMatrix());
 
             int width, height;
@@ -537,10 +539,10 @@ namespace Ys.QRCode
             for (int r = moduleMatrix.Length - 1; r >= 0; --r)
             {
                 var bs = new BitSequence();
-                
-                foreach (int value in moduleMatrix[r])
+
+                foreach (int v in moduleMatrix[r])
                 {
-                    int color = value > 0 ? 0 : 1;
+                    int color = Values.IsDark(v) ? 0 : 1;
 
                     for (int i = 1; i <= moduleSize; ++i)
                         bs.Append(color, 1);
@@ -559,7 +561,7 @@ namespace Ys.QRCode
 
             return DIB.Build1bppDIB(bitmapData, width, height, foreColor, backColor);
         }
-        
+
         /// <summary>
         /// 24bppビットマップファイルのバイトデータを返します。
         /// </summary>
@@ -591,9 +593,9 @@ namespace Ys.QRCode
                 byte[] bitmapRow = new byte[rowSize];
                 int index = 0;
 
-                foreach(int value in moduleMatrix[r])
+                foreach(int v in moduleMatrix[r])
                 {
-                    Color color = value > 0 ? foreColor : backColor;
+                    Color color = Values.IsDark(v) ? foreColor : backColor;
 
                     for (int i = 1; i <= moduleSize; ++i)
                     {
@@ -643,7 +645,7 @@ namespace Ys.QRCode
                 dib = GetBitmap1bpp(moduleSize, foreRgb, backRgb);
             else
                 dib = GetBitmap24bpp(moduleSize, foreRgb, backRgb);
-                
+
             return Convert.ToBase64String(dib);
         }
 
@@ -717,7 +719,7 @@ namespace Ys.QRCode
                 dib = GetBitmap1bpp(moduleSize, foreRgb, backRgb);
             else
                 dib = GetBitmap24bpp(moduleSize, foreRgb, backRgb);
-            
+
             File.WriteAllBytes(fileName, dib);
         }
 
@@ -736,7 +738,7 @@ namespace Ys.QRCode
 
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException(nameof(fileName));
-            
+
             if (moduleSize < MIN_MODULE_SIZE)
                 throw new ArgumentOutOfRangeException(nameof(moduleSize));
 
@@ -784,7 +786,7 @@ namespace Ys.QRCode
                 {
                     for (int j = 0; j < moduleSize; ++j)
                     {
-                        imageRow[c] = value;
+                        imageRow[c] = value > Values.BLANK ? 1 : 0;
                         c++;
                     }
                 }
@@ -796,15 +798,15 @@ namespace Ys.QRCode
                 }
             }
 
-            Point[][] paths = GraphicPath.FindContours(image);
+            Point[][] gpPaths = GraphicPath.FindContours(image);
             var buf = new StringBuilder();
             string indent = new string(' ', 11);
 
-            foreach (var path in paths)
+            foreach (var gpPath in gpPaths)
             {
                 buf.Append($"{indent}M ");
 
-                foreach (var p in path)
+                foreach (var p in gpPath)
                     buf.Append($"{p.X},{p.Y} ");
 
                 buf.AppendLine("Z");

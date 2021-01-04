@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-using Ys.QRCode;
-
 namespace Ys.Image
 {
     internal class GraphicPath
@@ -18,7 +16,7 @@ namespace Ys.Image
 
         public static Point[][] FindContours(int[][] image)
         {
-            var paths = new List<Point[]>();
+            var gpPaths = new List<Point[]>();
 
             for (int y = 0; y < image.Length - 1; ++y)
             {
@@ -32,7 +30,7 @@ namespace Ys.Image
 
                     image[y][x] = int.MaxValue;
                     var start = new Point(x, y);
-                    var path = new List<Point> { start };
+                    var gpPath = new List<Point> { start };
 
                     Direction dr = Direction.UP;
                     Point p = new Point(start.X, start.Y - 1);
@@ -50,7 +48,7 @@ namespace Ys.Image
                                         p = new Point(p.X, p.Y - 1);
                                     else
                                     {
-                                        path.Add(p);
+                                        gpPath.Add(p);
                                         dr = Direction.RIGHT;
                                         p = new Point(p.X + 1, p.Y);
                                     }
@@ -58,7 +56,7 @@ namespace Ys.Image
                                 else
                                 {
                                     p = new Point(p.X, p.Y + 1);
-                                    path.Add(p);
+                                    gpPath.Add(p);
                                     dr = Direction.LEFT;
                                     p = new Point(p.X - 1, p.Y);
                                 }
@@ -73,7 +71,7 @@ namespace Ys.Image
                                         p = new Point(p.X, p.Y + 1);
                                     else
                                     {
-                                        path.Add(p);
+                                        gpPath.Add(p);
                                         dr = Direction.LEFT;
                                         p = new Point(p.X - 1, p.Y);
                                     }
@@ -81,7 +79,7 @@ namespace Ys.Image
                                 else
                                 {
                                     p = new Point(p.X, p.Y - 1);
-                                    path.Add(p);
+                                    gpPath.Add(p);
                                     dr = Direction.RIGHT;
                                     p = new Point(p.X + 1, p.Y);
                                 }
@@ -96,7 +94,7 @@ namespace Ys.Image
                                         p = new Point(p.X - 1, p.Y);
                                     else
                                     {
-                                        path.Add(p);
+                                        gpPath.Add(p);
                                         dr = Direction.UP;
                                         p = new Point(p.X, p.Y - 1);
                                     }
@@ -104,7 +102,7 @@ namespace Ys.Image
                                 else
                                 {
                                     p = new Point(p.X + 1, p.Y);
-                                    path.Add(p);
+                                    gpPath.Add(p);
                                     dr = Direction.DOWN;
                                     p = new Point(p.X, p.Y + 1);
                                 }
@@ -119,7 +117,7 @@ namespace Ys.Image
                                         p = new Point(p.X + 1, p.Y);
                                     else
                                     {
-                                        path.Add(p);
+                                        gpPath.Add(p);
                                         dr = Direction.DOWN;
                                         p = new Point(p.X, p.Y + 1);
                                     }
@@ -127,7 +125,7 @@ namespace Ys.Image
                                 else
                                 {
                                     p = new Point(p.X - 1, p.Y);
-                                    path.Add(p);
+                                    gpPath.Add(p);
                                     dr = Direction.UP;
                                     p = new Point(p.X, p.Y - 1);
                                 }
@@ -139,11 +137,11 @@ namespace Ys.Image
 
                     } while (p != start);
 
-                    paths.Add(path.ToArray());
+                    gpPaths.Add(gpPath.ToArray());
                 }
             }
 
-            return paths.ToArray();
+            return gpPaths.ToArray();
         }
     }
 }

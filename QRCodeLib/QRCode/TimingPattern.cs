@@ -7,6 +7,8 @@ namespace Ys.QRCode
     /// </summary>
     internal static class TimingPattern
     {
+        const int VAL = Values.TIMING;
+
         /// <summary>
         /// タイミングパターンを配置します。
         /// </summary>
@@ -14,7 +16,7 @@ namespace Ys.QRCode
         {
             for (int i = 8; i <= moduleMatrix.Length - 9; ++i)
             {
-                int v = ((i % 2 == 0) ? 2 : -2);
+                int v = ((i % 2 == 0) ? VAL : -VAL);
 
                 moduleMatrix[6][i] = v;
                 moduleMatrix[i][6] = v;

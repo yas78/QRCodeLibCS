@@ -147,10 +147,10 @@ namespace Demo
 
             cmbMaxVersion.SelectedIndex = cmbMaxVersion.Items.Count - 1;
 
-            cmbEncoding.DisplayMember = "DisplayName";
+            cmbEncoding.DisplayMember = "Name";
             cmbEncoding.ValueMember = "Name";
             cmbEncoding.DataSource =  Encoding.GetEncodings();
-            cmbEncoding.Text = Encoding.Default.EncodingName;
+            cmbEncoding.Text = Encoding.Default.WebName;
             
             nudModuleSize.Value = DEFAULT_MODULE_SIZE;
             chkStructuredAppend.Checked = false;

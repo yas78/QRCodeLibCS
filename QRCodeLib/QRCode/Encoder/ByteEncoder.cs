@@ -23,7 +23,7 @@ namespace Ys.QRCode.Encoder
         }
 
         readonly Encoding _textEncoding;
-        
+
         /// <summary>
         /// 符号化モードを取得します。
         /// </summary>
@@ -33,7 +33,7 @@ namespace Ys.QRCode.Encoder
         /// モード指示子を取得します。
         /// </summary>
         public override int ModeIndicator => Format.ModeIndicator.BYTE_VALUE;
-        
+
         /// <summary>
         /// 文字を追加します。
         /// </summary>

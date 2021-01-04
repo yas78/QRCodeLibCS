@@ -27,7 +27,7 @@ namespace Ys.QRCode.Encoder
         /// データビット数を取得します。
         /// </summary>
         public int BitCount => _bitCounter;
- 
+
         /// <summary>
         /// 符号化モードを取得します。
         /// </summary>
@@ -37,7 +37,7 @@ namespace Ys.QRCode.Encoder
         /// モード指示子を取得します。
         /// </summary>
         public abstract int ModeIndicator { get; }
-        
+
         /// <summary>
         /// 文字を追加します。
         /// </summary>
@@ -52,7 +52,7 @@ namespace Ys.QRCode.Encoder
         /// エンコードされたデータのバイト配列を返します。
         /// </summary>
         public abstract byte[] GetBytes();
-       
+
         /// <summary>
         /// 指定した符号化モードのエンコーダーを返します。
         /// </summary>

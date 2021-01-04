@@ -16,7 +16,7 @@ namespace Ys.QRCode.Encoder
         /// インスタンスを初期化します。
         /// </summary>
         public KanjiEncoder() { }
-        
+
         /// <summary>
         /// 符号化モードを取得します。
         /// </summary>
@@ -26,7 +26,7 @@ namespace Ys.QRCode.Encoder
         /// モード指示子を取得します。
         /// </summary>
         public override int ModeIndicator => Format.ModeIndicator.KANJI_VALUE;
-        
+
         /// <summary>
         /// 文字を追加します。
         /// </summary>
@@ -49,7 +49,7 @@ namespace Ys.QRCode.Encoder
             int ret = GetCodewordBitLength(c);
             _bitCounter += ret;
             _charCounter++;
-            
+
             return ret;
         }
 
@@ -85,7 +85,7 @@ namespace Ys.QRCode.Encoder
                 return false;
 
             int code = (charBytes[0] << 8) | charBytes[1];
-            
+
             if (0x8140 <= code && code <= 0x9FFC || 
                 0xE040 <= code && code <= 0xEBBF)
             {

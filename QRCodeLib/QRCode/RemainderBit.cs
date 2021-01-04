@@ -16,8 +16,8 @@ namespace Ys.QRCode
             {
                 for (int c = 0; c < moduleMatrix[r].Length; ++c)
                 {
-                    if (moduleMatrix[r][c] == 0)
-                        moduleMatrix[r][c] = -1;
+                    if (moduleMatrix[r][c] == Values.BLANK)
+                        moduleMatrix[r][c] = -Values.WORD;
                 }
             }
         }

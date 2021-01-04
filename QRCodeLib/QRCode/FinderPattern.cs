@@ -7,15 +7,17 @@ namespace Ys.QRCode
     /// </summary>
     internal static class FinderPattern
     {
+        const int VAL = Values.FINDER;
+
         // 位置検出パターン
         static readonly int[][] _finderPattern = {
-            new [] {2,  2,  2,  2,  2,  2,  2},
-            new [] {2, -2, -2, -2, -2, -2,  2},
-            new [] {2, -2,  2,  2,  2, -2,  2},
-            new [] {2, -2,  2,  2,  2, -2,  2},
-            new [] {2, -2,  2,  2,  2, -2,  2},
-            new [] {2, -2, -2, -2, -2, -2,  2},
-            new [] {2,  2 , 2,  2,  2,  2,  2}
+            new [] {VAL,  VAL,  VAL,  VAL,  VAL,  VAL,  VAL},
+            new [] {VAL, -VAL, -VAL, -VAL, -VAL, -VAL,  VAL},
+            new [] {VAL, -VAL,  VAL,  VAL,  VAL, -VAL,  VAL},
+            new [] {VAL, -VAL,  VAL,  VAL,  VAL, -VAL,  VAL},
+            new [] {VAL, -VAL,  VAL,  VAL,  VAL, -VAL,  VAL},
+            new [] {VAL, -VAL, -VAL, -VAL, -VAL, -VAL,  VAL},
+            new [] {VAL,  VAL , VAL,  VAL,  VAL,  VAL,  VAL}
         };
 
         /// <summary>

@@ -49,12 +49,12 @@
             this.txtData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtData.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtData.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txtData.Location = new System.Drawing.Point(12, 355);
+            this.txtData.Location = new System.Drawing.Point(14, 447);
+            this.txtData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtData.Multiline = true;
             this.txtData.Name = "txtData";
             this.txtData.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtData.Size = new System.Drawing.Size(660, 85);
+            this.txtData.Size = new System.Drawing.Size(656, 130);
             this.txtData.TabIndex = 0;
             this.txtData.WordWrap = false;
             this.txtData.TextChanged += new System.EventHandler(this.UpdateQRCodePanel);
@@ -65,33 +65,32 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.qrcodePanel.AutoScroll = true;
-            this.qrcodePanel.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.qrcodePanel.Location = new System.Drawing.Point(12, 12);
+            this.qrcodePanel.Location = new System.Drawing.Point(14, 17);
+            this.qrcodePanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.qrcodePanel.Name = "qrcodePanel";
-            this.qrcodePanel.Size = new System.Drawing.Size(660, 319);
+            this.qrcodePanel.Size = new System.Drawing.Size(656, 405);
             this.qrcodePanel.TabIndex = 11;
             // 
             // lblData
             // 
             this.lblData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblData.AutoSize = true;
-            this.lblData.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblData.Location = new System.Drawing.Point(9, 339);
+            this.lblData.Location = new System.Drawing.Point(10, 424);
             this.lblData.Name = "lblData";
-            this.lblData.Size = new System.Drawing.Size(39, 13);
+            this.lblData.Size = new System.Drawing.Size(42, 17);
             this.lblData.TabIndex = 12;
-            this.lblData.Text = "Data :";
+            this.lblData.Text = "&Data :";
             // 
             // chkStructuredAppend
             // 
             this.chkStructuredAppend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkStructuredAppend.AutoSize = true;
-            this.chkStructuredAppend.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.chkStructuredAppend.Location = new System.Drawing.Point(237, 480);
+            this.chkStructuredAppend.Location = new System.Drawing.Point(237, 626);
+            this.chkStructuredAppend.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chkStructuredAppend.Name = "chkStructuredAppend";
-            this.chkStructuredAppend.Size = new System.Drawing.Size(132, 17);
+            this.chkStructuredAppend.Size = new System.Drawing.Size(137, 21);
             this.chkStructuredAppend.TabIndex = 7;
-            this.chkStructuredAppend.Text = "Structured Append";
+            this.chkStructuredAppend.Text = "Structured &Append";
             this.chkStructuredAppend.UseVisualStyleBackColor = true;
             this.chkStructuredAppend.CheckedChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
@@ -99,11 +98,11 @@
             // 
             this.cmbErrorCorrectionLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmbErrorCorrectionLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbErrorCorrectionLevel.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.cmbErrorCorrectionLevel.FormattingEnabled = true;
-            this.cmbErrorCorrectionLevel.Location = new System.Drawing.Point(164, 449);
+            this.cmbErrorCorrectionLevel.Location = new System.Drawing.Point(159, 589);
+            this.cmbErrorCorrectionLevel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbErrorCorrectionLevel.Name = "cmbErrorCorrectionLevel";
-            this.cmbErrorCorrectionLevel.Size = new System.Drawing.Size(48, 21);
+            this.cmbErrorCorrectionLevel.Size = new System.Drawing.Size(55, 25);
             this.cmbErrorCorrectionLevel.TabIndex = 2;
             this.cmbErrorCorrectionLevel.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
@@ -111,11 +110,11 @@
             // 
             this.cmbMaxVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmbMaxVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMaxVersion.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.cmbMaxVersion.FormattingEnabled = true;
-            this.cmbMaxVersion.Location = new System.Drawing.Point(164, 478);
+            this.cmbMaxVersion.Location = new System.Drawing.Point(159, 623);
+            this.cmbMaxVersion.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbMaxVersion.Name = "cmbMaxVersion";
-            this.cmbMaxVersion.Size = new System.Drawing.Size(48, 21);
+            this.cmbMaxVersion.Size = new System.Drawing.Size(55, 25);
             this.cmbMaxVersion.TabIndex = 6;
             this.cmbMaxVersion.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
@@ -123,33 +122,31 @@
             // 
             this.lblErrorCorrectionLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblErrorCorrectionLevel.AutoSize = true;
-            this.lblErrorCorrectionLevel.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblErrorCorrectionLevel.Location = new System.Drawing.Point(9, 453);
+            this.lblErrorCorrectionLevel.Location = new System.Drawing.Point(10, 593);
             this.lblErrorCorrectionLevel.Name = "lblErrorCorrectionLevel";
-            this.lblErrorCorrectionLevel.Size = new System.Drawing.Size(143, 13);
+            this.lblErrorCorrectionLevel.Size = new System.Drawing.Size(143, 17);
             this.lblErrorCorrectionLevel.TabIndex = 1;
-            this.lblErrorCorrectionLevel.Text = "Error Correction Level :";
+            this.lblErrorCorrectionLevel.Text = "Error Correction &Level :";
             // 
             // lblMaxVersion
             // 
             this.lblMaxVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblMaxVersion.AutoSize = true;
-            this.lblMaxVersion.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblMaxVersion.Location = new System.Drawing.Point(9, 482);
+            this.lblMaxVersion.Location = new System.Drawing.Point(10, 627);
             this.lblMaxVersion.Name = "lblMaxVersion";
-            this.lblMaxVersion.Size = new System.Drawing.Size(83, 13);
+            this.lblMaxVersion.Size = new System.Drawing.Size(87, 17);
             this.lblMaxVersion.TabIndex = 5;
-            this.lblMaxVersion.Text = "Max Version :";
+            this.lblMaxVersion.Text = "Max &Version :";
             // 
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSave.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.btnSave.Location = new System.Drawing.Point(553, 477);
+            this.btnSave.Location = new System.Drawing.Point(552, 623);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(119, 23);
+            this.btnSave.Size = new System.Drawing.Size(118, 25);
             this.btnSave.TabIndex = 10;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "&Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -157,25 +154,25 @@
             // 
             this.lblModuleSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblModuleSize.AutoSize = true;
-            this.lblModuleSize.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblModuleSize.Location = new System.Drawing.Point(384, 482);
+            this.lblModuleSize.Location = new System.Drawing.Point(391, 627);
             this.lblModuleSize.Name = "lblModuleSize";
-            this.lblModuleSize.Size = new System.Drawing.Size(82, 13);
+            this.lblModuleSize.Size = new System.Drawing.Size(87, 17);
             this.lblModuleSize.TabIndex = 8;
-            this.lblModuleSize.Text = "Module Size :";
+            this.lblModuleSize.Text = "&Module Size :";
             // 
             // nudModuleSize
             // 
             this.nudModuleSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.nudModuleSize.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.nudModuleSize.Location = new System.Drawing.Point(472, 478);
+            this.nudModuleSize.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.nudModuleSize.Location = new System.Drawing.Point(486, 623);
+            this.nudModuleSize.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.nudModuleSize.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
             this.nudModuleSize.Name = "nudModuleSize";
-            this.nudModuleSize.Size = new System.Drawing.Size(46, 20);
+            this.nudModuleSize.Size = new System.Drawing.Size(40, 25);
             this.nudModuleSize.TabIndex = 9;
             this.nudModuleSize.Value = new decimal(new int[] {
             2,
@@ -188,28 +185,29 @@
             // 
             this.lblEncoding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblEncoding.AutoSize = true;
-            this.lblEncoding.Location = new System.Drawing.Point(235, 453);
+            this.lblEncoding.Location = new System.Drawing.Point(237, 593);
             this.lblEncoding.Name = "lblEncoding";
-            this.lblEncoding.Size = new System.Drawing.Size(116, 12);
+            this.lblEncoding.Size = new System.Drawing.Size(135, 17);
             this.lblEncoding.TabIndex = 3;
-            this.lblEncoding.Text = "Byte mode Encoding :";
+            this.lblEncoding.Text = "Byte mode &Encoding :";
             // 
             // cmbEncoding
             // 
             this.cmbEncoding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmbEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEncoding.FormattingEnabled = true;
-            this.cmbEncoding.Location = new System.Drawing.Point(357, 449);
+            this.cmbEncoding.Location = new System.Drawing.Point(378, 589);
+            this.cmbEncoding.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cmbEncoding.Name = "cmbEncoding";
-            this.cmbEncoding.Size = new System.Drawing.Size(315, 20);
+            this.cmbEncoding.Size = new System.Drawing.Size(292, 25);
             this.cmbEncoding.TabIndex = 4;
             this.cmbEncoding.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 511);
+            this.ClientSize = new System.Drawing.Size(684, 661);
             this.Controls.Add(this.cmbEncoding);
             this.Controls.Add(this.lblEncoding);
             this.Controls.Add(this.nudModuleSize);
@@ -223,7 +221,9 @@
             this.Controls.Add(this.lblData);
             this.Controls.Add(this.qrcodePanel);
             this.Controls.Add(this.txtData);
-            this.MinimumSize = new System.Drawing.Size(540, 500);
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MinimumSize = new System.Drawing.Size(627, 692);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "QR Code";

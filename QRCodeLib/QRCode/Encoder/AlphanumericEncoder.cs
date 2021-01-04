@@ -14,7 +14,7 @@ namespace Ys.QRCode.Encoder
         /// インスタンスを初期化します。
         /// </summary>
         public AlphanumericEncoder() { }
-        
+
         /// <summary>
         /// 符号化モードを取得します。
         /// </summary>
@@ -24,7 +24,7 @@ namespace Ys.QRCode.Encoder
         /// モード指示子を取得します。
         /// </summary>
         public override int ModeIndicator => Format.ModeIndicator.ALPAHNUMERIC_VALUE;
-        
+
         /// <summary>
         /// 文字を追加します。
         /// </summary>
@@ -44,7 +44,7 @@ namespace Ys.QRCode.Encoder
             int ret = GetCodewordBitLength(c);
             _bitCounter += ret;
             _charCounter++;
-            
+
             return ret;
         }
 
@@ -69,26 +69,22 @@ namespace Ys.QRCode.Encoder
 
             for (int i = 0; i <= (_codeWords.Count - 1) - 1; ++i)
                 bs.Append(_codeWords[i], bitLength);
-            
+
             if ((_charCounter % 2) == 0)
                 bitLength = 11;
             else
                 bitLength = 6;
-            
+
             bs.Append(_codeWords[_codeWords.Count - 1], bitLength);
 
             return bs.GetBytes();
         }
-        
+
         /// <summary>
         /// 指定した文字の、英数字モードにおけるコード値を返します。
         /// </summary>
         private static int ConvertCharCode(char c)
         {
-            if ('A' <= c && c <= 'Z')
-                return c - 55;
-            if ('0' <= c && c <= '9')
-                return c - 48;
             if (c == ' ')
                 return 36;
             if (c == '$' || c == '%')
@@ -99,10 +95,14 @@ namespace Ys.QRCode.Encoder
                 return c - 4;
             if (c == '/')
                 return 43;
+            if ('0' <= c && c <= '9')
+                return c - 48;
             if (c == ':')
                 return 44;
+            if ('A' <= c && c <= 'Z')
+                return c - 55;
 
-            throw new ArgumentOutOfRangeException(nameof(c));
+            return -1;
         }
 
         /// <summary>
@@ -110,17 +110,7 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public static bool InSubset(char c)
         {
-            return 'A' <= c && c <= 'Z' ||
-                   '0' <= c && c <= '9' ||
-                   c == ' '             ||
-                   c == '.'             ||
-                   c == '-'             ||
-                   c == '$'             ||
-                   c == '%'             ||
-                   c == '*'             ||
-                   c == '+'             ||
-                   c == '/'             ||
-                   c == ':';
+            return ConvertCharCode(c) > -1;
         }
 
         /// <summary>
@@ -130,7 +120,7 @@ namespace Ys.QRCode.Encoder
         {
             if (NumericEncoder.InSubset(c))
                 return false;
-            
+
             return InSubset(c);
         }
     }

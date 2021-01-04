@@ -7,6 +7,8 @@ namespace Ys.QRCode
     /// </summary>
     internal static class FormatInfo
     {
+        const int VAL = Values.FORMAT;
+
         // 形式情報
         static readonly int[] _formatInfoValues = {
             0x0000, 0x0537, 0x0A6E, 0x0F59, 0x11EB, 0x14DC, 0x1B85, 0x1EB2, 0x23D6, 0x26E1,
@@ -38,7 +40,7 @@ namespace Ys.QRCode
             {
                 int temp = ((formatInfoValue & (1 << i)) > 0 ? 1 : 0) ^ _formatInfoMaskArray[i];
 
-                int v = (temp > 0) ? 3 : -3;
+                int v = (temp > 0) ? VAL : -VAL;
 
                 moduleMatrix[r1][8 ] = v;
                 moduleMatrix[8 ][c1] = v;
@@ -57,7 +59,7 @@ namespace Ys.QRCode
             {
                 int temp = ((formatInfoValue & (1 << i)) > 0 ? 1 : 0) ^ _formatInfoMaskArray[i];
 
-                int v = (temp > 0) ? 3 : -3;
+                int v = (temp > 0) ? VAL : -VAL;
 
                 moduleMatrix[r2][8 ] = v;
                 moduleMatrix[8 ][c2] = v;
@@ -68,33 +70,34 @@ namespace Ys.QRCode
                 if (c2 == 6)
                     c2--;
             }
+
+            // 固定暗モジュール
+            moduleMatrix[moduleMatrix.Length - 8][8] = VAL;
         }
-        
+
         /// <summary>
         /// 形式情報の予約領域を配置します。
         /// </summary>
         public static void PlaceTempBlank(int[][] moduleMatrix)
         {
-            int numModulesOneSide = moduleMatrix.Length;
-
             for (int i = 0; i <= 8; ++i)
             {
-                // タイミグパターンの領域ではない場合
-                if (i != 6)
-                {
-                    moduleMatrix[8][i] = -3;
-                    moduleMatrix[i][8] = -3;
-                }
+                // タイミグパターンの領域
+                if (i == 6) 
+                    continue;
+
+                moduleMatrix[8][i] = -VAL;
+                moduleMatrix[i][8] = -VAL;
             }
 
-            for (int i = numModulesOneSide - 8; i <= numModulesOneSide - 1; ++i)
+            for (int i = moduleMatrix.Length - 8; i < moduleMatrix.Length; ++i)
             {
-                moduleMatrix[8][i] = -3;
-                moduleMatrix[i][8] = -3;
+                moduleMatrix[8][i] = -VAL;
+                moduleMatrix[i][8] = -VAL;
             }
 
-            // 固定暗モジュールを配置(マスクの適用前に配置する)
-            moduleMatrix[numModulesOneSide - 8][8] = 2;
+            // 固定暗モジュール
+            moduleMatrix[moduleMatrix.Length - 8][8] = -VAL;
         }
 
         /// <summary>

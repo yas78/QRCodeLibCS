@@ -24,7 +24,7 @@ namespace Ys.QRCode
 
         int _parity;
         Symbol _currSymbol;
-        
+
         /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
@@ -49,13 +49,13 @@ namespace Ys.QRCode
             _structuredAppendAllowed    = allowStructuredAppend;
             _byteModeEncoding           = Encoding.GetEncoding(byteModeEncoding);
             _shiftJISEncoding           = Encoding.GetEncoding("shift_jis");
-            
+
             _parity = 0;
             _currSymbol = new Symbol(this);
 
             _items.Add(_currSymbol);
         }
-        
+
         /// <summary>
         /// インデックス番号を指定してSymbolオブジェクトを取得します。
         /// </summary>
@@ -84,7 +84,7 @@ namespace Ys.QRCode
         /// 誤り訂正レベルを取得します。
         /// </summary>
         internal ErrorCorrectionLevel ErrorCorrectionLevel => _errorCorrectionLevel;
-        
+
         /// <summary>
         /// 構造的連接モードの使用可否を取得します。
         /// </summary>
@@ -94,7 +94,7 @@ namespace Ys.QRCode
         /// 構造的連接のパリティを取得します。
         /// </summary>
         internal int Parity => _parity;
-        
+
         /// <summary>
         /// バイトモードの文字エンコーディングを取得します。
         /// </summary>
@@ -115,7 +115,7 @@ namespace Ys.QRCode
         /// </summary>
         public void AppendText(string s)
         {
-            if (String.IsNullOrEmpty(s))
+            if (string.IsNullOrEmpty(s))
                 throw new ArgumentNullException(nameof(s));
 
             for (int i = 0; i < s.Length; ++i)
@@ -129,13 +129,13 @@ namespace Ys.QRCode
                         newMode = SelectInitialMode(s, i);
                         break;
                     case EncodingMode.NUMERIC:
-                        newMode = SelectModeWhileInNumericMode(s, i);
+                        newMode = SelectModeWhileInNumeric(s, i);
                         break;
                     case EncodingMode.ALPHA_NUMERIC:
-                        newMode = SelectModeWhileInAlphanumericMode(s, i);
+                        newMode = SelectModeWhileInAlphanumeric(s, i);
                         break;
                     case EncodingMode.EIGHT_BIT_BYTE:
-                        newMode = SelectModeWhileInByteMode(s, i);
+                        newMode = SelectModeWhileInByte(s, i);
                         break;
                     case EncodingMode.KANJI:
                         newMode = SelectInitialMode(s, i);
@@ -178,9 +178,7 @@ namespace Ys.QRCode
         /// <param name="s">対象文字列</param>
         /// <param name="start">評価を開始する位置</param>
         private EncodingMode SelectInitialMode(string s, int start)
-        {
-            int version = _currSymbol.Version;
-            
+        {           
             if (KanjiEncoder.InSubset(s[start]))
                 return EncodingMode.KANJI;
 
@@ -188,107 +186,110 @@ namespace Ys.QRCode
                 return EncodingMode.EIGHT_BIT_BYTE;
 
             if (AlphanumericEncoder.InExclusiveSubset(s[start]))
-            {
-                int cnt = 0;
-                bool flg;
-
-                for (int i = start; i < s.Length; ++i)
-                {
-                    if (AlphanumericEncoder.InExclusiveSubset(s[i]))
-                        cnt++;
-                    else
-                        break;
-                }
-
-                if (1 <= version && version <= 9)
-                    flg = cnt < 6;
-                else if (10 <= version && version <= 26)
-                    flg = cnt < 7;
-                else if (27 <= version && version <= 40)
-                    flg = cnt < 8;
-                else
-                    throw new InvalidOperationException();
-
-                if (flg)
-                {
-                    if ((start + cnt) < s.Length)
-                    {
-                        if (ByteEncoder.InExclusiveSubset(s[start + cnt]))
-                            return EncodingMode.EIGHT_BIT_BYTE;
-                        else
-                            return EncodingMode.ALPHA_NUMERIC;
-                    }
-                    else
-                        return EncodingMode.ALPHA_NUMERIC;
-                }
-                else
-                    return EncodingMode.ALPHA_NUMERIC;
-            }
+                return SelectModeWhenInitialDataAlphanumeric(s, start);
 
             if (NumericEncoder.InSubset(s[start]))
-            {
-                int cnt = 0;
-                bool flg1;
-                bool flg2;
+                return SelectModeWhenInitialDataNumeric(s, start);
 
-                for (int i = start; i < s.Length; ++i)
-                {
-                    if (NumericEncoder.InSubset(s[i]))
-                        cnt++;
-                    else
-                        break;
-                }
-
-                if (1 <= version && version <= 9)
-                {
-                    flg1 = cnt < 4;
-                    flg2 = cnt < 7;
-                }
-                else if (10 <= version && version <= 26)
-                {
-                    flg1 = cnt < 4;
-                    flg2 = cnt < 8;
-                }
-                else if (27 <= version && version <= 40)
-                {
-                    flg1 = cnt < 5;
-                    flg2 = cnt < 9;
-                }
-                else
-                    throw new InvalidOperationException();
-
-                if (flg1)
-                {
-                    if ((start + cnt) < s.Length)
-                        flg1 = ByteEncoder.InExclusiveSubset(s[start + cnt]);
-                    else
-                        flg1 = false;
-                }
-
-                if (flg2)
-                {
-                    if ((start + cnt) < s.Length)
-                        flg2 = AlphanumericEncoder.InExclusiveSubset(s[start + cnt]);
-                    else
-                        flg2 = false;
-                }
-
-                if (flg1)
-                    return EncodingMode.EIGHT_BIT_BYTE;
-                else if (flg2)
-                    return EncodingMode.ALPHA_NUMERIC;
-                else
-                    return EncodingMode.NUMERIC;
-            }
             throw new InvalidOperationException();
         }
-        
+
+        private EncodingMode SelectModeWhenInitialDataAlphanumeric(string s, int start)
+        {
+            int cnt = 0;
+
+            for (int i = start; i < s.Length; ++i)
+            {
+                if (AlphanumericEncoder.InExclusiveSubset(s[i]))
+                    cnt++;
+                else
+                    break;
+            }
+
+            int version = _currSymbol.Version;
+            bool flg;
+
+            if (1 <= version && version <= 9)
+                flg = cnt < 6;
+            else if (10 <= version && version <= 26)
+                flg = cnt < 7;
+            else if (27 <= version && version <= 40)
+                flg = cnt < 8;
+            else
+                throw new InvalidOperationException();
+
+            if (flg)
+            {
+                if ((start + cnt) < s.Length)
+                {
+                    if (ByteEncoder.InSubset(s[start + cnt]))
+                        return EncodingMode.EIGHT_BIT_BYTE;
+                }
+            }
+
+            return EncodingMode.ALPHA_NUMERIC;
+        }
+
+        private EncodingMode SelectModeWhenInitialDataNumeric(string s, int start)
+        {
+            int cnt = 0;
+
+            for (int i = start; i < s.Length; ++i)
+            {
+                if (NumericEncoder.InSubset(s[i]))
+                    cnt++;
+                else
+                    break;
+            }
+
+            int version = _currSymbol.Version;
+            bool flg;
+
+            if (1 <= version && version <= 9)
+                flg = cnt < 4;
+            else if (10 <= version && version <= 26)
+                flg = cnt < 4;
+            else if (27 <= version && version <= 40)
+                flg = cnt < 5;
+            else
+                throw new InvalidOperationException();
+
+            if (flg)
+            {
+                if ((start + cnt) < s.Length)
+                { 
+                    if (ByteEncoder.InExclusiveSubset(s[start + cnt]))
+                        return EncodingMode.EIGHT_BIT_BYTE;
+                }
+            }
+
+            if (1 <= version && version <= 9)
+                flg = cnt < 7;
+            else if (10 <= version && version <= 26)
+                flg = cnt < 8;
+            else if (27 <= version && version <= 40)
+                flg = cnt < 9;
+            else
+                throw new InvalidOperationException();
+
+            if (flg)
+            {
+                if ((start + cnt) < s.Length)
+                { 
+                    if (AlphanumericEncoder.InExclusiveSubset(s[start + cnt]))
+                        return EncodingMode.ALPHA_NUMERIC;
+                }
+            }
+
+            return EncodingMode.NUMERIC;
+        }
+
         /// <summary>
         /// 数字モードから切り替えるモードを決定します。
         /// </summary>
         /// <param name="s">対象文字列</param>
         /// <param name="start">評価を開始する位置</param>
-        private EncodingMode SelectModeWhileInNumericMode(string s, int start)
+        private EncodingMode SelectModeWhileInNumeric(string s, int start)
         {
             if (KanjiEncoder.InSubset(s[start]))
                 return EncodingMode.KANJI;
@@ -298,7 +299,7 @@ namespace Ys.QRCode
 
             if (AlphanumericEncoder.InExclusiveSubset(s[start]))
                 return EncodingMode.ALPHA_NUMERIC;
-            
+
             return EncodingMode.NUMERIC;
         }
 
@@ -307,18 +308,24 @@ namespace Ys.QRCode
         /// </summary>
         /// <param name="s">対象文字列</param>
         /// <param name="start">評価を開始する位置</param>
-        private EncodingMode SelectModeWhileInAlphanumericMode(string s, int start)
+        private EncodingMode SelectModeWhileInAlphanumeric(string s, int start)
         {
-            int version = _currSymbol.Version;
-
             if (KanjiEncoder.InSubset(s[start]))
                 return EncodingMode.KANJI;
 
             if (ByteEncoder.InExclusiveSubset(s[start]))
                 return EncodingMode.EIGHT_BIT_BYTE;
 
+            if (MustChangeAlphanumericToNumeric(s, start))
+                return EncodingMode.NUMERIC;
+
+            return EncodingMode.ALPHA_NUMERIC;
+        }
+
+        private bool MustChangeAlphanumericToNumeric(string s, int start)
+        {
+            bool ret = false;
             int cnt = 0;
-            bool flg = false;
 
             for (int i = start; i < s.Length; ++i)
             {
@@ -329,27 +336,26 @@ namespace Ys.QRCode
                     cnt++;
                 else
                 {
-                    flg = true;
+                    ret = true;
                     break;
                 }
             }
 
-            if (flg)
+            if (ret)
             {
+                int version = _currSymbol.Version;
+
                 if (1 <= version && version <= 9)
-                    flg = cnt >= 13;
+                    ret = cnt >= 13;
                 else if (10 <= version && version <= 26)
-                    flg = cnt >= 15;
+                    ret = cnt >= 15;
                 else if (27 <= version && version <= 40)
-                    flg = cnt >= 17;
+                    ret = cnt >= 17;
                 else
                     throw new InvalidOperationException();
-
-                if (flg)
-                    return EncodingMode.NUMERIC;
             }
 
-            return EncodingMode.ALPHA_NUMERIC;
+            return ret;
         }
 
         /// <summary>
@@ -357,15 +363,24 @@ namespace Ys.QRCode
         /// </summary>
         /// <param name="s">対象文字列</param>
         /// <param name="start">評価を開始する位置</param>
-        private EncodingMode SelectModeWhileInByteMode(string s, int start)
+        private EncodingMode SelectModeWhileInByte(string s, int start)
         {
-            int version = _currSymbol.Version;
-
-            int cnt = 0;
-            bool flg = false;
-            
             if (KanjiEncoder.InSubset(s[start]))
                 return EncodingMode.KANJI;
+
+            if (MustChangeByteToNumeric(s, start))
+                return EncodingMode.NUMERIC;
+
+            if (MustChangeByteToAlphanumeric(s, start))
+                return EncodingMode.ALPHA_NUMERIC;
+
+            return EncodingMode.EIGHT_BIT_BYTE;
+        }
+
+        private bool MustChangeByteToNumeric(string s, int start)
+        {
+            bool ret = false;
+            int cnt = 0;
 
             for (int i = start; i < s.Length; ++i)
             {
@@ -376,30 +391,34 @@ namespace Ys.QRCode
                     cnt++;
                 else if (ByteEncoder.InExclusiveSubset(s[i]))
                 {
-                    flg = true;
+                    ret = true;
                     break;
                 }
                 else
                     break;
             }
 
-            if (flg)
+            if (ret)
             {
+                int version = _currSymbol.Version;
+
                 if (1 <= version && version <= 9)
-                    flg = cnt >= 6;
+                    ret = cnt >= 6;
                 else if (10 <= version && version <= 26)
-                    flg = cnt >= 8;
+                    ret = cnt >= 8;
                 else if (27 <= version && version <= 40)
-                    flg = cnt >= 9;
+                    ret = cnt >= 9;
                 else
                     throw new InvalidOperationException();
-
-                if (flg)
-                    return EncodingMode.NUMERIC;
             }
 
-            cnt = 0;
-            flg = false;
+            return ret;
+        }
+
+        private bool MustChangeByteToAlphanumeric(string s, int start)
+        {
+            bool ret = false;
+            int cnt = 0;
 
             for (int i = start; i < s.Length; ++i)
             {
@@ -410,29 +429,27 @@ namespace Ys.QRCode
                     cnt++;
                 else if (ByteEncoder.InExclusiveSubset(s[i]))
                 {
-                    flg = true;
+                    ret = true;
                     break;
                 }
                 else
                     break;
             }
 
-            if (flg)
+            if (ret)
             {
+                int version = _currSymbol.Version;
+
                 if (1 <= version && version <= 9)
-                    flg = cnt >= 11;
+                    ret = cnt >= 11;
                 else if (10 <= version && version <= 26)
-                    flg = cnt >= 15;
+                    ret = cnt >= 15;
                 else if (27 <= version && version <= 40)
-                    flg = cnt >= 16;
+                    ret = cnt >= 16;
                 else
                     throw new InvalidOperationException();
-
-                if (flg)
-                    return EncodingMode.ALPHA_NUMERIC;
             }
-
-            return EncodingMode.EIGHT_BIT_BYTE;
+            return ret;
         }
 
         /// <summary>
@@ -446,7 +463,7 @@ namespace Ys.QRCode
                 charBytes = _shiftJISEncoding.GetBytes(c.ToString());
             else
                 charBytes = _byteModeEncoding.GetBytes(c.ToString());
-            
+
             foreach (byte value in charBytes)
                 _parity ^= value;
         }

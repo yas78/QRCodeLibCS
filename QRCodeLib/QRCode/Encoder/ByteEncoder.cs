@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 
+using Ys.Misc;
+
 namespace Ys.QRCode.Encoder
 {
     /// <summary>
@@ -8,21 +10,19 @@ namespace Ys.QRCode.Encoder
     /// </summary>
     internal class ByteEncoder : QRCodeEncoder
     {
-        /// <summary>
-        /// インスタンスを初期化します。
-        /// </summary>
-        public ByteEncoder() : this(Encoding.GetEncoding("shift_jis")) { }
+        private readonly AlphanumericEncoder _encAlpha;
+        private readonly KanjiEncoder        _encKanji;
 
         /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
-        /// <param name="encoding">文字エンコーディング</param>
-        public ByteEncoder(Encoding encoding)
+        public ByteEncoder(Encoding encoding) : base(encoding) 
         {
-            _textEncoding = encoding;
-        }
+            _encAlpha = new AlphanumericEncoder(encoding);
 
-        readonly Encoding _textEncoding;
+            if (Charset.IsJP(encoding.WebName))
+                _encKanji = new KanjiEncoder(encoding);
+        }
 
         /// <summary>
         /// 符号化モードを取得します。
@@ -40,7 +40,7 @@ namespace Ys.QRCode.Encoder
         /// <returns>追加した文字のビット数</returns>
         public override int Append(char c)
         {
-            byte[] charBytes = _textEncoding.GetBytes(c.ToString());
+            byte[] charBytes = _encoding.GetBytes(c.ToString());
 
             foreach  (byte value in charBytes)
                 _codeWords.Add(value);
@@ -57,7 +57,7 @@ namespace Ys.QRCode.Encoder
         /// </summary>
         public override int GetCodewordBitLength(char c)
         {
-            byte[] charBytes = _textEncoding.GetBytes(c.ToString());
+            byte[] charBytes = _encoding.GetBytes(c.ToString());
 
             return 8 * charBytes.Length;
         }
@@ -78,7 +78,7 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 指定した文字が、このモードの文字集合に含まれる場合は true を返します。
         /// </summary>
-        public static bool InSubset(char c)
+        public override bool InSubset(char c)
         {
             return true;
         }
@@ -86,13 +86,16 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 指定した文字が、このモードの排他的部分文字集合に含まれる場合は true を返します。
         /// </summary>
-        public static bool InExclusiveSubset(char c)
+        public override bool InExclusiveSubset(char c)
         {
-            if (AlphanumericEncoder.InSubset(c))
+            if (_encAlpha.InSubset(c))
                 return false;
 
-            if (KanjiEncoder.InSubset(c))
-                return false;
+            if (_encKanji != null)
+            {
+                if (_encKanji.InSubset(c))
+                    return false;
+            }
 
             return InSubset(c);
         }

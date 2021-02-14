@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Text;
 
 using Ys.Misc;
 
@@ -10,10 +10,15 @@ namespace Ys.QRCode.Encoder
     /// </summary>
     internal class AlphanumericEncoder : QRCodeEncoder
     {
+        private readonly NumericEncoder _encNumeric;
+
         /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
-        public AlphanumericEncoder() { }
+        public AlphanumericEncoder(Encoding encoding) : base(encoding) 
+        { 
+            _encNumeric = new NumericEncoder(encoding);
+        }
 
         /// <summary>
         /// 符号化モードを取得します。
@@ -108,7 +113,7 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 指定した文字が、このモードの文字集合に含まれる場合は true を返します。
         /// </summary>
-        public static bool InSubset(char c)
+        public override bool InSubset(char c)
         {
             return ConvertCharCode(c) > -1;
         }
@@ -116,9 +121,9 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 指定した文字が、このモードの排他的部分文字集合に含まれる場合は true を返します。
         /// </summary>
-        public static bool InExclusiveSubset(char c)
+        public override bool InExclusiveSubset(char c)
         {
-            if (NumericEncoder.InSubset(c))
+            if (_encNumeric.InSubset(c))
                 return false;
 
             return InSubset(c);

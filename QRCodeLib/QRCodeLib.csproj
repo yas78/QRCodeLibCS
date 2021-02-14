@@ -53,6 +53,7 @@
     <Compile Include="Image\RGBQUAD.cs" />
     <Compile Include="Misc\ArrayUtil.cs" />
     <Compile Include="Image\DIB.cs" />
+    <Compile Include="Misc\Charset.cs" />
     <Compile Include="QRCode\Constants.cs" />
     <Compile Include="QRCode\Format\ModeIndicator.cs" />
     <Compile Include="QRCode\Format\CharCountIndicator.cs" />

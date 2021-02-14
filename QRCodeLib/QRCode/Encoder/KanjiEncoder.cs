@@ -10,12 +10,15 @@ namespace Ys.QRCode.Encoder
     /// </summary>
     internal class KanjiEncoder : QRCodeEncoder
     {
-        static readonly Encoding _textEncoding = Encoding.GetEncoding("shift_jis");
+        private readonly AlphanumericEncoder _encAlpha;
 
         /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
-        public KanjiEncoder() { }
+        public KanjiEncoder(Encoding encoding) : base(encoding) 
+        { 
+            _encAlpha = new AlphanumericEncoder(encoding);
+        }
 
         /// <summary>
         /// 符号化モードを取得します。
@@ -33,7 +36,7 @@ namespace Ys.QRCode.Encoder
         /// <returns>追加した文字のビット数</returns>
         public override int Append(char c)
         {
-            byte[] charBytes = _textEncoding.GetBytes(c.ToString());
+            byte[] charBytes = _encoding.GetBytes(c.ToString());
             int wd = (charBytes[0] << 8) | charBytes[1];
 
             if (0x8140 <= wd && wd <= 0x9FFC)
@@ -77,9 +80,9 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 指定した文字が、このモードの文字集合に含まれる場合は true を返します。
         /// </summary>
-        public static bool InSubset(char c)
+        public override bool InSubset(char c)
         {
-            byte[] charBytes = _textEncoding.GetBytes(c.ToString());
+            byte[] charBytes = _encoding.GetBytes(c.ToString());
 
             if (charBytes.Length != 2)
                 return false;
@@ -99,9 +102,9 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 指定した文字が、このモードの排他的部分文字集合に含まれる場合は true を返します。
         /// </summary>
-        public static bool InExclusiveSubset(char c)
+        public override bool InExclusiveSubset(char c)
         {
-            if (AlphanumericEncoder.InSubset(c))
+            if (_encAlpha.InSubset(c))
                 return false;
 
             return InSubset(c);

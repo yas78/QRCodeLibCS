@@ -12,11 +12,16 @@ namespace Ys.QRCode.Encoder
         protected List<int> _codeWords   = new List<int>();
         protected int       _charCounter = 0;
         protected int       _bitCounter  = 0;
+        
+        protected readonly Encoding  _encoding;
 
         /// <summary>
         /// インスタンスを初期化します。
         /// </summary>
-        public QRCodeEncoder() { }
+        public QRCodeEncoder(Encoding encoding)
+        { 
+            _encoding = encoding;
+        }
 
         /// <summary>
         /// 文字数を取得します。
@@ -54,26 +59,13 @@ namespace Ys.QRCode.Encoder
         public abstract byte[] GetBytes();
 
         /// <summary>
-        /// 指定した符号化モードのエンコーダーを返します。
+        /// 指定した文字が、このモードの文字集合に含まれる場合は true を返します。
         /// </summary>
-        /// <param name="encMode">符号化モード</param>
-        /// <param name="byteModeEncoding">バイトモードに適用する文字エンコーディング</param>
-        public static QRCodeEncoder CreateEncoder(EncodingMode encMode, 
-                                                  Encoding byteModeEncoding)
-        {
-            switch (encMode)
-            {
-                case EncodingMode.NUMERIC:
-                    return new NumericEncoder();
-                case EncodingMode.ALPHA_NUMERIC:
-                    return new AlphanumericEncoder();
-                case EncodingMode.EIGHT_BIT_BYTE:
-                    return new ByteEncoder(byteModeEncoding);
-                case EncodingMode.KANJI:
-                    return new KanjiEncoder();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(encMode));
-            }
-        }
+        public abstract bool InSubset(char c);
+
+        /// <summary>
+        /// 指定した文字が、このモードの排他的部分文字集合に含まれる場合は true を返します。
+        /// </summary>
+        public abstract bool InExclusiveSubset(char c);
     }
 }

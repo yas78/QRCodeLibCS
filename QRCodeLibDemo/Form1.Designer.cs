@@ -39,8 +39,8 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.lblModuleSize = new System.Windows.Forms.Label();
             this.nudModuleSize = new System.Windows.Forms.NumericUpDown();
-            this.lblEncoding = new System.Windows.Forms.Label();
-            this.cmbEncoding = new System.Windows.Forms.ComboBox();
+            this.lblCharset = new System.Windows.Forms.Label();
+            this.cmbCharset = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudModuleSize)).BeginInit();
             this.SuspendLayout();
             // 
@@ -181,35 +181,35 @@
             0});
             this.nudModuleSize.ValueChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
-            // lblEncoding
+            // lblCharset
             // 
-            this.lblEncoding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblEncoding.AutoSize = true;
-            this.lblEncoding.Location = new System.Drawing.Point(237, 593);
-            this.lblEncoding.Name = "lblEncoding";
-            this.lblEncoding.Size = new System.Drawing.Size(135, 17);
-            this.lblEncoding.TabIndex = 3;
-            this.lblEncoding.Text = "Byte mode &Encoding :";
+            this.lblCharset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblCharset.AutoSize = true;
+            this.lblCharset.Location = new System.Drawing.Point(237, 593);
+            this.lblCharset.Name = "lblCharset";
+            this.lblCharset.Size = new System.Drawing.Size(59, 17);
+            this.lblCharset.TabIndex = 3;
+            this.lblCharset.Text = "&Charset :";
             // 
-            // cmbEncoding
+            // cmbCharset
             // 
-            this.cmbEncoding.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmbEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbEncoding.FormattingEnabled = true;
-            this.cmbEncoding.Location = new System.Drawing.Point(378, 589);
-            this.cmbEncoding.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.cmbEncoding.Name = "cmbEncoding";
-            this.cmbEncoding.Size = new System.Drawing.Size(292, 25);
-            this.cmbEncoding.TabIndex = 4;
-            this.cmbEncoding.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
+            this.cmbCharset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cmbCharset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCharset.FormattingEnabled = true;
+            this.cmbCharset.Location = new System.Drawing.Point(302, 590);
+            this.cmbCharset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.cmbCharset.Name = "cmbCharset";
+            this.cmbCharset.Size = new System.Drawing.Size(224, 25);
+            this.cmbCharset.TabIndex = 4;
+            this.cmbCharset.SelectedIndexChanged += new System.EventHandler(this.UpdateQRCodePanel);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 661);
-            this.Controls.Add(this.cmbEncoding);
-            this.Controls.Add(this.lblEncoding);
+            this.Controls.Add(this.cmbCharset);
+            this.Controls.Add(this.lblCharset);
             this.Controls.Add(this.nudModuleSize);
             this.Controls.Add(this.lblModuleSize);
             this.Controls.Add(this.btnSave);
@@ -246,8 +246,8 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label lblModuleSize;
         private System.Windows.Forms.NumericUpDown nudModuleSize;
-        private System.Windows.Forms.Label lblEncoding;
-        private System.Windows.Forms.ComboBox cmbEncoding;
+        private System.Windows.Forms.Label lblCharset;
+        private System.Windows.Forms.ComboBox cmbCharset;
     }
 }
 

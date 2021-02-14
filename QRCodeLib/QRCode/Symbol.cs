@@ -109,8 +109,30 @@ namespace Ys.QRCode
         /// <returns>シンボル容量が不足している場合は false を返します。</returns>
         internal bool TrySetEncodingMode(EncodingMode encMode, char c)
         {
-            QRCodeEncoder encoder = QRCodeEncoder.CreateEncoder(
-                    encMode, _parent.ByteModeEncoding);
+            QRCodeEncoder encoder;
+            Encoding encoding = _parent.Encoding;
+
+            switch (encMode)
+            {
+                case EncodingMode.NUMERIC:
+                    encoder = new NumericEncoder(encoding);
+                    break;
+                case EncodingMode.ALPHA_NUMERIC:
+                    encoder = new AlphanumericEncoder(encoding);
+                    break;
+                case EncodingMode.EIGHT_BIT_BYTE:
+                    encoder = new ByteEncoder(encoding);
+                    break;
+                case EncodingMode.KANJI:
+                    if (Charset.IsJP(encoding.WebName))
+                        encoder = new KanjiEncoder(encoding);
+                    else
+                        throw new InvalidOperationException();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(encMode));
+            }
+
             int bitLength = encoder.GetCodewordBitLength(c);
 
             while (_dataBitCapacity < 

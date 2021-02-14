@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Ys.QRCode.Encoder;
+using Ys.Misc;
 
 namespace Ys.QRCode
 {
@@ -19,11 +20,15 @@ namespace Ys.QRCode
         readonly int _maxVersion;
         readonly ErrorCorrectionLevel _errorCorrectionLevel;
         readonly bool _structuredAppendAllowed;
-        readonly Encoding _byteModeEncoding;
-        readonly Encoding _shiftJISEncoding;
+        readonly Encoding _encoding;
 
         int _parity;
         Symbol _currSymbol;
+
+        readonly NumericEncoder      _encNumeric;
+        readonly AlphanumericEncoder _encAlpha;
+        readonly KanjiEncoder        _encKanji;
+        readonly ByteEncoder         _encByte;
 
         /// <summary>
         /// インスタンスを初期化します。
@@ -31,11 +36,11 @@ namespace Ys.QRCode
         /// <param name="ecLevel">誤り訂正レベル</param>
         /// <param name="maxVersion">型番の上限</param>
         /// <param name="allowStructuredAppend">複数シンボルへの分割を許可するには true を指定します。</param>
-        /// <param name="byteModeEncoding">バイトモードの文字エンコーディング</param>
+        /// <param name="charsetName">文字セット名</param>
         public Symbols(ErrorCorrectionLevel ecLevel = ErrorCorrectionLevel.M,
                        int maxVersion = Constants.MAX_VERSION,
                        bool allowStructuredAppend = false, 
-                       string byteModeEncoding = "shift_jis")
+                       string charsetName = Charset.SHIFT_JIS)
         {
             if (!(Constants.MIN_VERSION <= maxVersion && maxVersion <= Constants.MAX_VERSION))
                 throw new ArgumentOutOfRangeException(nameof(maxVersion));
@@ -47,13 +52,20 @@ namespace Ys.QRCode
             _maxVersion                 = maxVersion;
             _errorCorrectionLevel       = ecLevel;
             _structuredAppendAllowed    = allowStructuredAppend;
-            _byteModeEncoding           = Encoding.GetEncoding(byteModeEncoding);
-            _shiftJISEncoding           = Encoding.GetEncoding("shift_jis");
+            _encoding                   = Encoding.GetEncoding(charsetName);
 
             _parity = 0;
-            _currSymbol = new Symbol(this);
 
+            _currSymbol = new Symbol(this);
             _items.Add(_currSymbol);
+
+            _encNumeric = new NumericEncoder(_encoding);
+            _encAlpha = new AlphanumericEncoder(_encoding);
+
+            if (Charset.IsJP(charsetName))
+                _encKanji = new KanjiEncoder(_encoding);
+
+            _encByte = new ByteEncoder(_encoding);
         }
 
         /// <summary>
@@ -96,9 +108,9 @@ namespace Ys.QRCode
         internal int Parity => _parity;
 
         /// <summary>
-        /// バイトモードの文字エンコーディングを取得します。
+        /// 文字エンコーディングを取得します。
         /// </summary>
-        internal Encoding ByteModeEncoding => _byteModeEncoding;
+        internal Encoding Encoding => _encoding;
 
         /// <summary>
         /// シンボルを追加します。
@@ -179,16 +191,19 @@ namespace Ys.QRCode
         /// <param name="start">評価を開始する位置</param>
         private EncodingMode SelectInitialMode(string s, int start)
         {           
-            if (KanjiEncoder.InSubset(s[start]))
-                return EncodingMode.KANJI;
+            if (_encKanji != null)
+            {
+                if (_encKanji.InSubset(s[start]))
+                    return EncodingMode.KANJI;
+            }
 
-            if (ByteEncoder.InExclusiveSubset(s[start]))
+            if (_encByte.InExclusiveSubset(s[start]))
                 return EncodingMode.EIGHT_BIT_BYTE;
 
-            if (AlphanumericEncoder.InExclusiveSubset(s[start]))
+            if (_encAlpha.InExclusiveSubset(s[start]))
                 return SelectModeWhenInitialDataAlphanumeric(s, start);
 
-            if (NumericEncoder.InSubset(s[start]))
+            if (_encNumeric.InSubset(s[start]))
                 return SelectModeWhenInitialDataNumeric(s, start);
 
             throw new InvalidOperationException();
@@ -200,7 +215,7 @@ namespace Ys.QRCode
 
             for (int i = start; i < s.Length; ++i)
             {
-                if (AlphanumericEncoder.InExclusiveSubset(s[i]))
+                if (_encAlpha.InExclusiveSubset(s[i]))
                     cnt++;
                 else
                     break;
@@ -222,7 +237,7 @@ namespace Ys.QRCode
             {
                 if ((start + cnt) < s.Length)
                 {
-                    if (ByteEncoder.InSubset(s[start + cnt]))
+                    if (_encByte.InSubset(s[start + cnt]))
                         return EncodingMode.EIGHT_BIT_BYTE;
                 }
             }
@@ -236,7 +251,7 @@ namespace Ys.QRCode
 
             for (int i = start; i < s.Length; ++i)
             {
-                if (NumericEncoder.InSubset(s[i]))
+                if (_encNumeric.InSubset(s[i]))
                     cnt++;
                 else
                     break;
@@ -258,7 +273,7 @@ namespace Ys.QRCode
             {
                 if ((start + cnt) < s.Length)
                 { 
-                    if (ByteEncoder.InExclusiveSubset(s[start + cnt]))
+                    if (_encByte.InExclusiveSubset(s[start + cnt]))
                         return EncodingMode.EIGHT_BIT_BYTE;
                 }
             }
@@ -276,7 +291,7 @@ namespace Ys.QRCode
             {
                 if ((start + cnt) < s.Length)
                 { 
-                    if (AlphanumericEncoder.InExclusiveSubset(s[start + cnt]))
+                    if (_encAlpha.InExclusiveSubset(s[start + cnt]))
                         return EncodingMode.ALPHA_NUMERIC;
                 }
             }
@@ -291,13 +306,16 @@ namespace Ys.QRCode
         /// <param name="start">評価を開始する位置</param>
         private EncodingMode SelectModeWhileInNumeric(string s, int start)
         {
-            if (KanjiEncoder.InSubset(s[start]))
-                return EncodingMode.KANJI;
+            if (_encKanji != null)
+            {
+                if (_encKanji.InSubset(s[start]))
+                    return EncodingMode.KANJI;
+            }
 
-            if (ByteEncoder.InExclusiveSubset(s[start]))
+            if (_encByte.InExclusiveSubset(s[start]))
                 return EncodingMode.EIGHT_BIT_BYTE;
 
-            if (AlphanumericEncoder.InExclusiveSubset(s[start]))
+            if (_encAlpha.InExclusiveSubset(s[start]))
                 return EncodingMode.ALPHA_NUMERIC;
 
             return EncodingMode.NUMERIC;
@@ -310,10 +328,13 @@ namespace Ys.QRCode
         /// <param name="start">評価を開始する位置</param>
         private EncodingMode SelectModeWhileInAlphanumeric(string s, int start)
         {
-            if (KanjiEncoder.InSubset(s[start]))
-                return EncodingMode.KANJI;
+            if (_encKanji != null)
+            {
+                if (_encKanji.InSubset(s[start]))
+                    return EncodingMode.KANJI;
+            }
 
-            if (ByteEncoder.InExclusiveSubset(s[start]))
+            if (_encByte.InExclusiveSubset(s[start]))
                 return EncodingMode.EIGHT_BIT_BYTE;
 
             if (MustChangeAlphanumericToNumeric(s, start))
@@ -329,10 +350,10 @@ namespace Ys.QRCode
 
             for (int i = start; i < s.Length; ++i)
             {
-                if (!AlphanumericEncoder.InSubset(s[i]))
+                if (!_encAlpha.InSubset(s[i]))
                     break;
 
-                if (NumericEncoder.InSubset(s[i]))
+                if (_encNumeric.InSubset(s[i]))
                     cnt++;
                 else
                 {
@@ -365,8 +386,11 @@ namespace Ys.QRCode
         /// <param name="start">評価を開始する位置</param>
         private EncodingMode SelectModeWhileInByte(string s, int start)
         {
-            if (KanjiEncoder.InSubset(s[start]))
-                return EncodingMode.KANJI;
+            if (_encKanji != null)
+            {
+                if (_encKanji.InSubset(s[start]))
+                    return EncodingMode.KANJI;
+            }
 
             if (MustChangeByteToNumeric(s, start))
                 return EncodingMode.NUMERIC;
@@ -384,12 +408,12 @@ namespace Ys.QRCode
 
             for (int i = start; i < s.Length; ++i)
             {
-                if (!ByteEncoder.InSubset(s[i]))
+                if (!_encByte.InSubset(s[i]))
                     break;
 
-                if (NumericEncoder.InSubset(s[i]))
+                if (_encNumeric.InSubset(s[i]))
                     cnt++;
-                else if (ByteEncoder.InExclusiveSubset(s[i]))
+                else if (_encByte.InExclusiveSubset(s[i]))
                 {
                     ret = true;
                     break;
@@ -422,12 +446,12 @@ namespace Ys.QRCode
 
             for (int i = start; i < s.Length; ++i)
             {
-                if (!ByteEncoder.InSubset(s[i]))
+                if (!_encByte.InSubset(s[i]))
                     break;
 
-                if (AlphanumericEncoder.InExclusiveSubset(s[i]))
+                if (_encAlpha.InExclusiveSubset(s[i]))
                     cnt++;
-                else if (ByteEncoder.InExclusiveSubset(s[i]))
+                else if (_encByte.InExclusiveSubset(s[i]))
                 {
                     ret = true;
                     break;
@@ -458,11 +482,7 @@ namespace Ys.QRCode
         /// <param name="c">パリティ計算対象の文字</param>
         internal void UpdateParity(char c)
         {
-            byte[] charBytes;
-            if (KanjiEncoder.InSubset(c))
-                charBytes = _shiftJISEncoding.GetBytes(c.ToString());
-            else
-                charBytes = _byteModeEncoding.GetBytes(c.ToString());
+            byte[] charBytes = _encoding.GetBytes(c.ToString());
 
             foreach (byte value in charBytes)
                 _parity ^= value;

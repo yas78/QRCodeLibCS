@@ -28,10 +28,10 @@ namespace Demo
             ErrorCorrectionLevel ecLevel = (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem;
             int version = (int)cmbMaxVersion.SelectedItem;
             bool allowStructuredAppend = chkStructuredAppend.Checked;
-            Encoding encoding = ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding();
+            string charsetName = (string)cmbCharset.SelectedItem;
             int moduleSize = (int)nudModuleSize.Value;
 
-            Symbols symbols = new Symbols(ecLevel, version, allowStructuredAppend, encoding.WebName);
+            Symbols symbols = new Symbols(ecLevel, version, allowStructuredAppend, charsetName);
             
             try
             {
@@ -98,10 +98,10 @@ namespace Demo
             ErrorCorrectionLevel ecLevel = (ErrorCorrectionLevel)cmbErrorCorrectionLevel.SelectedItem;
             int version = (int)cmbMaxVersion.SelectedItem;
             bool allowStructuredAppend = chkStructuredAppend.Checked;
-            Encoding encoding = ((EncodingInfo)cmbEncoding.SelectedItem).GetEncoding();
+            string charsetName = (string)cmbCharset.SelectedItem;
             int moduleSize = (int)nudModuleSize.Value;
 
-            Symbols symbols = new Symbols(ecLevel, version, allowStructuredAppend, encoding.WebName);
+            Symbols symbols = new Symbols(ecLevel, version, allowStructuredAppend, charsetName);
             
             try
             {
@@ -146,12 +146,7 @@ namespace Demo
                 cmbMaxVersion.Items.Add(i);
 
             cmbMaxVersion.SelectedIndex = cmbMaxVersion.Items.Count - 1;
-
-            cmbEncoding.DisplayMember = "Name";
-            cmbEncoding.ValueMember = "Name";
-            cmbEncoding.DataSource =  Encoding.GetEncodings();
-            cmbEncoding.Text = Encoding.Default.WebName;
-            
+            cmbCharset.DataSource = new[] { "Shift_JIS", "UTF-8" };
             nudModuleSize.Value = DEFAULT_MODULE_SIZE;
             chkStructuredAppend.Checked = false;
             btnSave.Enabled = false;

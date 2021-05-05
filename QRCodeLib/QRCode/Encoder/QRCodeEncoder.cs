@@ -46,7 +46,7 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 文字を追加します。
         /// </summary>
-        public abstract int Append(char c);
+        public abstract void Append(char c);
 
         /// <summary>
         /// 指定の文字をエンコードしたコード語のビット数を返します。

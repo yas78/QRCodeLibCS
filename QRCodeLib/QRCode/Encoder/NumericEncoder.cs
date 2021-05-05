@@ -28,8 +28,7 @@ namespace Ys.QRCode.Encoder
         /// <summary>
         /// 文字を追加します。
         /// </summary>
-        /// <returns>追加した文字のビット数</returns>
-        public override int Append(char c)
+        public override void Append(char c)
         {
             int wd = Int32.Parse(c.ToString());
 
@@ -41,11 +40,8 @@ namespace Ys.QRCode.Encoder
                 _codeWords[_codeWords.Count - 1] += wd;
             }
 
-            int ret = GetCodewordBitLength(c);
-            _bitCounter += ret;
+            _bitCounter += GetCodewordBitLength(c);
             _charCounter++;
-
-            return ret;
         }
 
         /// <summary>

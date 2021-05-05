@@ -19,7 +19,7 @@ namespace Ys.QRCode
     internal enum EncodingMode
     {
         UNKNOWN,
-        NUMERIC,        
+        NUMERIC,
         ALPHA_NUMERIC,
         EIGHT_BIT_BYTE,
         KANJI,

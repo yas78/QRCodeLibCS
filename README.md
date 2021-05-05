@@ -48,7 +48,7 @@ Symbols symbols = new Symbols(maxVersion: 10);
 ### 例４．8ビットバイトモードで使用する文字コードを指定する
 Symbolsクラスのコンストラクタで設定します。
 ```csharp
-Symbols symbols = new Symbols(byteModeEncoding: "utf-8");
+Symbols symbols = new Symbols(charsetName: "UTF-8");
 ```
 
 ### 例５．分割QRコードを作成する

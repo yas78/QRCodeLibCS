@@ -600,13 +600,7 @@ namespace Ys.QRCode
             int width, height;
             width = height = moduleSize * moduleMatrix.Length;
 
-            int rowBytesLen = 3 * width;
-
-            int pack4byte = 0;
-            if (rowBytesLen % 4 > 0)
-                pack4byte = 4 - (rowBytesLen % 4);
-
-            int rowSize = rowBytesLen + pack4byte;
+            int rowSize = ((3 * width + 3) / 4) * 4;
             byte[] bitmapData = new byte[rowSize * height];
             int offset = 0;
 
@@ -769,14 +763,8 @@ namespace Ys.QRCode
 
             string newLine = Environment.NewLine;
 
-            string svg = GetSvg(moduleSize, foreRgb);
-            string svgFile =
-                $"<?xml version='1.0' encoding='UTF-8' standalone='no'?>{newLine}" +
-                $"<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 20010904//EN'{newLine}" +
-                $"    'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>{newLine}" +
-                svg + newLine;
-
-            File.WriteAllText(fileName, svgFile);
+            string svg = GetSvg(moduleSize, foreRgb) + newLine;
+            File.WriteAllText(fileName, svg);
         }
 
         public string GetSvg(int moduleSize = DEFAULT_MODULE_SIZE,
@@ -822,7 +810,7 @@ namespace Ys.QRCode
 
             Point[][] gpPaths = GraphicPath.FindContours(image);
             var buf = new StringBuilder();
-            string indent = new string(' ', 11);
+            string indent = new string(' ', 5);
 
             foreach (var gpPath in gpPaths)
             {
@@ -837,11 +825,10 @@ namespace Ys.QRCode
             string newLine = Environment.NewLine;
             string data = buf.ToString().Trim();
             string svg =
-                $"<svg xmlns='http://www.w3.org/2000/svg'{newLine}" +
-                $"    width='{width}' height='{height}' viewBox='0 0 {width} {height}'>{newLine}" +
-                $"    <path fill='{foreRgb}' stroke='{foreRgb}' stroke-width='1'{newLine}" +
-                $"        d='{data}'{newLine}" +
-                $"    />{newLine}" +
+                $"<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"" + newLine +
+                $"  width=\"{width}px\" height=\"{height}px\" viewBox=\"0 0 {width} {height}\">" + newLine +
+                $"<path fill=\"{foreRgb}\" stroke=\"{foreRgb}\" stroke-width=\"1\"" + newLine +
+                $"  d=\"{data}\" />" + newLine +
                 $"</svg>";
 
             return svg;
